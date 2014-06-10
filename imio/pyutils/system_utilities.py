@@ -24,6 +24,35 @@ def trace(TRACE, msg):
 #------------------------------------------------------------------------------
 
 
+def write_to(outfiles, key, line):
+    """
+        Open output file and write line (adding line feed)
+        outfiles param: dic containing this struct {'key': {'file': 'filepath', 'header': 'First line'}}
+    """
+    if not 'fh' in outfiles[key]:
+        filename = outfiles[key]['file']
+        try:
+            outfiles[key]['fh'] = open(filename, 'w')
+            if 'header' in outfiles[key] and outfiles[key]['header']:
+                outfiles[key]['fh'].write("%s\n" % outfiles[key]['header'])
+        except IOError, m:
+            error("Cannot create '%s' file: %s" % (filename, m))
+            return
+    outfiles[key]['fh'].write("%s\n" % line)
+
+#------------------------------------------------------------------------------
+
+
+def close_outfiles(outfiles):
+    """ Close the outfiles """
+    for key in outfiles.keys():
+        if 'fh' in outfiles[key]:
+            outfiles[key]['fh'].close()
+#            verbose("Output file '%s' generated" % outfiles[key]['file'])
+
+#------------------------------------------------------------------------------
+
+
 def runCommand(cmd):
     """ run an os command and get back the stdout and stderr outputs """
     os.system(cmd + ' >_cmd_pv.out 2>_cmd_pv.err')
