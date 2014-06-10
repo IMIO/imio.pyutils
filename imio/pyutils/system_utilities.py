@@ -51,3 +51,26 @@ def runCommand(cmd):
     return(stdout, stderr)
 
 #------------------------------------------------------------------------------
+
+
+def load_dic(infile, dic):
+    """
+        load a dictionary from a file
+    """
+    if os.path.exists(infile):
+        ofile = open(infile, 'r')
+        dic.update(eval(ofile.read()))
+        ofile.close()
+
+#------------------------------------------------------------------------------
+
+
+def dump_dic(outfile, dic):
+    """
+        dump a dictionary to a file
+    """
+    ofile = open(outfile, 'w')
+    ofile.write(str(dic))
+    ofile.close()
+
+#------------------------------------------------------------------------------
