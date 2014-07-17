@@ -53,6 +53,70 @@ def close_outfiles(outfiles):
 #------------------------------------------------------------------------------
 
 
+def read_file(filename, strip_spaces=False, skip_empty=False):
+    """ read a file and return lines """
+    try:
+        thefile = open(filename, 'r')
+    except IOError:
+        error("! Cannot open %s file" % filename)
+        return
+    lines = []
+    for line in thefile.readlines():
+        line = line.strip('\n')
+        if strip_spaces:
+            line = line.strip(' ')
+        if skip_empty and not line:
+            continue
+        lines.append(line)
+    thefile.close()
+    return lines
+
+#------------------------------------------------------------------------------
+
+
+def read_dir(dirpath, with_path=False):
+    """ Read the dir and return files """
+    files = []
+    for filename in os.listdir(dirpath):
+        if with_path:
+            files.append(os.path.join(dirpath, filename))
+        else:
+            files.append(filename)
+    return files
+
+#------------------------------------------------------------------------------
+
+
+def read_dir_filter(dirpath, with_path=False, extensions=[]):
+    """ Read the dir and return some files """
+    files = []
+    for filename in read_dir(dirpath, with_path=with_path):
+        basename, ext = os.path.splitext(filename)
+        if ext and ext.startswith('.'):
+            ext = ext[1:]
+        if extensions and ext not in extensions:
+            continue
+        files.append(filename)
+    return files
+
+#------------------------------------------------------------------------------
+
+
+def read_dir_extensions(dirpath):
+    """ Read the dir and return extensions """
+    extensions = []
+    for filename in read_dir(dirpath):
+        basename, ext = os.path.splitext(filename)
+        if ext and ext.startswith('.'):
+            ext = ext[1:]
+        if ext not in extensions:
+            extensions.append(ext)
+    extensions.sort()
+    return extensions
+
+#------------------------------------------------------------------------------
+
+
 def runCommand(cmd):
     """ run an os command and get back the stdout and stderr outputs """
     os.system(cmd + ' >_cmd_pv.out 2>_cmd_pv.err')
