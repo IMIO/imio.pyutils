@@ -53,7 +53,7 @@ def close_outfiles(outfiles):
 #------------------------------------------------------------------------------
 
 
-def read_file(filename, strip_spaces=False, skip_empty=False):
+def read_file(filename, strip_chars='', skip_empty=False):
     """ read a file and return lines """
     try:
         thefile = open(filename, 'r')
@@ -63,8 +63,8 @@ def read_file(filename, strip_spaces=False, skip_empty=False):
     lines = []
     for line in thefile.readlines():
         line = line.strip('\n')
-        if strip_spaces:
-            line = line.strip(' ')
+        if strip_chars:
+            line = line.strip(strip_chars)
         if skip_empty and not line:
             continue
         lines.append(line)
