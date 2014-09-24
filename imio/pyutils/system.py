@@ -6,6 +6,7 @@
 #
 
 import os
+import sys
 
 
 def verbose(msg):
@@ -13,7 +14,7 @@ def verbose(msg):
 
 
 def error(msg):
-    print '!! %s' % msg
+    print >> sys.stderr, '!! %s' % msg
 
 
 def trace(TRACE, msg):
