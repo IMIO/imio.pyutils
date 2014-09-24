@@ -74,10 +74,12 @@ def read_file(filename, strip_chars='', skip_empty=False):
 #------------------------------------------------------------------------------
 
 
-def read_dir(dirpath, with_path=False):
+def read_dir(dirpath, with_path=False, only_folders=False):
     """ Read the dir and return files """
     files = []
     for filename in os.listdir(dirpath):
+        if only_folders and not os.path.isdir(os.path.join(dirpath, filename)):
+            continue
         if with_path:
             files.append(os.path.join(dirpath, filename))
         else:
@@ -87,10 +89,10 @@ def read_dir(dirpath, with_path=False):
 #------------------------------------------------------------------------------
 
 
-def read_dir_filter(dirpath, with_path=False, extensions=[]):
+def read_dir_filter(dirpath, with_path=False, extensions=[], only_folders=False):
     """ Read the dir and return some files """
     files = []
-    for filename in read_dir(dirpath, with_path=with_path):
+    for filename in read_dir(dirpath, with_path=with_path, only_folders=only_folders):
         basename, ext = os.path.splitext(filename)
         if ext and ext.startswith('.'):
             ext = ext[1:]
