@@ -170,3 +170,28 @@ def dump_dic(outfile, dic):
     ofile.close()
 
 #------------------------------------------------------------------------------
+
+
+def human_size(nb):
+    sizeletter = {1: 'k', 2: 'M', 3: 'G', 4: 'T'}
+    for x in range(1, 4):
+        quot = nb // 1024 ** x
+        if quot < 1024:
+            break
+    return "%.1f%s" % (float(nb) / 1024 ** x, sizeletter[x])
+
+#------------------------------------------------------------------------------
+
+
+def disk_size(path, pretty=True):
+    """
+        return disk size of path content
+    """
+    cmd = "du -s"
+    if pretty:
+        cmd += 'h'
+    (cmd_out, cmd_err) = runCommand("%s %s" % (cmd, path))
+    for line in cmd_out:
+        (size, path) = line.strip().split()
+        return size
+    return 0
