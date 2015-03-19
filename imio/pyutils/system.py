@@ -7,6 +7,8 @@
 
 import os
 import sys
+import tempfile
+import time
 
 
 def verbose(msg):
@@ -195,3 +197,21 @@ def disk_size(path, pretty=True):
         (size, path) = line.strip().split()
         return size
     return 0
+
+#------------------------------------------------------------------------------
+
+
+def create_temporary_file(initial_file, file_name):
+    """
+    Create a temporary copy of a file passed as argument.
+    file_name is a string used to create the name of the
+    temporary file.
+    """
+    if initial_file and initial_file.size:
+        #save the file in a temporary one
+        temp_filename = '%s/%f_%s' % (tempfile.gettempdir(), time.time(), file_name, )
+        new_temporary_file = file(temp_filename, "w")
+        new_temporary_file.write(initial_file.data)
+        new_temporary_file.close()
+        return temp_filename
+    return ''
