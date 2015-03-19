@@ -209,9 +209,23 @@ def create_temporary_file(initial_file, file_name):
     """
     if initial_file and initial_file.size:
         #save the file in a temporary one
-        temp_filename = '%s/%f_%s' % (tempfile.gettempdir(), time.time(), file_name, )
+        temp_filename = get_temporary_filename(file_name)
         new_temporary_file = file(temp_filename, "w")
         new_temporary_file.write(initial_file.data)
         new_temporary_file.close()
         return temp_filename
     return ''
+
+#------------------------------------------------------------------------------
+
+
+def get_temporary_filename(file_name):
+    """
+    Returns the name of a temporary file.
+    """
+    temp_filename = '%s/%f_%s' % (
+        tempfile.gettempdir(),
+        time.time(),
+        file_name,
+    )
+    return temp_filename
