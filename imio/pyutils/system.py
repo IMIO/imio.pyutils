@@ -151,25 +151,32 @@ def runCommand(cmd):
 #------------------------------------------------------------------------------
 
 
-def load_dic(infile, dic):
+def load_var(infile, var):
     """
-        load a dictionary from a file
+        load a dictionary or a list from a file
     """
     if os.path.exists(infile):
         ofile = open(infile, 'r')
-        dic.update(eval(ofile.read()))
+        if isinstance(var, dict):
+            var.update(eval(ofile.read()))
+        elif isinstance(var, list):
+            var.extend(eval(ofile.read()))
         ofile.close()
+
+load_dic = load_var
 
 #------------------------------------------------------------------------------
 
 
-def dump_dic(outfile, dic):
+def dump_var(outfile, var):
     """
-        dump a dictionary to a file
+        dump a dictionary or a list to a file
     """
     ofile = open(outfile, 'w')
-    ofile.write(str(dic))
+    ofile.write(str(var))
     ofile.close()
+
+dump_dic = dump_var
 
 #------------------------------------------------------------------------------
 
