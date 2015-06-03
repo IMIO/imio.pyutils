@@ -6,7 +6,7 @@ version = '0.1'
 setup(name='imio.pyutils',
       version=version,
       description="Some python useful methods",
-      long_description=open("README.rst").read() + "\n",
+      long_description=open("README.rst").read() + "\n" + open('CHANGES.rst').read(),
       # Get more strings from
       # http://pypi.python.org/pypi?:action=list_classifiers
       classifiers=[
