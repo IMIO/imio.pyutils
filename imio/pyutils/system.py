@@ -56,7 +56,7 @@ def close_outfiles(outfiles):
 #------------------------------------------------------------------------------
 
 
-def read_file(filename, strip_chars='', skip_empty=False):
+def read_file(filename, strip_chars='', skip_empty=False, skip_lines=0):
     """ read a file and return lines """
     try:
         thefile = open(filename, 'r')
@@ -64,7 +64,9 @@ def read_file(filename, strip_chars='', skip_empty=False):
         error("! Cannot open %s file" % filename)
         return
     lines = []
-    for line in thefile.readlines():
+    for i, line in enumerate(thefile.readlines()):
+        if skip_lines and i < skip_lines:
+            continue
         line = line.strip('\n')
         if strip_chars:
             line = line.strip(strip_chars)
