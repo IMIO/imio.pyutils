@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-import os
 
 version = '0.2.dev0'
 
@@ -10,9 +9,10 @@ setup(name='imio.pyutils',
       # Get more strings from
       # http://pypi.python.org/pypi?:action=list_classifiers
       classifiers=[
-        "Programming Language :: Python",
-        ],
-      keywords='',
+          "Programming Language :: Python",
+          "Programming Language :: Python :: 2.7",
+      ],
+      keywords='Python IMIO',
       author='IMIO',
       author_email='support@imio.be',
       url='http://github.com/imio/imio.pyutils/',
