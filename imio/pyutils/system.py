@@ -58,12 +58,12 @@ def close_outfiles(outfiles):
 
 def read_file(filename, strip_chars='', skip_empty=False, skip_lines=0):
     """ read a file and return lines """
+    lines = []
     try:
         thefile = open(filename, 'r')
     except IOError:
         error("! Cannot open %s file" % filename)
-        return
-    lines = []
+        return lines
     for i, line in enumerate(thefile.readlines()):
         if skip_lines and i < skip_lines:
             continue

@@ -4,8 +4,8 @@ Changelog
 0.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Return empty list when file doesn't exist.
+  [sgeulette]
 
 0.2 (2016-04-15)
 ----------------
