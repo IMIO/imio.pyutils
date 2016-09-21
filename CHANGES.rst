@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.3 (unreleased)
+0.3 (2016-09-21)
 ----------------
 
 - Return empty list when file doesn't exist.
