@@ -4,8 +4,8 @@ Changelog
 0.4 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Added param to get only files in dir.
+  [sgeulette]
 
 0.3 (2016-09-21)
 ----------------

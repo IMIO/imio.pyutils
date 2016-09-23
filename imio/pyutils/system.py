@@ -79,11 +79,13 @@ def read_file(filename, strip_chars='', skip_empty=False, skip_lines=0):
 #------------------------------------------------------------------------------
 
 
-def read_dir(dirpath, with_path=False, only_folders=False):
+def read_dir(dirpath, with_path=False, only_folders=False, only_files=False):
     """ Read the dir and return files """
     files = []
     for filename in os.listdir(dirpath):
         if only_folders and not os.path.isdir(os.path.join(dirpath, filename)):
+            continue
+        if only_files and not os.path.isfile(os.path.join(dirpath, filename)):
             continue
         if with_path:
             files.append(os.path.join(dirpath, filename))
