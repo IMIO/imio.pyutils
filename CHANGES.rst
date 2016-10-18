@@ -6,6 +6,8 @@ Changelog
 
 - Added param to get only files in dir.
   [sgeulette]
+- Added methods for bs4 (beautifulsoup)
+  [sgeulette]
 
 0.3 (2016-09-21)
 ----------------
