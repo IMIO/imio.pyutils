@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.4 (unreleased)
+0.4 (2016-12-07)
 ----------------
 
 - Added param to get only files in dir.
