@@ -126,8 +126,11 @@ def read_dir_extensions(dirpath):
 #------------------------------------------------------------------------------
 
 
-def runCommand(cmd):
+def runCommand(cmd, outfile=None):
     """ run an os command and get back the stdout and stderr outputs """
+    if outfile:
+        os.system(cmd + ' >%s 2>&1' % outfile)
+        return([], [])
     os.system(cmd + ' >_cmd_pv.out 2>_cmd_pv.err')
     stdout = stderr = []
     try:

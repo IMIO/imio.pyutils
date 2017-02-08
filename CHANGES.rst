@@ -4,8 +4,8 @@ Changelog
 0.5 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Added outfile parameter to runCommand.
+  [sgeulette]
 
 0.4 (2016-12-07)
 ----------------
