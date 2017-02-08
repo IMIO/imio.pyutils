@@ -4,8 +4,8 @@ Changelog
 0.6 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- runCommand: return as third value the return code of the command.
+  [sgeulette]
 
 0.5 (2017-02-08)
 ----------------

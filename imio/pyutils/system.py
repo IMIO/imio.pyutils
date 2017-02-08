@@ -6,6 +6,7 @@
 #
 
 import os
+import re
 import sys
 import tempfile
 import time
@@ -128,10 +129,17 @@ def read_dir_extensions(dirpath):
 
 def runCommand(cmd, outfile=None):
     """ run an os command and get back the stdout and stderr outputs """
+    def get_ret_code(line):
+        match = re.match('RET_CODE=(\d+)', line)
+        if match is None:
+            return -1
+        else:
+            return int(match.group(1))
     if outfile:
-        os.system(cmd + ' >%s 2>&1' % outfile)
-        return([], [])
-    os.system(cmd + ' >_cmd_pv.out 2>_cmd_pv.err')
+        os.system(cmd + ' >{0} 2>&1 ;echo "RET_CODE=$?" >> {0}'.format(outfile))
+        lines = read_file(outfile)
+        return([], [], get_ret_code(lines[-1]))
+    os.system(cmd + ' >_cmd_pv.out 2>_cmd_pv.err ;echo "RET_CODE=$?" >> _cmd_pv.out')
     stdout = stderr = []
     try:
         if os.path.exists('_cmd_pv.out'):
@@ -153,7 +161,7 @@ def runCommand(cmd, outfile=None):
             error("File %s does not exist" % '_cmd_pv.err')
     except IOError:
         error("Cannot open %s file" % '_cmd_pv.err')
-    return(stdout, stderr)
+    return(stdout, stderr, get_ret_code(stdout.pop()))
 
 #------------------------------------------------------------------------------
 
