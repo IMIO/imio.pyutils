@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5 (unreleased)
+0.5 (2017-02-08)
 ----------------
 
 - Added outfile parameter to runCommand.
