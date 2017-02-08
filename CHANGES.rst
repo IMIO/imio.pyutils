@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.6 (unreleased)
+0.6 (2017-02-08)
 ----------------
 
 - runCommand: return as third value the return code of the command.
