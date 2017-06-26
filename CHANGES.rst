@@ -4,8 +4,8 @@ Changelog
 0.7 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Just release on pypi for collective.documentgenerator.
+  [sgeulette]
 
 0.6 (2017-02-08)
 ----------------
