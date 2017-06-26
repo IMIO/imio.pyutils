@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.7 (unreleased)
+0.7 (2017-06-26)
 ----------------
 
 - Just release on pypi for collective.documentgenerator.
