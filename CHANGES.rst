@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.8 (unreleased)
+0.8 (2017-07-19)
 ----------------
 
 - runCommand can append to file.
