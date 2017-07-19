@@ -10,6 +10,7 @@ import re
 import sys
 import tempfile
 import time
+from datetime import datetime
 
 
 def verbose(msg):
@@ -127,7 +128,7 @@ def read_dir_extensions(dirpath):
 #------------------------------------------------------------------------------
 
 
-def runCommand(cmd, outfile=None):
+def runCommand(cmd, outfile=None, append=True):
     """ run an os command and get back the stdout and stderr outputs """
     def get_ret_code(line):
         match = re.match('RET_CODE=(\d+)', line)
@@ -136,9 +137,14 @@ def runCommand(cmd, outfile=None):
         else:
             return int(match.group(1))
     if outfile:
-        os.system(cmd + ' >{0} 2>&1 ;echo "RET_CODE=$?" >> {0}'.format(outfile))
+        fh = open(outfile, '%s' % (append and 'a' or 'w'))
+        fh.write("==================== NEW RUN ====================\n")
+        fh.write("=> Running '%s' at %s\n" % (cmd, datetime.now().strftime('%Y%m%d %H:%M')))
+        fh.close()
+        os.system(cmd + ' >>{0} 2>&1 ;echo "RET_CODE=$?" >> {0}'.format(outfile))
         lines = read_file(outfile)
         return([], [], get_ret_code(lines[-1]))
+
     os.system(cmd + ' >_cmd_pv.out 2>_cmd_pv.err ;echo "RET_CODE=$?" >> _cmd_pv.out')
     stdout = stderr = []
     try:

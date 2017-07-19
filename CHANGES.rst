@@ -4,8 +4,8 @@ Changelog
 0.8 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- runCommand can append to file.
+  [sgeulette]
 
 0.7 (2017-06-26)
 ----------------
