@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.9 (unreleased)
+0.9 (2017-07-28)
 ----------------
 
 - Added read_csv function.
