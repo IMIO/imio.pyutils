@@ -81,6 +81,37 @@ def read_file(filename, strip_chars='', skip_empty=False, skip_lines=0):
 #------------------------------------------------------------------------------
 
 
+def read_csv(filename, strip_chars='', replace_dq=True, skip_empty=False, skip_lines=0, **kwargs):
+    """ read a csv file and return lines """
+    lines = []
+    try:
+        thefile = open(filename, 'r')
+    except IOError:
+        error("! Cannot open %s file" % filename)
+        return lines
+    import csv
+    for i, data in enumerate(csv.reader(thefile, **kwargs)):
+        if skip_lines and i < skip_lines:
+            continue
+        replaced = []
+        empty = True
+        for item in data:
+            if replace_dq:
+                item = item.replace('""', '"')
+            if strip_chars:
+                item = item.strip(strip_chars)
+            if item:
+                empty = False
+            replaced.append(item)
+        if skip_empty and empty:
+            continue
+        lines.append(replaced)
+    thefile.close()
+    return lines
+
+#------------------------------------------------------------------------------
+
+
 def read_dir(dirpath, with_path=False, only_folders=False, only_files=False):
     """ Read the dir and return files """
     files = []

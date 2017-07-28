@@ -4,8 +4,8 @@ Changelog
 0.9 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Added read_csv function.
+  [sgeulette]
 
 0.8 (2017-07-19)
 ----------------
