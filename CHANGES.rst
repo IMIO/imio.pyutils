@@ -4,8 +4,8 @@ Changelog
 0.10 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added to_skip parameter in read_dir functions.
+  [sgeulette]
 
 0.9 (2017-07-28)
 ----------------

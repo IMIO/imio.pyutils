@@ -112,10 +112,12 @@ def read_csv(filename, strip_chars='', replace_dq=True, skip_empty=False, skip_l
 #------------------------------------------------------------------------------
 
 
-def read_dir(dirpath, with_path=False, only_folders=False, only_files=False):
+def read_dir(dirpath, with_path=False, only_folders=False, only_files=False, to_skip=[]):
     """ Read the dir and return files """
     files = []
     for filename in os.listdir(dirpath):
+        if filename in to_skip:
+            continue
         if only_folders and not os.path.isdir(os.path.join(dirpath, filename)):
             continue
         if only_files and not os.path.isfile(os.path.join(dirpath, filename)):
@@ -144,10 +146,12 @@ def read_dir_filter(dirpath, with_path=False, extensions=[], only_folders=False)
 #------------------------------------------------------------------------------
 
 
-def read_dir_extensions(dirpath):
+def read_dir_extensions(dirpath, to_skip=[]):
     """ Read the dir and return extensions """
     extensions = []
     for filename in read_dir(dirpath):
+        if filename in to_skip:
+            continue
         basename, ext = os.path.splitext(filename)
         if ext and ext.startswith('.'):
             ext = ext[1:]
