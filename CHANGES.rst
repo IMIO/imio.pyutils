@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.10 (unreleased)
+0.10 (2018-07-23)
 -----------------
 
 - Added to_skip parameter in read_dir functions.
