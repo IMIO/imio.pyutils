@@ -17,6 +17,10 @@ def verbose(msg):
     print '>> %s' % msg
 
 
+def warning(msg):
+    print '?? %s' % msg
+
+
 def error(msg):
     print >> sys.stderr, '!! %s' % msg
 
