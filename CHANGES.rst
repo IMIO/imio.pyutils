@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.11 (unreleased)
+0.11 (2018-10-12)
 -----------------
 
 - Added warning log level function
