@@ -4,6 +4,7 @@
 # system utilities methods
 # IMIO <support@imio.be>
 #
+from __future__ import print_function
 
 import os
 import re
@@ -14,42 +15,43 @@ from datetime import datetime
 
 
 def verbose(msg):
-    print '>> %s' % msg
+    print('>> %s' % msg)
 
 
 def warning(msg):
-    print '?? %s' % msg
+    print('?? {}'.format(msg))
 
 
 def error(msg):
-    print >> sys.stderr, '!! %s' % msg
+    print('!! {}'.format(msg), file=sys.stderr)
 
 
 def trace(TRACE, msg):
     if not TRACE:
         return
-    print "TRACE:'%s'" % msg
+    print("TRACE:'{}'".format(msg))
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
-def write_to(outfiles, key, line):
+def write_to(out_files, key, line):
     """
         Open output file and write line (adding line feed)
-        outfiles param: dic containing this struct {'key': {'file': 'filepath', 'header': 'First line'}}
+        outfiles param: dic containing this struct :
+            {'key': {'file': 'filepath', 'header': 'First line'}}
     """
-    if not 'fh' in outfiles[key]:
-        filename = outfiles[key]['file']
+    if 'fh' not in out_files[key]:
+        filename = out_files[key]['file']
         try:
-            outfiles[key]['fh'] = open(filename, 'w')
-            if 'header' in outfiles[key] and outfiles[key]['header']:
-                outfiles[key]['fh'].write("%s\n" % outfiles[key]['header'])
-        except IOError, m:
+            out_files[key]['fh'] = open(filename, 'w')
+            if 'header' in out_files[key] and out_files[key]['header']:
+                out_files[key]['fh'].write("%s\n" % out_files[key]['header'])
+        except IOError as m:
             error("Cannot create '%s' file: %s" % (filename, m))
             return
-    outfiles[key]['fh'].write("%s\n" % line)
+    out_files[key]['fh'].write("%s\n" % line)
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 def close_outfiles(outfiles):
@@ -59,7 +61,7 @@ def close_outfiles(outfiles):
             outfiles[key]['fh'].close()
 #            verbose("Output file '%s' generated" % outfiles[key]['file'])
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 def read_file(filename, strip_chars='', skip_empty=False, skip_lines=0):
@@ -82,7 +84,7 @@ def read_file(filename, strip_chars='', skip_empty=False, skip_lines=0):
     thefile.close()
     return lines
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 def read_csv(filename, strip_chars='', replace_dq=True, skip_empty=False, skip_lines=0, **kwargs):
@@ -113,7 +115,7 @@ def read_csv(filename, strip_chars='', replace_dq=True, skip_empty=False, skip_l
     thefile.close()
     return lines
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 def read_dir(dirpath, with_path=False, only_folders=False, only_files=False, to_skip=[]):
@@ -132,7 +134,7 @@ def read_dir(dirpath, with_path=False, only_folders=False, only_files=False, to_
             files.append(filename)
     return files
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 def read_dir_filter(dirpath, with_path=False, extensions=[], only_folders=False):
@@ -147,7 +149,7 @@ def read_dir_filter(dirpath, with_path=False, extensions=[], only_folders=False)
         files.append(filename)
     return files
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 def read_dir_extensions(dirpath, to_skip=[]):
@@ -164,13 +166,13 @@ def read_dir_extensions(dirpath, to_skip=[]):
     extensions.sort()
     return extensions
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 def runCommand(cmd, outfile=None, append=True):
     """ run an os command and get back the stdout and stderr outputs """
     def get_ret_code(line):
-        match = re.match('RET_CODE=(\d+)', line)
+        match = re.match(r'RET_CODE=(\d+)', line)
         if match is None:
             return -1
         else:
@@ -182,7 +184,7 @@ def runCommand(cmd, outfile=None, append=True):
         fh.close()
         os.system(cmd + ' >>{0} 2>&1 ;echo "RET_CODE=$?" >> {0}'.format(outfile))
         lines = read_file(outfile)
-        return([], [], get_ret_code(lines[-1]))
+        return [], [], get_ret_code(lines[-1])
 
     os.system(cmd + ' >_cmd_pv.out 2>_cmd_pv.err ;echo "RET_CODE=$?" >> _cmd_pv.out')
     stdout = stderr = []
@@ -206,9 +208,9 @@ def runCommand(cmd, outfile=None, append=True):
             error("File %s does not exist" % '_cmd_pv.err')
     except IOError:
         error("Cannot open %s file" % '_cmd_pv.err')
-    return(stdout, stderr, get_ret_code(stdout.pop()))
+    return stdout, stderr, get_ret_code(stdout.pop())
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 def load_var(infile, var):
@@ -223,9 +225,10 @@ def load_var(infile, var):
             var.extend(eval(ofile.read()))
         ofile.close()
 
+
 load_dic = load_var
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 def dump_var(outfile, var):
@@ -236,20 +239,21 @@ def dump_var(outfile, var):
     ofile.write(str(var))
     ofile.close()
 
+
 dump_dic = dump_var
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 def human_size(nb):
-    sizeletter = {1: 'k', 2: 'M', 3: 'G', 4: 'T'}
+    size_letter = {1: 'k', 2: 'M', 3: 'G', 4: 'T'}
     for x in range(1, 4):
         quot = nb // 1024 ** x
         if quot < 1024:
             break
-    return "%.1f%s" % (float(nb) / 1024 ** x, sizeletter[x])
+    return "%.1f%s" % (float(nb) / 1024 ** x, size_letter[x])
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 def disk_size(path, pretty=True):
@@ -265,7 +269,7 @@ def disk_size(path, pretty=True):
         return size
     return 0
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 def create_temporary_file(initial_file, file_name):
@@ -275,15 +279,14 @@ def create_temporary_file(initial_file, file_name):
     temporary file.
     """
     if initial_file and initial_file.size:
-        #save the file in a temporary one
+        # save the file in a temporary one
         temp_filename = get_temporary_filename(file_name)
-        new_temporary_file = file(temp_filename, "w")
-        new_temporary_file.write(initial_file.data)
-        new_temporary_file.close()
-        return temp_filename
+        with open(temp_filename, "w") as new_temporary_file:
+            new_temporary_file.write(initial_file.data)
+            return temp_filename
     return ''
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 def get_temporary_filename(file_name):

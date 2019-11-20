@@ -8,22 +8,22 @@
 import psycopg2
 from system import error, trace
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
-#dsn="host=localhost port=5432 dbname= user= password="
+# dsn="host=localhost port=5432 dbname= user= password="
 def openConnection(dsn):
     """ open a postgres connection """
     conn = None
     try:
         conn = psycopg2.connect(dsn)
-    except Exception, message:
+    except Exception as message:
         msg = "Cannot connect to database with dsn '%s': %s" % (dsn, message)
         error(msg)
         raise Exception(msg)
     return conn
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 def insertInTable(dsn, table, columns, vals, TRACE=False):
@@ -35,7 +35,7 @@ def insertInTable(dsn, table, columns, vals, TRACE=False):
     try:
         cursor.execute(req)
         cursor.close()
-    except Exception, message:
+    except Exception as message:
         conn.rollback()
         error("Cannot insert in database : %s" % message)
         error("Request was : '%s'" % req)
@@ -45,7 +45,7 @@ def insertInTable(dsn, table, columns, vals, TRACE=False):
     conn.close()
     return True
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 def updateTable(dsn, table, updates, condition='', TRACE=False):
@@ -59,7 +59,7 @@ def updateTable(dsn, table, updates, condition='', TRACE=False):
     try:
         cursor.execute(req)
         cursor.close()
-    except Exception, message:
+    except Exception as message:
         conn.rollback()
         error("Cannot update in database : %s" % message)
         error("Request was : '%s'" % req)
@@ -69,7 +69,7 @@ def updateTable(dsn, table, updates, condition='', TRACE=False):
     conn.close()
     return True
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 def selectWithSQLRequest(dsn, sql, TRACE=False):
@@ -82,7 +82,7 @@ def selectWithSQLRequest(dsn, sql, TRACE=False):
         cursor.execute(req)
         data = cursor.fetchall()
         cursor.close()
-    except Exception, message:
+    except Exception as message:
         error("Cannot select from database : %s" % message)
         error("Request was : '%s'" % req)
         conn.close()
@@ -90,7 +90,7 @@ def selectWithSQLRequest(dsn, sql, TRACE=False):
     conn.close()
     return data
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 def selectAllInTable(dsn, table, selection, condition='', TRACE=False):
@@ -105,7 +105,7 @@ def selectAllInTable(dsn, table, selection, condition='', TRACE=False):
         cursor.execute(req)
         data = cursor.fetchall()
         cursor.close()
-    except Exception, message:
+    except Exception as message:
         error("Cannot select from database : %s" % message)
         error("Request was : '%s'" % req)
         conn.close()
@@ -113,7 +113,7 @@ def selectAllInTable(dsn, table, selection, condition='', TRACE=False):
     conn.close()
     return data
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 def selectOneInTable(dsn, table, selection, condition='', TRACE=False):
@@ -128,7 +128,7 @@ def selectOneInTable(dsn, table, selection, condition='', TRACE=False):
         cursor.execute(req)
         data = cursor.fetchone()
         cursor.close()
-    except Exception, message:
+    except Exception as message:
         error("Cannot select from database : %s" % message)
         error("Request was : '%s'" % req)
         conn.close()
@@ -136,21 +136,21 @@ def selectOneInTable(dsn, table, selection, condition='', TRACE=False):
     conn.close()
     return data
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 def deleteTable(dsn, table, condition='', TRACE=False):
     """ delete a table """
     conn = openConnection(dsn)
     cursor = conn.cursor()
-    req = "delete from %s" % (table)
+    req = "delete from %s" % table
     if condition:
         req += ' where %s' % condition
-    trace("Deletion : %s" % req)
+    trace(TRACE, "Deletion : %s" % req)
     try:
         cursor.execute(req)
         cursor.close()
-    except Exception, message:
+    except Exception as message:
         conn.rollback()
         error("Cannot delete from database : %s" % message)
         error("Request was : '%s'" % req)
@@ -160,4 +160,4 @@ def deleteTable(dsn, table, condition='', TRACE=False):
     conn.close()
     return True
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
