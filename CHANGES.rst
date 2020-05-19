@@ -4,7 +4,8 @@ Changelog
 0.12 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Update synthax for py 3.
+  [odelaere]
 
 
 0.11 (2018-10-12)
