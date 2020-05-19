@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.12 (unreleased)
+0.12 (2020-05-19)
 -----------------
 
 - Update synthax for py 3.
