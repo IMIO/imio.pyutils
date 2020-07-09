@@ -4,13 +4,13 @@ Changelog
 0.13 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `insert_in_ordereddict` function to easier insert a new key at needed position.
+  [sgeulette]
 
 0.12 (2020-05-19)
 -----------------
 
-- Update synthax for py 3.
+- Update syntax for py 3.
   [odelaere]
 
 
