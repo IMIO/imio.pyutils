@@ -27,7 +27,7 @@ def insert_in_ordereddict(dic, value, after_key='', at_position=None):
         position = at_position
     if position is None:
         return None
-    if position >= dic.keys():
+    if position >= len(dic.keys()):
         return OrderedDict(dic.items() + [value])
     tuples = []
     for i, tup in enumerate(dic.items()):
