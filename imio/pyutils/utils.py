@@ -34,4 +34,6 @@ def insert_in_ordereddict(dic, value, after_key='', at_position=None):
         if i == position:
             tuples.append(value)
         tuples.append(tup)
+    if not tuples:  # dic was empty
+        tuples.append(value)
     return OrderedDict(tuples)
