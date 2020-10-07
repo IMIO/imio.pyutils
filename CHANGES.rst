@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.13 (unreleased)
+0.13 (2020-10-07)
 -----------------
 
 - Added `insert_in_ordereddict` function to easier insert a new key at needed position.
