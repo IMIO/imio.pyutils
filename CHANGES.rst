@@ -4,8 +4,8 @@ Changelog
 0.14 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `read_dictcsv` function.
+  [sgeulette]
 
 0.13 (2020-10-07)
 -----------------

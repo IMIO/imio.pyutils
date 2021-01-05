@@ -118,6 +118,42 @@ def read_csv(filename, strip_chars='', replace_dq=True, skip_empty=False, skip_l
 # ------------------------------------------------------------------------------
 
 
+def read_dictcsv(filename, fieldnames=[], strip_chars='', replace_dq=True, skip_empty=False, skip_lines=0, **kwargs):
+    """ read a csv file and return dict row list """
+    rows = []
+    import csv
+    with open(filename) as csvfile:
+        reader = csv.DictReader(csvfile, fieldnames=fieldnames, restkey='_rest', restval='__NO_CO_LU_MN__', **kwargs)
+        for row in reader:
+            if reader.line_num == 1:
+                reader.restval = u''
+                if '_rest' in row:
+                    error(u'! STOPPING: some columns are not defined in fieldnames: {}'.format(row['_rest']))
+                    return u'STOPPING: some columns are not defined in fieldnames: {}'.format(row['_rest']), []
+                extra_cols = [key for (key, val) in row.items() if val == '__NO_CO_LU_MN__']
+                if extra_cols:
+                    error(u'! STOPPING: to much columns defined in fieldnames: {}'.format(extra_cols))
+                    return u'STOPPING: to much columns defined in fieldnames: {}'.format(extra_cols), []
+            if reader.line_num <= skip_lines:
+                continue
+            empty = True
+            new_row = {}
+            for key, val in row.items():
+                if replace_dq:
+                    val = val.replace('""', '"')
+                if strip_chars:
+                    val = val.strip(strip_chars)
+                if val:
+                    empty = False
+                new_row[key] = val
+            if skip_empty and empty:
+                continue
+            rows.append(new_row)
+    return u'', rows
+
+# ------------------------------------------------------------------------------
+
+
 def read_dir(dirpath, with_path=False, only_folders=False, only_files=False, to_skip=[]):
     """ Read the dir and return files """
     files = []
