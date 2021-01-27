@@ -6,6 +6,8 @@ Changelog
 
 - Added `read_dictcsv` function.
   [sgeulette]
+- Added `utils.replace_in_list` function to ease replacement of values in a list.
+  [gbastien]
 
 0.13 (2020-10-07)
 -----------------
