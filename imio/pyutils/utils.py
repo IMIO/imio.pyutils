@@ -9,9 +9,18 @@ from collections import OrderedDict
 # ------------------------------------------------------------------------------
 
 
+def safe_encode(value, encoding='utf-8'):
+    """Converts a value to encoding, only when it is not already encoded."""
+    if isinstance(value, unicode):
+        return value.encode(encoding)
+    return value
+
+# ------------------------------------------------------------------------------
+
+
 def insert_in_ordereddict(dic, value, after_key='', at_position=None):
-    """
-        Insert a tuple in an new Ordereddict.
+    """Insert a tuple in an new Ordereddict.
+
         :param dic: the original OrderedDict
         :param value: a tuple (key, value) that will be added at correct position
         :param after_key: key name after which the tup is added

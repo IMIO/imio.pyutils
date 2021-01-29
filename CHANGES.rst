@@ -6,6 +6,8 @@ Changelog
 
 - Added `read_dictcsv` function.
   [sgeulette]
+- Added `safe_encode` function.
+  [sgeulette]
 
 0.13 (2020-10-07)
 -----------------
