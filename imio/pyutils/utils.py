@@ -46,3 +46,25 @@ def insert_in_ordereddict(dic, value, after_key='', at_position=None):
     if not tuples:  # dic was empty
         tuples.append(value)
     return OrderedDict(tuples)
+
+
+def replace_in_list(lst, value, replacement, generator=False):
+    """
+        Replace a value in a list of values.
+        :param lst: the list containing value to replace
+        :param value: the value to be replaced
+        :param replacement: the new value to replace with
+        :param generator=False: will return a generator instead a list when set to True
+        :return: a new list/generator with replaced values
+    """
+    def _replacer(lst, value, replacement):
+        new_lst = list(lst)
+        for item in new_lst:
+            if item == value:
+                yield replacement
+            else:
+                yield item
+    res = _replacer(lst, value, replacement)
+    if not generator:
+        res = list(res)
+    return res

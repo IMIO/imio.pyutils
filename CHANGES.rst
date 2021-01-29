@@ -6,6 +6,8 @@ Changelog
 
 - Added `read_dictcsv` function.
   [sgeulette]
+- Added `utils.replace_in_list` function to ease replacement of values in a list.
+  [gbastien]
 - Added `safe_encode` function.
   [sgeulette]
 
