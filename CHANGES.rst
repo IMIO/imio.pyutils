@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.14 (unreleased)
+0.14 (2021-04-21)
 -----------------
 
 - Added `read_dictcsv` function.
