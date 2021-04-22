@@ -118,7 +118,8 @@ def read_csv(filename, strip_chars='', replace_dq=True, skip_empty=False, skip_l
 # ------------------------------------------------------------------------------
 
 
-def read_dictcsv(filename, fieldnames=[], strip_chars='', replace_dq=True, skip_empty=False, skip_lines=0, **kwargs):
+def read_dictcsv(filename, fieldnames=[], strip_chars='', replace_dq=True, skip_empty=False, skip_lines=0, ln_key='_ln',
+                 **kwargs):
     """ read a csv file and return dict row list """
     rows = []
     import csv
@@ -138,6 +139,8 @@ def read_dictcsv(filename, fieldnames=[], strip_chars='', replace_dq=True, skip_
                 continue
             empty = True
             new_row = {}
+            if ln_key:
+                new_row[ln_key] = reader.line_num
             for key, val in row.items():
                 if replace_dq:
                     val = val.replace('""', '"')

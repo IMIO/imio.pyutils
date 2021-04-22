@@ -4,8 +4,8 @@ Changelog
 0.15 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `ln_key` parameter in `read_dictcsv` method.
+  [sgeulette]
 
 0.14 (2021-04-21)
 -----------------
