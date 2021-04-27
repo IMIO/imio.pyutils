@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.15 (unreleased)
+0.15 (2021-04-27)
 -----------------
 
 - Added `ln_key` parameter in `read_dictcsv` method.
