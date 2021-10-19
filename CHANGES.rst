@@ -4,8 +4,8 @@ Changelog
 0.16 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `iterable_as_list_of_list` function.
+  [sgeulette]
 
 0.15 (2021-04-27)
 -----------------

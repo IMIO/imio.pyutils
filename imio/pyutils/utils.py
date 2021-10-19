@@ -68,3 +68,24 @@ def replace_in_list(lst, value, replacement, generator=False):
     if not generator:
         res = list(res)
     return res
+
+
+def iterable_as_list_of_list(lst, cols=1):
+    """Transform an iterable as list of list.
+
+    :param lst: input iterable
+    :param cols: number of columns in the sublists
+    :return: list of lists
+    """
+    res = []
+    sublist = []
+    for i, item in enumerate(lst, start=1):
+        sublist.append(item)
+        if not i % cols:
+            if sublist:
+                res.append(sublist)
+            sublist = []
+    # put the last sublist in res
+    if sublist:
+        res.append(sublist)
+    return res
