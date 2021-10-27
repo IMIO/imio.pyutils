@@ -6,6 +6,8 @@ Changelog
 
 - Added `iterable_as_list_of_list` function.
   [sgeulette]
+- Added date in runCommand output
+  [sgeulette]
 
 0.15 (2021-04-27)
 -----------------
@@ -35,13 +37,11 @@ Changelog
 - Update syntax for py 3.
   [odelaere]
 
-
 0.11 (2018-10-12)
 -----------------
 
 - Added warning log level function
   [odelaere]
-
 
 0.10 (2018-07-23)
 -----------------

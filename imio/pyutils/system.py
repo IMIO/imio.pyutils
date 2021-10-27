@@ -216,10 +216,11 @@ def runCommand(cmd, outfile=None, append=True):
             return -1
         else:
             return int(match.group(1))
+    now = datetime.now()
     if outfile:
         fh = open(outfile, '%s' % (append and 'a' or 'w'))
-        fh.write("==================== NEW RUN ====================\n")
-        fh.write("=> Running '%s' at %s\n" % (cmd, datetime.now().strftime('%Y%m%d %H:%M')))
+        fh.write("==================== NEW RUN on {} ====================\n".format(now.strftime('%Y%m%d-%H%M')))
+        fh.write("=> Running '%s' at %s\n" % (cmd, now.strftime('%Y%m%d %H:%M')))
         fh.close()
         os.system(cmd + ' >>{0} 2>&1 ;echo "RET_CODE=$?" >> {0}'.format(outfile))
         lines = read_file(outfile)
