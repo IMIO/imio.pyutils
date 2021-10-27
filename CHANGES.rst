@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.16 (unreleased)
+0.16 (2021-10-27)
 -----------------
 
 - Added `iterable_as_list_of_list` function.
