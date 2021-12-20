@@ -6,6 +6,9 @@
 
 from collections import OrderedDict
 
+import time
+
+
 # ------------------------------------------------------------------------------
 
 
@@ -89,3 +92,15 @@ def iterable_as_list_of_list(lst, cols=1):
     if sublist:
         res.append(sublist)
     return res
+
+
+def timed(f, nb=100):
+    start = time.time()
+    for i in range(nb):
+        ret = f()
+    return (time.time() - start) / nb, ret  # difference of time is float
+
+
+def ftimed(f, nb=100, fmt='{:.7f}'):
+    duration, ret = timed(f, nb=nb)
+    return fmt.format(duration), ret

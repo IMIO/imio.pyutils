@@ -4,8 +4,8 @@ Changelog
 0.17 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `timed` and `ftimed` functions.
+  [sgeulette]
 
 0.16 (2021-10-27)
 -----------------
