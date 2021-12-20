@@ -6,6 +6,8 @@ Changelog
 
 - Added `timed` and `ftimed` functions.
   [sgeulette]
+- Added OrderedDict for load_var function
+  [sgeulette]
 
 0.16 (2021-10-27)
 -----------------

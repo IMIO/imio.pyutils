@@ -13,6 +13,12 @@ import tempfile
 import time
 from datetime import datetime
 
+# can be used in load_var
+try:
+    from collections import OrderedDict
+except ImportError:
+    from ordereddict import OrderedDict
+
 
 def verbose(msg):
     print('>> %s' % msg)
