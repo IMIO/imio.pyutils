@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.17 (unreleased)
+0.17 (2022-01-04)
 -----------------
 
 - Added `timed` and `ftimed` functions.
