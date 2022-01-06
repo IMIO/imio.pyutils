@@ -6,6 +6,8 @@ Changelog
 
 - Made `insert_in_ordereddict` python3 compatible.
   [sgeulette]
+- Added `odict_pos_key` to get key at position in ordereddict.
+  [sgeulette]
 
 0.17 (2022-01-04)
 -----------------

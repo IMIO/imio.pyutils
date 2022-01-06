@@ -24,6 +24,11 @@ def odict_index(odic, key, delta=0):
     return None
 
 
+def odict_pos_key(odic, pos):
+    """Get key corresponding at position"""
+    keys = [k for k in odic]
+    return keys[pos]
+
 def insert_in_ordereddict(dic, value, after_key='', at_position=None):
     """Insert a tuple in an new Ordereddict.
 
