@@ -4,8 +4,8 @@ Changelog
 0.18 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Made `insert_in_ordereddict` python3 compatible.
+  [sgeulette]
 
 0.17 (2022-01-04)
 -----------------

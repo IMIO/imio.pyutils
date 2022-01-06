@@ -9,16 +9,19 @@ from collections import OrderedDict
 import time
 
 
-# ------------------------------------------------------------------------------
-
-
 def safe_encode(value, encoding='utf-8'):
     """Converts a value to encoding, only when it is not already encoded."""
     if isinstance(value, unicode):
         return value.encode(encoding)
     return value
 
-# ------------------------------------------------------------------------------
+
+def odict_index(odic, key, delta=0):
+    """Get key position in an ordereddict"""
+    for i, k in enumerate(odic):
+        if k == key:
+            return i + delta
+    return None
 
 
 def insert_in_ordereddict(dic, value, after_key='', at_position=None):
@@ -31,10 +34,8 @@ def insert_in_ordereddict(dic, value, after_key='', at_position=None):
         :return: a new OrderedDict or None if insertion position is undefined
     """
     position = None
-    if after_key is not None:
-        keys = dic.keys()
-        if after_key in keys:
-            position = keys.index(after_key) + 1
+    if after_key:
+        position = odict_index(dic, after_key, delta=1)
     if position is None and at_position is not None:
         position = at_position
     if position is None:
