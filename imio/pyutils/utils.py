@@ -29,6 +29,7 @@ def odict_pos_key(odic, pos):
     keys = [k for k in odic]
     return keys[pos]
 
+
 def insert_in_ordereddict(dic, value, after_key='', at_position=None):
     """Insert a tuple in an new Ordereddict.
 
@@ -46,7 +47,7 @@ def insert_in_ordereddict(dic, value, after_key='', at_position=None):
     if position is None:
         return None
     if position >= len(dic.keys()):
-        return OrderedDict(dic.items() + [value])
+        return OrderedDict(list(dic.items()) + [value])
     tuples = []
     for i, tup in enumerate(dic.items()):
         if i == position:
