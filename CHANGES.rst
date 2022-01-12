@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.18 (unreleased)
+0.18 (2022-01-12)
 -----------------
 
 - Made `insert_in_ordereddict` python3 compatible.
