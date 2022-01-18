@@ -4,8 +4,8 @@ Changelog
 0.19 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `process_memory` to return current process memory.
+  [sgeulette]
 
 0.18 (2022-01-12)
 -----------------

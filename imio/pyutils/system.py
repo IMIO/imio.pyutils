@@ -37,7 +37,7 @@ def trace(TRACE, msg):
         return
     print("TRACE:'{}'".format(msg))
 
-# ------------------------------------------------------------------------------
+# --- Writing files ---
 
 
 def write_to(out_files, key, line):
@@ -57,8 +57,6 @@ def write_to(out_files, key, line):
             return
     out_files[key]['fh'].write("%s\n" % line)
 
-# ------------------------------------------------------------------------------
-
 
 def close_outfiles(outfiles):
     """ Close the outfiles """
@@ -67,7 +65,7 @@ def close_outfiles(outfiles):
             outfiles[key]['fh'].close()
 #            verbose("Output file '%s' generated" % outfiles[key]['file'])
 
-# ------------------------------------------------------------------------------
+# --- Reading files ---
 
 
 def read_file(filename, strip_chars='', skip_empty=False, skip_lines=0):
@@ -89,8 +87,6 @@ def read_file(filename, strip_chars='', skip_empty=False, skip_lines=0):
         lines.append(line)
     thefile.close()
     return lines
-
-# ------------------------------------------------------------------------------
 
 
 def read_csv(filename, strip_chars='', replace_dq=True, skip_empty=False, skip_lines=0, **kwargs):
@@ -120,8 +116,6 @@ def read_csv(filename, strip_chars='', replace_dq=True, skip_empty=False, skip_l
         lines.append(replaced)
     thefile.close()
     return lines
-
-# ------------------------------------------------------------------------------
 
 
 def read_dictcsv(filename, fieldnames=[], strip_chars='', replace_dq=True, skip_empty=False, skip_lines=0, ln_key='_ln',
@@ -160,8 +154,6 @@ def read_dictcsv(filename, fieldnames=[], strip_chars='', replace_dq=True, skip_
             rows.append(new_row)
     return u'', rows
 
-# ------------------------------------------------------------------------------
-
 
 def read_dir(dirpath, with_path=False, only_folders=False, only_files=False, to_skip=[]):
     """ Read the dir and return files """
@@ -179,8 +171,6 @@ def read_dir(dirpath, with_path=False, only_folders=False, only_files=False, to_
             files.append(filename)
     return files
 
-# ------------------------------------------------------------------------------
-
 
 def read_dir_filter(dirpath, with_path=False, extensions=[], only_folders=False):
     """ Read the dir and return some files """
@@ -193,8 +183,6 @@ def read_dir_filter(dirpath, with_path=False, extensions=[], only_folders=False)
             continue
         files.append(filename)
     return files
-
-# ------------------------------------------------------------------------------
 
 
 def read_dir_extensions(dirpath, to_skip=[]):
@@ -256,7 +244,7 @@ def runCommand(cmd, outfile=None, append=True):
         error("Cannot open %s file" % '_cmd_pv.err')
     return stdout, stderr, get_ret_code(stdout.pop())
 
-# ------------------------------------------------------------------------------
+# --- Dumping and loading data on disk ---
 
 
 def load_var(infile, var):
@@ -274,8 +262,6 @@ def load_var(infile, var):
 
 load_dic = load_var
 
-# ------------------------------------------------------------------------------
-
 
 def dump_var(outfile, var):
     """
@@ -288,7 +274,7 @@ def dump_var(outfile, var):
 
 dump_dic = dump_var
 
-# ------------------------------------------------------------------------------
+# --- Various ---
 
 
 def human_size(nb):
@@ -298,8 +284,6 @@ def human_size(nb):
         if quot < 1024:
             break
     return "%.1f%s" % (float(nb) / 1024 ** x, size_letter[x])
-
-# ------------------------------------------------------------------------------
 
 
 def disk_size(path, pretty=True):
@@ -314,8 +298,6 @@ def disk_size(path, pretty=True):
         (size, path) = line.strip().split()
         return size
     return 0
-
-# ------------------------------------------------------------------------------
 
 
 def create_temporary_file(initial_file, file_name):
@@ -332,8 +314,6 @@ def create_temporary_file(initial_file, file_name):
             return temp_filename
     return ''
 
-# ------------------------------------------------------------------------------
-
 
 def get_temporary_filename(file_name):
     """
@@ -345,3 +325,12 @@ def get_temporary_filename(file_name):
         file_name,
     )
     return temp_filename
+
+
+def process_memory():
+    """Returns current process memory in MB"""
+    import psutil
+    process = psutil.Process(os.getpid())
+    infos = process.memory_info()
+    # possibly infos[0] in some versions
+    return infos.rss / 1024 ** 2
