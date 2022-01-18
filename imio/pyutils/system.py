@@ -334,3 +334,11 @@ def process_memory():
     infos = process.memory_info()
     # possibly infos[0] in some versions
     return infos.rss / 1024 ** 2
+
+
+def memory():
+    """Returns memory information in MB"""
+    import psutil
+    mem = psutil.virtual_memory()
+    return (mem.total/1024**2, mem.used/1024**2, mem.percent, mem.available/1024**2, mem.free/1024**2,
+            mem.active/1024**2, mem.inactive/1024**2)

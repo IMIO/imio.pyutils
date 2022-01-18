@@ -6,6 +6,8 @@ Changelog
 
 - Added `process_memory` to return current process memory.
   [sgeulette]
+- Added `memory` to return RAM information.
+  [sgeulette]
 
 0.18 (2022-01-12)
 -----------------
