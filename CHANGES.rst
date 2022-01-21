@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.19 (unreleased)
+0.19 (2022-01-21)
 -----------------
 
 - Added `process_memory` to return current process memory.
