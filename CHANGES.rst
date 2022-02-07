@@ -4,8 +4,8 @@ Changelog
 0.20 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Modified `memory` to return more useful information.
+  [sgeulette]
 
 0.19 (2022-01-21)
 -----------------

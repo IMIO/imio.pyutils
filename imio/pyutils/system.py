@@ -337,8 +337,15 @@ def process_memory():
 
 
 def memory():
-    """Returns memory information in MB"""
+    """Returns memory information in MB.
+
+    * total memory
+    * used memory
+    * used memory in percent
+    * available memory
+    * cache memory
+    """
     import psutil
     mem = psutil.virtual_memory()
-    return (mem.total/1024**2, mem.used/1024**2, mem.percent, mem.available/1024**2, mem.free/1024**2,
-            mem.active/1024**2, mem.inactive/1024**2)
+    return (mem.total/1024**2, mem.used/1024**2, mem.percent, mem.available/1024**2, (mem.buffers+mem.cached)/1024**2)
+    # mem.active/1024**2, mem.inactive/1024**2)
