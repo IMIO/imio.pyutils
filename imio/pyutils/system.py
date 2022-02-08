@@ -17,7 +17,7 @@ from datetime import datetime
 try:
     from collections import OrderedDict
 except ImportError:
-    from ordereddict import OrderedDict
+    from ordereddict import OrderedDict  # noqa
 
 
 def verbose(msg):
