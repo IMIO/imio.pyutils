@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.20 (unreleased)
+0.20 (2022-02-10)
 -----------------
 
 - Modified `memory` to return more useful information.
