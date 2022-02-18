@@ -4,8 +4,9 @@ Changelog
 0.21 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `utils.merge_dicts` to be able to merge several dicts for which values
+  are list, list are extended in final result.
+  [gbastien]
 
 0.20 (2022-02-10)
 -----------------

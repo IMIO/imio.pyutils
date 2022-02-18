@@ -4,6 +4,7 @@
 # IMIO <support@imio.be>
 #
 
+from imio.pyutils.utils import merge_dicts
 from imio.pyutils.utils import replace_in_list
 
 import types
@@ -21,3 +22,16 @@ class TestUtils(unittest.TestCase):
         res = replace_in_list([1, 2, 3], 1, 4, generator=True)
         self.assertTrue(isinstance(res, types.GeneratorType))
         self.assertEqual(list(res), [4, 2, 3])
+
+    def test_merge_dicts(self):
+        self.assertEqual(merge_dicts([{'a': [1]}, {'a': [2]}]),
+                         {'a': [1, 2]})
+        self.assertEqual(
+            merge_dicts([{'a': [1], 'b': [0]}, {'a': [2]}]),
+            {'a': [1, 2], 'b': [0]})
+        self.assertEqual(
+            merge_dicts([
+                {'a': [1], 'b': [0]},
+                {'a': [2]},
+                {'a': [2], 'b':[1], 'c': [4]}]),
+            {'a': [1, 2, 2], 'b': [0, 1], 'c': [4]})

@@ -4,7 +4,10 @@
 # IMIO <support@imio.be>
 #
 
+from collections import defaultdict
 from collections import OrderedDict
+from itertools import chain
+from operator import methodcaller
 
 import time
 
@@ -114,3 +117,20 @@ def timed(f, nb=100):
 def ftimed(f, nb=100, fmt='{:.7f}'):
     duration, ret = timed(f, nb=nb)
     return fmt.format(duration), ret
+
+
+def merge_dicts(dicts, as_dict=True):
+    """Merge dicts, extending values of each dicts,
+       useful for example when the value is a list.
+
+    :param dicts: the list of dicts to mergeinput iterable
+    :param as_dict: return a dict instead the defaultdict instance
+    :return: a single dict (or defaultdict)
+    """
+    dd = defaultdict(list)
+
+    # iterate dictionary items
+    dict_items = map(methodcaller('items'), dicts)
+    for k, v in chain.from_iterable(dict_items):
+        dd[k].extend(v)
+    return as_dict and dict(dd) or dd
