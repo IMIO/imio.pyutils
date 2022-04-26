@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.21 (unreleased)
+0.21 (2022-04-26)
 -----------------
 
 - Added `utils.merge_dicts` to be able to merge several dicts for which values
