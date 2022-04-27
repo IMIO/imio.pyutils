@@ -4,6 +4,7 @@
 # IMIO <support@imio.be>
 #
 
+from imio.pyutils.utils import get_clusters
 from imio.pyutils.utils import merge_dicts
 from imio.pyutils.utils import replace_in_list
 
@@ -35,3 +36,11 @@ class TestUtils(unittest.TestCase):
                 {'a': [2]},
                 {'a': [2], 'b':[1], 'c': [4]}]),
             {'a': [1, 2, 2], 'b': [0, 1], 'c': [4]})
+
+    def test_get_clusters(self):
+        self.assertEqual(get_clusters([1, 2, 3, 5, 6, 8, 10, 15]),
+                         '1-3, 5-6, 8, 10, 15')
+        self.assertEqual(get_clusters([1, 2, 3, 5, 5.1, 5.3, 6, 8, 10, 15]),
+                         '1-3, 5, 5.1, 5.3, 6, 8, 10, 15')
+        self.assertEqual(get_clusters([1, 2, 4, 5, 15], separator="|"),
+                         '1-2|4-5|15')

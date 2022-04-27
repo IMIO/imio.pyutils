@@ -9,6 +9,7 @@ from collections import OrderedDict
 from itertools import chain
 from operator import methodcaller
 
+import itertools
 import time
 
 
@@ -134,3 +135,18 @@ def merge_dicts(dicts, as_dict=True):
     for k, v in chain.from_iterable(dict_items):
         dd[k].extend(v)
     return as_dict and dict(dd) or dd
+
+
+def get_clusters(numbers=[], separator=", "):
+    """Return given p_numbers by clusters.
+       When p_numbers=[1,2,3,5,6,8,9,10,15,17,20],
+       the result is '1-3, 5-6, 8-10, 15, 17, 20'."""
+    clusters = itertools.groupby(numbers, lambda n, c=itertools.count(): n-next(c))
+    res = []
+    for group, cluster in clusters:
+        clust = list(cluster)
+        if len(clust) > 1:
+            res.append('{0}-{1}'.format(clust[0], clust[-1]))
+        else:
+            res.append('{0}'.format(clust[0]))
+    return separator.join(res)
