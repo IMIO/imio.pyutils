@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.22 (unreleased)
+0.22 (2022-04-28)
 -----------------
 
 - Added `utils.get_clusters` to display a list of number grouped by clusters.
