@@ -71,7 +71,7 @@ def replace_in_list(lst, value, replacement, generator=False):
         :param lst: the list containing value to replace
         :param value: the value to be replaced
         :param replacement: the new value to replace with
-        :param generator=False: will return a generator instead a list when set to True
+        :param generator: will return a generator instead a list when set to True
         :return: a new list/generator with replaced values
     """
     def _replacer(lst, value, replacement):
