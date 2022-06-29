@@ -13,6 +13,11 @@ import itertools
 import time
 
 
+def append(lst, value):
+    lst.append(value)
+    return value
+
+
 def ftimed(f, nb=100, fmt='{:.7f}'):
     duration, ret = timed(f, nb=nb)
     return fmt.format(duration), ret

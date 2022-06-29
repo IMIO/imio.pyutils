@@ -4,8 +4,8 @@ Changelog
 0.23 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `utils.append` to append a value and return it.
+  [sgeulette]
 
 0.22 (2022-04-28)
 -----------------
