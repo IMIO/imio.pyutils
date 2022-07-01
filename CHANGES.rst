@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.23 (unreleased)
+0.23 (2022-07-01)
 -----------------
 
 - Added `utils.append` to append a value and return it.

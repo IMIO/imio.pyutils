@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '0.23.dev0'
+version = '0.23'
 
 setup(name='imio.pyutils',
       version=version,
