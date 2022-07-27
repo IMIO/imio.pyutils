@@ -164,7 +164,7 @@ def time_elapsed(start, cond=True, msg=u'', dec=3, min=0.0):
     :param cond: print condition
     :param msg: message to include in print
     :param dec: decimal precision (default to 3)
-    :param min: minimal elapsed value print from imio.pyutils.utils import time_elapsed, time_startcondition
+    :param min: minimal elapsed value print
 
     Usage:
     from imio.pyutils.utils import time_elapsed, time_start
