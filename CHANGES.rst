@@ -4,8 +4,9 @@ Changelog
 0.24 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `utils.time_start` and `utils.time_elapsed` to print elapsed time from start.
+  Intended to be easily used when debugging...
+  [sgeulette]
 
 0.23 (2022-07-01)
 -----------------

@@ -3,7 +3,7 @@
 # python utils methods
 # IMIO <support@imio.be>
 #
-
+import timeit
 from collections import defaultdict
 from collections import OrderedDict
 from itertools import chain
@@ -150,8 +150,18 @@ def safe_encode(value, encoding='utf-8'):
     return value
 
 
-def timed(f, nb=100):
+def timed(f, nb=100):  # TODO must be removed and replaced by timeit
     start = time.time()
     for i in range(nb):
         ret = f()
     return (time.time() - start) / nb, ret  # difference of time is float
+
+
+def time_elapsed(start, cond=True, msg=u'', dec=3):
+    if not cond:
+        return
+    print(u"* {{}}: {{:.{}f}} seconds".format(dec).format(msg, timeit.default_timer() - start))
+
+
+def time_start():
+    return timeit.default_timer()
