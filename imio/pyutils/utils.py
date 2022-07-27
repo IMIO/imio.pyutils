@@ -157,11 +157,29 @@ def timed(f, nb=100):  # TODO must be removed and replaced by timeit
     return (time.time() - start) / nb, ret  # difference of time is float
 
 
-def time_elapsed(start, cond=True, msg=u'', dec=3):
+def time_elapsed(start, cond=True, msg=u'', dec=3, min=0.0):
+    """Print elapsed time from start.
+
+    :param start: start time gotten from time_start function
+    :param cond: print condition
+    :param msg: message to include in print
+    :param dec: decimal precision (default to 3)
+    :param min: minimal elapsed value print from imio.pyutils.utils import time_elapsed, time_startcondition
+
+    Usage:
+    from imio.pyutils.utils import time_elapsed, time_start
+    start = time_start()
+    ...
+    time_elapsed(start, cond=obj.id=='myid', msg=u'myfunc')
+    """
     if not cond:
         return
-    print(u"* {{}}: {{:.{}f}} seconds".format(dec).format(msg, timeit.default_timer() - start))
+    elapsed = timeit.default_timer() - start
+    if elapsed < min:
+        return
+    print(u"* {{}}: {{:.{}f}} seconds".format(dec).format(msg, elapsed))
 
 
 def time_start():
+    """To be used with time_elapsed."""
     return timeit.default_timer()
