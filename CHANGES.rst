@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.24 (unreleased)
+0.24 (2022-08-19)
 -----------------
 
 - Added `utils.time_start` and `utils.time_elapsed` to print elapsed time from start.
