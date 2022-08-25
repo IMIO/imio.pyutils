@@ -315,6 +315,15 @@ def create_temporary_file(initial_file, file_name):
     return ''
 
 
+def get_git_tag(path):
+    cmd = 'git --git-dir={}/.git describe --tags'.format(path)
+    (out, err, code) = runCommand(cmd)
+    if code or err:
+        error("Problem in command '{}': {}".format(cmd, err))
+        return 'NO TAG'
+    return out[0].strip('\n')
+
+
 def get_temporary_filename(file_name):
     """
     Returns the name of a temporary file.

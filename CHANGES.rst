@@ -4,8 +4,8 @@ Changelog
 0.25 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `get_git_tag`.
+  [sgeulette]
 
 0.24 (2022-08-19)
 -----------------
