@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.25 (unreleased)
+0.25 (2022-09-16)
 -----------------
 
 - Added `get_git_tag`.
