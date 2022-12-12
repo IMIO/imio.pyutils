@@ -32,6 +32,14 @@ def error(msg):
     print('!! {}'.format(msg), file=sys.stderr)
 
 
+def stop(msg, logger=None):
+    if logger:
+        logger.error(msg)
+    else:
+        error(msg)
+    sys.exit(1)
+
+
 def trace(TRACE, msg):
     if not TRACE:
         return

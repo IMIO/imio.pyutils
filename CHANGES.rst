@@ -4,8 +4,8 @@ Changelog
 0.26 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `stop` to print error and exit.
+  [sgeulette]
 
 0.25 (2022-09-16)
 -----------------
