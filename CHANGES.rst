@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.26 (unreleased)
+0.26 (2022-12-12)
 -----------------
 
 - Added `stop` to print error and exit.
