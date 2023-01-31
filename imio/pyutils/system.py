@@ -6,12 +6,14 @@
 #
 from __future__ import print_function
 
+from datetime import datetime
+
 import os
 import re
 import sys
 import tempfile
 import time
-from datetime import datetime
+
 
 # can be used in load_var
 try:
