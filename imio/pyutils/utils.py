@@ -27,7 +27,7 @@ def get_clusters(numbers=[], separator=", "):
     """Return given p_numbers by clusters.
        When p_numbers=[1,2,3,5,6,8,9,10,15,17,20],
        the result is '1-3, 5-6, 8-10, 15, 17, 20'."""
-    clusters = itertools.groupby(numbers, lambda n, c=itertools.count(): n-next(c))
+    clusters = itertools.groupby(numbers, lambda n, c=itertools.count(): n - next(c))
     res = []
     for group, cluster in clusters:
         clust = list(cluster)
@@ -183,3 +183,8 @@ def time_elapsed(start, cond=True, msg=u'', dec=3, min=0.0):
 def time_start():
     """To be used with time_elapsed."""
     return timeit.default_timer()
+
+
+def sort_by_indexes(lst, indexes, reverse=False):
+    return [val for (_, val) in sorted(
+        zip(indexes, lst), key=lambda x: x[0], reverse=reverse)]

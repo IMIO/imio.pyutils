@@ -4,8 +4,9 @@ Changelog
 0.27 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `utils.sort_by_indexes` that will sort a list of values
+  depending on a list of indexes.
+  [gbastien]
 
 0.26 (2022-12-12)
 -----------------

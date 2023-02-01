@@ -7,6 +7,7 @@
 from imio.pyutils.utils import get_clusters
 from imio.pyutils.utils import merge_dicts
 from imio.pyutils.utils import replace_in_list
+from imio.pyutils.utils import sort_by_indexes
 
 import types
 import unittest
@@ -44,3 +45,9 @@ class TestUtils(unittest.TestCase):
         res = replace_in_list([1, 2, 3], 1, 4, generator=True)
         self.assertTrue(isinstance(res, types.GeneratorType))
         self.assertEqual(list(res), [4, 2, 3])
+
+    def test_sort_by_indexes(self):
+        lst = ["a", "b", "c", "d", "e", "f", "g"]
+        indexes = [1, 3, 5, 2, 4, 6, 6]
+        self.assertEqual(sort_by_indexes(lst, indexes),
+                         ['a', 'd', 'b', 'e', 'c', 'f', 'g'])
