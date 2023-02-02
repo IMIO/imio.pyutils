@@ -51,3 +51,7 @@ class TestUtils(unittest.TestCase):
         indexes = [1, 3, 5, 2, 4, 6, 6]
         self.assertEqual(sort_by_indexes(lst, indexes),
                          ['a', 'd', 'b', 'e', 'c', 'f', 'g'])
+        lst = ["a", "b", "c", "d", "e"]
+        indexes = [1, 3, 2, 9, 9]
+        self.assertEqual(sort_by_indexes(lst, indexes),
+                         ['a', 'c', 'b', 'd', 'e'])
