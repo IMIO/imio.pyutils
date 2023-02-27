@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.27 (unreleased)
+0.27 (2023-02-27)
 -----------------
 
 - Added `utils.sort_by_indexes` that will sort a list of values
