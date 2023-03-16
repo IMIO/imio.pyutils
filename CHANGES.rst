@@ -4,8 +4,8 @@ Changelog
 0.28 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `utils.one_of_dict_values` that gives the first non empty value of a list of keys.
+  [sgeulette]
 
 0.27 (2023-02-27)
 -----------------

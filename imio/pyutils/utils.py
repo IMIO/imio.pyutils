@@ -121,6 +121,14 @@ def odict_pos_key(odic, pos):
         return keys[pos]
 
 
+def one_of_dict_values(dic, keys):
+    """Take the first value not empty in a dict following given keys"""
+    for key in keys:
+        if dic.get(key):
+            return dic[key]
+    return None
+
+
 def replace_in_list(lst, value, replacement, generator=False):
     """
         Replace a value in a list of values.
@@ -186,5 +194,6 @@ def time_start():
 
 
 def sort_by_indexes(lst, indexes, reverse=False):
+    """Sort a list following a second list containing the order"""
     return [val for (_, val) in sorted(
         zip(indexes, lst), key=lambda x: x[0], reverse=reverse)]

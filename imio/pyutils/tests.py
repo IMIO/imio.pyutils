@@ -6,6 +6,7 @@
 
 from imio.pyutils.utils import get_clusters
 from imio.pyutils.utils import merge_dicts
+from imio.pyutils.utils import one_of_dict_values
 from imio.pyutils.utils import replace_in_list
 from imio.pyutils.utils import sort_by_indexes
 
@@ -36,6 +37,9 @@ class TestUtils(unittest.TestCase):
                 {'a': [2]},
                 {'a': [2], 'b':[1], 'c': [4]}]),
             {'a': [1, 2, 2], 'b': [0, 1], 'c': [4]})
+
+    def test_one_of_dict_values(self):
+        self.assertEqual(one_of_dict_values({1: None, 3: '', 4: 'job'}, [1, 2 , 3, 4]), 'job')
 
     def test_replace_in_list(self):
         self.assertEqual(replace_in_list([1, 2, 3], 1, 4), [4, 2, 3])
