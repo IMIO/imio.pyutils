@@ -3,7 +3,7 @@
 # tests utis methods
 # IMIO <support@imio.be>
 #
-
+from imio.pyutils.utils import all_of_dict_values
 from imio.pyutils.utils import get_clusters
 from imio.pyutils.utils import merge_dicts
 from imio.pyutils.utils import one_of_dict_values
@@ -16,6 +16,11 @@ import unittest
 
 class TestUtils(unittest.TestCase):
     """ """
+
+    def test_all_of_dict_values(self):
+        self.assertListEqual(all_of_dict_values({1: None, 2: 'Good', 3: '', 4: 'job'}, [1, 2 , 3, 4]),
+                             ['Good', 'job'])
+        self.assertListEqual(all_of_dict_values({}, [1, 2]), [])
 
     def test_get_clusters(self):
         self.assertEqual(get_clusters([1, 2, 3, 5, 6, 8, 10, 15]),

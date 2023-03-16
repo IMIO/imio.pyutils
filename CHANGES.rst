@@ -6,6 +6,8 @@ Changelog
 
 - Added `utils.one_of_dict_values` that gives the first non empty value of a list of keys.
   [sgeulette]
+- Added `utils.all_of_dict_values` that returns a not empty values list from a dict following a keys list
+  [sgeulette]
 
 0.27 (2023-02-27)
 -----------------

@@ -19,7 +19,15 @@ It provides helper methods to:
 * creating temporary files,
 * etc.
 
-2) BeautifulSoup methods (bs.py)
+2) Various python helpers (utils.py)
+
+About:
+
+* ordereddict and dict manipulations
+* list manipulations
+* duration recording
+
+3) BeautifulSoup methods (bs.py)
 
 * remove elements
 * remove attributes
@@ -27,10 +35,15 @@ It provides helper methods to:
 * replace entire strings
 * unwrap tags
 
-3) Postgres level operations (postgres.py). It requires psycopg2 egg !
+4) Postgres level operations (postgres.py). It requires psycopg2 egg !
 
 It provides helper methods to:
 
 * single or multiple select,
 * insert, update, delete rows,
 * etc.
+
+Tests
+=====
+
+Can be run with: `bin/python -m unittest discover`

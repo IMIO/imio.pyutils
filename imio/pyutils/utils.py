@@ -13,6 +13,15 @@ import itertools
 import time
 
 
+def all_of_dict_values(dic, keys):
+    """Returns a not empty values list from a dict following given keys"""
+    ret = []
+    for key in keys:
+        if dic.get(key):
+            ret.append(dic[key])
+    return ret
+
+
 def append(lst, value):
     lst.append(value)
     return value
