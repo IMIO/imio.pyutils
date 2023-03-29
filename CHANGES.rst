@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.28 (unreleased)
+0.28 (2023-03-29)
 -----------------
 
 - Added `utils.one_of_dict_values` that gives the first non empty value of a list of keys.
