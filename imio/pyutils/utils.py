@@ -13,12 +13,21 @@ import itertools
 import time
 
 
-def all_of_dict_values(dic, keys):
-    """Returns a not empty values list from a dict following given keys"""
+def all_of_dict_values(dic, keys, labels=[], sep=u'='):
+    """Returns a not empty values list from a dict following given keys.
+
+    :param dic: input dictionary
+    :param keys: searched keys
+    :param labels: corresponding labels
+    :param sep: separator between label and value
+    :return: list with corresponding values.
+    """
+    if labels and len(labels) != len(keys):
+        raise ValueError(u'labels length must be the same as keys length')
     ret = []
-    for key in keys:
+    for i, key in enumerate(keys):
         if dic.get(key):
-            ret.append(dic[key])
+            ret.append(labels and u'{}{}{}'.format(labels[i], sep, dic[key]) or dic[key])
     return ret
 
 

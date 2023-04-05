@@ -18,8 +18,12 @@ class TestUtils(unittest.TestCase):
     """ """
 
     def test_all_of_dict_values(self):
-        self.assertListEqual(all_of_dict_values({1: None, 2: 'Good', 3: '', 4: 'job'}, [1, 2 , 3, 4]),
+        self.assertListEqual(all_of_dict_values({1: None, 2: 'Good', 3: '', 4: 'job'}, [1, 2, 3, 4]),
                              ['Good', 'job'])
+        self.assertListEqual(all_of_dict_values({1: None, 2: 'Good', 3: '', 4: 'job'}, [2, 4],
+                                                labels=[u'Two', 'Four']),
+                             ['Two=Good', 'Four=job'])
+        self.assertRaises(ValueError, all_of_dict_values, {}, [1], labels=[1, 2])
         self.assertListEqual(all_of_dict_values({}, [1, 2]), [])
 
     def test_get_clusters(self):

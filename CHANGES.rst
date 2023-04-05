@@ -4,8 +4,8 @@ Changelog
 0.29 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Improved `utils.all_of_dict_values` to include optionally a label.
+  [sgeulette]
 
 0.28 (2023-03-29)
 -----------------
