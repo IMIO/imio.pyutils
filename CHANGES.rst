@@ -6,6 +6,8 @@ Changelog
 
 - Improved `utils.all_of_dict_values` to include optionally a label.
   [sgeulette]
+- Added `setup_logger` to modify a given logger independently
+  [sgeulette]
 
 0.28 (2023-03-29)
 -----------------

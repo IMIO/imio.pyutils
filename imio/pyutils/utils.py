@@ -3,14 +3,15 @@
 # python utils methods
 # IMIO <support@imio.be>
 #
-import timeit
-from collections import defaultdict
-from collections import OrderedDict
+from collections import OrderedDict, defaultdict
 from itertools import chain
 from operator import methodcaller
 
+import copy
 import itertools
+import logging
 import time
+import timeit
 
 
 def all_of_dict_values(dic, keys, labels=[], sep=u'='):
@@ -176,6 +177,37 @@ def safe_encode(value, encoding='utf-8'):
     return value
 
 
+def setup_logger(logger, replace=logging.StreamHandler, level=20):
+    """Modify logger handler level
+
+    :param logger: logger to modify
+    :param replace: handler type to replace
+    :param level: level to set
+    """
+    for i_c, container in enumerate((logger, logger.parent)):
+        found = [i for i, hdl in enumerate(container.handlers) if isinstance(hdl, logging.StreamHandler)]
+        if found:
+            if i_c:
+                logger.parent = container = copy.copy(logger.parent)
+            break
+    else:
+        return
+    idx = found[0]
+    osh = copy.copy(container.handlers[idx])
+    osh.setLevel(level)
+    # remove handler from original container handlers (often parent)
+    container.handlers = [hdl for i, hdl in enumerate(container.handlers) if i != idx]
+    # put handler in logger handlers
+    logger.handlers.append(osh)
+    logger.setLevel(level)
+
+
+def sort_by_indexes(lst, indexes, reverse=False):
+    """Sort a list following a second list containing the order"""
+    return [val for (_, val) in sorted(
+        zip(indexes, lst), key=lambda x: x[0], reverse=reverse)]
+
+
 def timed(f, nb=100):  # TODO must be removed and replaced by timeit
     start = time.time()
     for i in range(nb):
@@ -209,9 +241,3 @@ def time_elapsed(start, cond=True, msg=u'', dec=3, min=0.0):
 def time_start():
     """To be used with time_elapsed."""
     return timeit.default_timer()
-
-
-def sort_by_indexes(lst, indexes, reverse=False):
-    """Sort a list following a second list containing the order"""
-    return [val for (_, val) in sorted(
-        zip(indexes, lst), key=lambda x: x[0], reverse=reverse)]
