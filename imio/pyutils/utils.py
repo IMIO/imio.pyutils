@@ -27,7 +27,7 @@ def all_of_dict_values(dic, keys, labels=[], sep=u'='):
     ret = []
     for i, key in enumerate(keys):
         if dic.get(key):
-            ret.append(labels and u'{}{}{}'.format(labels[i], sep, dic[key]) or dic[key])
+            ret.append(labels and u'{}{}{}'.format(labels[i], labels[i] and sep or u'', dic[key]) or dic[key])
     return ret
 
 

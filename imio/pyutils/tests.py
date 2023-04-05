@@ -21,8 +21,11 @@ class TestUtils(unittest.TestCase):
         self.assertListEqual(all_of_dict_values({1: None, 2: 'Good', 3: '', 4: 'job'}, [1, 2, 3, 4]),
                              ['Good', 'job'])
         self.assertListEqual(all_of_dict_values({1: None, 2: 'Good', 3: '', 4: 'job'}, [2, 4],
-                                                labels=[u'Two', 'Four']),
+                                                labels=[u'Two', u'Four']),
                              ['Two=Good', 'Four=job'])
+        self.assertListEqual(all_of_dict_values({1: None, 2: 'Good', 3: '', 4: 'job'}, [2, 4],
+                                                labels=[u'Two', u'']),
+                             ['Two=Good', 'job'])
         self.assertRaises(ValueError, all_of_dict_values, {}, [1], labels=[1, 2])
         self.assertListEqual(all_of_dict_values({}, [1, 2]), [])
 
