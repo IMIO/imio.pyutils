@@ -254,6 +254,13 @@ def runCommand(cmd, outfile=None, append=True):
         error("Cannot open %s file" % '_cmd_pv.err')
     return stdout, stderr, get_ret_code(stdout.pop())
 
+
+def full_path(path, filename):
+    """Prefixes filename with path if necessary"""
+    if not os.path.isabs(filename):
+        return os.path.join(path, filename)
+    return filename
+
 # --- Dumping and loading data on disk ---
 
 

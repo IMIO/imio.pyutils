@@ -8,6 +8,8 @@ Changelog
   [sgeulette]
 - Added `setup_logger` to modify a given logger independently
   [sgeulette]
+- Added `full_path` to prefix filename with path if necessary
+  [sgeulette]
 
 0.28 (2023-03-29)
 -----------------
