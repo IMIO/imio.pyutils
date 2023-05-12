@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.29 (unreleased)
+0.29 (2023-05-12)
 -----------------
 
 - Improved `utils.all_of_dict_values` to include optionally a label.
