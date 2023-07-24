@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.30 (unreleased)
+0.30 (2023-07-24)
 -----------------
 
 - Added `system.read_recursive_dir` to get files recursively (with relative or full name).
