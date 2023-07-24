@@ -4,8 +4,8 @@ Changelog
 0.30 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `system.read_recursive_dir` to get files recursively (with relative or full name).
+  [sgeulette]
 
 0.29 (2023-05-12)
 -----------------

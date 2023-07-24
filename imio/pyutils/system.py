@@ -182,6 +182,24 @@ def read_dir(dirpath, with_path=False, only_folders=False, only_files=False, to_
     return files
 
 
+def read_recursive_dir(root_dir, rel_dir, with_folder=False, with_full_path=False):
+    """ Read the dir and return files """
+    files = []
+    full_dir = os.path.join(root_dir, rel_dir)
+    for filename in os.listdir(full_dir):
+        fullpath = os.path.join(full_dir, filename)
+        relpath = os.path.join(rel_dir, filename)
+        if os.path.isdir(fullpath):
+            files.extend(read_recursive_dir(root_dir, relpath, with_folder=with_folder, with_full_path=with_full_path))
+            if not with_folder:
+                continue
+        if with_full_path:
+            files.append(fullpath)
+        else:
+            files.append(relpath)
+    return files
+
+
 def read_dir_filter(dirpath, with_path=False, extensions=[], only_folders=False):
     """ Read the dir and return some files """
     files = []
