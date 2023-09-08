@@ -241,3 +241,14 @@ def time_elapsed(start, cond=True, msg=u'', dec=3, min=0.0):
 def time_start():
     """To be used with time_elapsed."""
     return timeit.default_timer()
+
+
+def listify(value, force=False):
+    """Make sure value is a list.
+       If p_force=True, the returned result will be a list,
+       when p_force=False, result could be a tuple or a dict."""
+    if not hasattr(value, "__iter__"):
+        value = [value]
+    if force and not isinstance(value, list):
+        value = list(value)
+    return value
