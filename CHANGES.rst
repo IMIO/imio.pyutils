@@ -4,8 +4,9 @@ Changelog
 0.31 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `utils.listify` that will make sure a given value
+  is always returned as list-like iterable.
+  [gbastien]
 
 0.30 (2023-07-24)
 -----------------

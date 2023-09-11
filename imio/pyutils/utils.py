@@ -244,9 +244,11 @@ def time_start():
 
 
 def listify(value, force=False):
-    """Make sure value is a list.
-       If p_force=True, the returned result will be a list,
-       when p_force=False, result could be a tuple or a dict."""
+    """Ensure given value is a list-like iterable.
+
+    :param value: the value to turn into a list if not already the case
+    :param force: if value is a tuple, returned as a list
+    """
     if not hasattr(value, "__iter__"):
         value = [value]
     if force and not isinstance(value, list):
