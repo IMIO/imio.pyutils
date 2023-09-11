@@ -5,6 +5,7 @@
 #
 from imio.pyutils.utils import all_of_dict_values
 from imio.pyutils.utils import get_clusters
+from imio.pyutils.utils import listify
 from imio.pyutils.utils import merge_dicts
 from imio.pyutils.utils import one_of_dict_values
 from imio.pyutils.utils import replace_in_list
@@ -51,7 +52,7 @@ class TestUtils(unittest.TestCase):
             {'a': [1, 2, 2], 'b': [0, 1], 'c': [4]})
 
     def test_one_of_dict_values(self):
-        self.assertEqual(one_of_dict_values({1: None, 3: '', 4: 'job'}, [1, 2 , 3, 4]), 'job')
+        self.assertEqual(one_of_dict_values({1: None, 3: '', 4: 'job'}, [1, 2, 3, 4]), 'job')
 
     def test_replace_in_list(self):
         self.assertEqual(replace_in_list([1, 2, 3], 1, 4), [4, 2, 3])
@@ -71,3 +72,10 @@ class TestUtils(unittest.TestCase):
         indexes = [1, 3, 2, 9, 9]
         self.assertEqual(sort_by_indexes(lst, indexes),
                          ['a', 'c', 'b', 'd', 'e'])
+
+    def test_listify(self):
+        self.assertEqual(listify("value"), ["value"])
+        self.assertEqual(listify(["value"]), ["value"])
+        self.assertEqual(listify(("value")), ["value"])
+        self.assertEqual(listify(("value", )), ("value", ))
+        self.assertEqual(listify(("value", ), force=True), ["value"])
