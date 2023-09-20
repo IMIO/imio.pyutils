@@ -350,8 +350,12 @@ def create_temporary_file(initial_file, file_name):
     return ''
 
 
-def get_git_tag(path):
-    cmd = 'git --git-dir={}/.git describe --tags'.format(path)
+def get_git_tag(path, last=False):
+    if last:  # from all branches
+        cmd = 'git --git-dir={0}/.git describe --tags `git --git-dir={0}/.git rev-list --tags ' \
+              '--max-count=1`'.format(path)
+    else:  # current branch only
+        cmd = 'git --git-dir={}/.git describe --tags'.format(path)
     (out, err, code) = runCommand(cmd)
     if code or err:
         error("Problem in command '{}': {}".format(cmd, err))
