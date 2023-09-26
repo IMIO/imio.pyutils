@@ -8,6 +8,7 @@ from imio.pyutils.utils import get_clusters
 from imio.pyutils.utils import listify
 from imio.pyutils.utils import merge_dicts
 from imio.pyutils.utils import one_of_dict_values
+from imio.pyutils.utils import radix_like_starting_1
 from imio.pyutils.utils import replace_in_list
 from imio.pyutils.utils import sort_by_indexes
 
@@ -53,6 +54,17 @@ class TestUtils(unittest.TestCase):
 
     def test_one_of_dict_values(self):
         self.assertEqual(one_of_dict_values({1: None, 3: '', 4: 'job'}, [1, 2, 3, 4]), 'job')
+
+    def test_radix_like_starting_1(self):
+        # Considering a sequence of 2 letters a, b => base 2 (similar to bit values 0, 1 base 2)
+        self.assertListEqual(radix_like_starting_1(0, 2), [])  # corresponding to nothing (bit would be 0)
+        self.assertListEqual(radix_like_starting_1(1, 2), [1])  # corresponding to a (bit would be 1)
+        self.assertListEqual(radix_like_starting_1(2, 2), [2])  # corresponding to b (bit would be 10)
+        self.assertListEqual(radix_like_starting_1(3, 2), [1, 1])  # corresponding to aa (bit would be 11)
+        self.assertListEqual(radix_like_starting_1(4, 2), [1, 2])  # corresponding to ab (bit would be 100)
+        self.assertListEqual(radix_like_starting_1(5, 2), [2, 1])  # corresponding to ba
+        self.assertListEqual(radix_like_starting_1(6, 2), [2, 2])  # corresponding to bb
+        self.assertListEqual(radix_like_starting_1(7, 2), [1, 1, 1])  # corresponding to aaa
 
     def test_replace_in_list(self):
         self.assertEqual(replace_in_list([1, 2, 3], 1, 4), [4, 2, 3])

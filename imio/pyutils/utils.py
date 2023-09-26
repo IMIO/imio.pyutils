@@ -148,14 +148,30 @@ def one_of_dict_values(dic, keys):
     return None
 
 
-def replace_in_list(lst, value, replacement, generator=False):
+def radix_like_starting_1(n, base, L=[]):  # noqa
+    """Returns a list of positional numbers following a given base but starting with 1 and not 0.
+    It's like normal base positions but ignoring 0. Useful for non mathematical sequence (a b aa ab ba bb ...)
+
+    :param n: the number to analyze
+    :param base: the base to use
+    :param L: the working list (mist not be originally filled)
+    :return: a list of positional numbers
     """
-        Replace a value in a list of values.
-        :param lst: the list containing value to replace
-        :param value: the value to be replaced
-        :param replacement: the new value to replace with
-        :param generator: will return a generator instead a list when set to True
-        :return: a new list/generator with replaced values
+    if n <= 0:
+        L.reverse()
+        return L
+    else:
+        return radix_like_starting_1((n % base) and (n // base) or (n // base) -1 , base, L + [(n % base) or base])
+
+
+def replace_in_list(lst, value, replacement, generator=False):
+    """Replace a value in a list of values.
+
+    :param lst: the list containing value to replace
+    :param value: the value to be replaced
+    :param replacement: the new value to replace with
+    :param generator: will return a generator instead a list when set to True
+    :return: a new list/generator with replaced values
     """
     def _replacer(lst, value, replacement):
         new_lst = list(lst)

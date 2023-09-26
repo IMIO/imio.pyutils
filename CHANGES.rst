@@ -9,6 +9,8 @@ Changelog
   [gbastien]
 - Improved `system.get_git_tag` with new parameter to get last tag from all branches
   [sgeulette]
+- Added `utils.radix_like_starting_1` to get list of positional numbers following a given base but starting with 1
+  [sgeulette]
 
 0.30 (2023-07-24)
 -----------------
