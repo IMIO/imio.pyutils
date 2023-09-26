@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.31 (unreleased)
+0.31 (2023-09-26)
 -----------------
 
 - Added `utils.listify` that will make sure a given value
