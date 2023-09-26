@@ -5,6 +5,7 @@
 #
 from imio.pyutils.utils import all_of_dict_values
 from imio.pyutils.utils import get_clusters
+from imio.pyutils.utils import letters_sequence
 from imio.pyutils.utils import listify
 from imio.pyutils.utils import merge_dicts
 from imio.pyutils.utils import one_of_dict_values
@@ -38,6 +39,19 @@ class TestUtils(unittest.TestCase):
                          '1-3, 5, 5.1, 5.3, 6, 8, 10, 15')
         self.assertEqual(get_clusters([1, 2, 4, 5, 15], separator="|"),
                          '1-2|4-5|15')
+
+    def test_letters_sequence(self):
+        tests = [
+            {'lt': 'ab', 'nths': [(0, ''), (1, 'a'), (2, 'b'), (3, 'aa'), (6, 'bb'), (9, 'aba')]},
+            {'lt': 'abcdefghijklmnopqrstuvwxyz', 'nths': [(15, 'o'), (26, 'z'), (27, 'aa'), (100, 'cv'), (702, 'zz'),
+                                                          (703, 'aaa')]}
+        ]
+        for dic in tests:
+            lt = dic['lt']
+            for n, res in dic['nths']:
+                self.assertEqual(letters_sequence(n, lt), res,
+                                 'n:{},res:{} <=> {}'.format(n, res, letters_sequence(n, lt)))
+
 
     def test_merge_dicts(self):
         self.assertEqual(merge_dicts([{'a': [1]}, {'a': [2]}]),

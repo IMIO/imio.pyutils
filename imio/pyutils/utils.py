@@ -106,6 +106,19 @@ def iterable_as_list_of_list(lst, cols=1):
     return res
 
 
+def letters_sequence(nth, letters='abcdefghijklmnopqrstuvwxyz'):
+    """Return a letters sequence corresponding to the nth number. Useful to generate a lettered suffix.
+
+    :param nth: nth sequence (0 giving nothing and 1 the first letter)
+    :param letters: letters to consider
+    :return: a sequenced string
+    """
+    res = ''
+    for pos in radix_like_starting_1(nth, len(letters)):
+        res += letters[pos - 1]
+    return res
+
+
 def merge_dicts(dicts, as_dict=True):
     """Merge dicts, extending values of each dicts,
        useful for example when the value is a list.

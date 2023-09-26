@@ -11,6 +11,8 @@ Changelog
   [sgeulette]
 - Added `utils.radix_like_starting_1` to get list of positional numbers following a given base but starting with 1
   [sgeulette]
+- Added `utils.letters_sequence` to get a letters string corresponding to nth position
+  [sgeulette]
 
 0.30 (2023-07-24)
 -----------------
