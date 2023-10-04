@@ -30,7 +30,7 @@ jobs:
           pip install --upgrade pip
       - name: test
         run: |
-          bin/python -m unittest discover
+          python -m unittest discover
 #  coverage:
 #    runs-on: ubuntu-22.04
 #    strategy:
