@@ -49,6 +49,7 @@ jobs:
       - name: Setup Env
         run: |
           pip install --upgrade pip
+          pip install -e .
           pip install -U coveralls coverage
       - name: test coverage
         run: |
