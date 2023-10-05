@@ -4,15 +4,10 @@
 # bs4 utility methods
 # IMIO <support@imio.be>
 #
-
+from bs4 import BeautifulSoup
 from bs4.element import Comment
 
-
-def remove_elements(element, to_remove=[]):
-    """ Removes sub tags and all their content """
-    for tagtr in to_remove:
-        for tag in element.find_all(tagtr):
-            tag.decompose()
+import re
 
 
 def remove_attributes(element, attributes=[], recursive=True):
@@ -28,10 +23,43 @@ def remove_attributes(element, attributes=[], recursive=True):
                 pass
 
 
+def remove_childrens_by_pattern(parent, child_text_pat, name=None, recursive=False, keep=()):
+    """Remove children with matched text
+
+    :param parent: parent to consider
+    :param child_text_pat: pattern to search
+    :param name: optional children's tag
+    :param recursive: recursive children
+    :param keep: keep children at this position (starting at 1)
+    :return:
+    """
+    childrens = list(parent.find_all(name=name, recursive=recursive))
+    if isinstance(parent, BeautifulSoup):
+        childrens.pop(0)
+    removed = []
+    change = False
+    count = 0
+    for ch_t in childrens:
+        if found := re.search(child_text_pat, ch_t.text, re.I):
+            count += 1
+            if count not in keep:
+                change = True
+                removed.append(str(ch_t))
+                ch_t.decompose()
+    return change, removed
+
+
 def remove_comments(element):
     """ Removes html comments """
     for comment in element.find_all(text=lambda text: isinstance(text, Comment)):
         comment.extract()
+
+
+def remove_elements(element, to_remove=[]):
+    """ Removes sub tags and all their content """
+    for tagtr in to_remove:
+        for tag in element.find_all(tagtr):
+            tag.decompose()
 
 
 def replace_entire_strings(element, replace=u'\n', by=u''):
@@ -44,7 +72,7 @@ def replace_entire_strings(element, replace=u'\n', by=u''):
 
 
 def unwrap_tags(element, tags=[]):
-    """ unwrap tags with content """
+    """ unwrap tags on content (<a ...>lien</a> => lien) """
     for tagtu in tags:
         for tag in element.find_all(tagtu):
             tag.unwrap()

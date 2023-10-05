@@ -4,8 +4,8 @@ Changelog
 0.32 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `bs.remove_some_childrens` function.
+  [sgeulette]
 
 0.31 (2023-09-26)
 -----------------
