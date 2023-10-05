@@ -1,5 +1,16 @@
 .. contents::
 
+.. image:: https://github.com/IMIO/imio.pyutils/actions/workflows/main.yml/badge.svg?branch=master
+    :target: https://github.com/IMIO/imio.pyutils/actions/workflows/main.yml
+
+.. image:: https://coveralls.io/repos/github/IMIO/imio.pyutils/badge.svg
+    :target: https://coveralls.io/github/IMIO/imio.pyutils
+
+.. image:: http://img.shields.io/pypi/v/imio.pyutils.svg
+   :alt: PyPI badge
+   :target: https://pypi.org/project/imio.pyutils
+
+
 Introduction
 ============
 

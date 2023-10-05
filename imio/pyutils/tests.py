@@ -4,6 +4,7 @@
 # IMIO <support@imio.be>
 #
 from imio.pyutils.utils import all_of_dict_values
+from imio.pyutils.utils import append
 from imio.pyutils.utils import get_clusters
 from imio.pyutils.utils import letters_sequence
 from imio.pyutils.utils import listify
@@ -31,6 +32,11 @@ class TestUtils(unittest.TestCase):
                              ['Two=Good', 'job'])
         self.assertRaises(ValueError, all_of_dict_values, {}, [1], labels=[1, 2])
         self.assertListEqual(all_of_dict_values({}, [1, 2]), [])
+
+    def test_append(self):
+        lst = [1]
+        self.assertEqual(append(lst, 2), 2)
+        self.assertListEqual(lst, [1, 2])
 
     def test_get_clusters(self):
         self.assertEqual(get_clusters([1, 2, 3, 5, 6, 8, 10, 15]),
