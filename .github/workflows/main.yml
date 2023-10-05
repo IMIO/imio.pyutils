@@ -28,6 +28,7 @@ jobs:
       - name: Setup Env
         run: |
           pip install --upgrade pip
+          pip install -e .
       - name: test
         run: |
           python -m unittest discover

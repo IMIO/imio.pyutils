@@ -24,13 +24,13 @@ help:
 bin/python: .python-version  ## Setups environment
 	virtualenv .
 	./bin/pip install --upgrade pip
+	./bin/pip install -e .
 
 .PHONY: setup
 setup: oneof-python cleanall bin/python  ## Setups environment
 
 .PHONY: test
-test: oneof-python setup  ## run tests
-	# can be run by example with: make test opt='-t "settings"'
+test: bin/python  ## run tests
 	bin/python -m unittest discover
 
 .PHONY: cleanall

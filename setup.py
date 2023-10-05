@@ -27,6 +27,7 @@ setup(name='imio.pyutils',
       install_requires=[
           'setuptools',
           'future',
+          'six',
           # -*- Extra requirements: -*-
       ],
       entry_points="""
