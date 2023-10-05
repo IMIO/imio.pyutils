@@ -3,15 +3,20 @@
 # python utils methods
 # IMIO <support@imio.be>
 #
+from __future__ import print_function
 from collections import OrderedDict, defaultdict
 from itertools import chain
 from operator import methodcaller
+from six import ensure_str
 
 import copy
 import itertools
 import logging
 import time
 import timeit
+from six.moves import map
+from six.moves import range
+from six.moves import zip
 
 
 def all_of_dict_values(dic, keys, labels=[], sep=u'='):
@@ -73,7 +78,7 @@ def insert_in_ordereddict(dic, value, after_key='', at_position=None):
         position = at_position
     if position is None:
         return None
-    if position >= len(dic.keys()):
+    if position >= len(list(dic.keys())):
         return OrderedDict(list(dic.items()) + [value])
     tuples = []
     for i, tup in enumerate(dic.items()):
@@ -130,7 +135,7 @@ def merge_dicts(dicts, as_dict=True):
     dd = defaultdict(list)
 
     # iterate dictionary items
-    dict_items = map(methodcaller('items'), dicts)
+    dict_items = list(map(methodcaller('items'), dicts))
     for k, v in chain.from_iterable(dict_items):
         dd[k].extend(v)
     return as_dict and dict(dd) or dd
@@ -201,9 +206,7 @@ def replace_in_list(lst, value, replacement, generator=False):
 
 def safe_encode(value, encoding='utf-8'):
     """Converts a value to encoding, only when it is not already encoded."""
-    if isinstance(value, unicode):
-        return value.encode(encoding)
-    return value
+    return ensure_str(value, encoding=encoding)
 
 
 def setup_logger(logger, replace=logging.StreamHandler, level=20):
@@ -264,7 +267,7 @@ def time_elapsed(start, cond=True, msg=u'', dec=3, min=0.0):
     elapsed = timeit.default_timer() - start
     if elapsed < min:
         return
-    print(u"* {{}}: {{:.{}f}} seconds".format(dec).format(msg, elapsed))
+    print((u"* {{}}: {{:.{}f}} seconds".format(dec).format(msg, elapsed)))
 
 
 def time_start():
