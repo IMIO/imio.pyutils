@@ -24,6 +24,7 @@ help:
 bin/python: .python-version  ## Setups environment
 	virtualenv .
 	./bin/pip install --upgrade pip
+	./bin/pip install pdbpp
 	./bin/pip install -e .
 
 .PHONY: setup
@@ -38,7 +39,7 @@ cleanall:  ## Cleans all installed buildout files
 	rm -fr bin include lib .python-version pyvenv.cfg
 
 .PHONY: which-python
-which-python: oneof-python  ## Displays versions information
+which-python:  ## Displays versions information
 	@echo "current python = `cat .python-version`"
 	@echo "python var = $(python)"
 

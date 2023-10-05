@@ -8,15 +8,16 @@ from collections import OrderedDict, defaultdict
 from itertools import chain
 from operator import methodcaller
 from six import ensure_str
+from six import string_types
+from six.moves import map
+from six.moves import range
+from six.moves import zip
 
 import copy
 import itertools
 import logging
 import time
 import timeit
-from six.moves import map
-from six.moves import range
-from six.moves import zip
 
 
 def all_of_dict_values(dic, keys, labels=[], sep=u'='):
@@ -281,7 +282,7 @@ def listify(value, force=False):
     :param value: the value to turn into a list if not already the case
     :param force: if value is a tuple, returned as a list
     """
-    if not hasattr(value, "__iter__"):
+    if isinstance(value, string_types):
         value = [value]
     if force and not isinstance(value, list):
         value = list(value)
