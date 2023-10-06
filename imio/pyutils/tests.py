@@ -3,9 +3,11 @@
 # tests utis methods
 # IMIO <support@imio.be>
 #
+from collections import OrderedDict
 from imio.pyutils.utils import all_of_dict_values
 from imio.pyutils.utils import append
 from imio.pyutils.utils import get_clusters
+from imio.pyutils.utils import insert_in_ordereddict
 from imio.pyutils.utils import letters_sequence
 from imio.pyutils.utils import listify
 from imio.pyutils.utils import merge_dicts
@@ -45,6 +47,27 @@ class TestUtils(unittest.TestCase):
                          '1-3, 5, 5.1, 5.3, 6, 8, 10, 15')
         self.assertEqual(get_clusters([1, 2, 4, 5, 15], separator="|"),
                          '1-2|4-5|15')
+
+    def test_insert_in_ordered_dict(self):
+        dic = OrderedDict([('a', 1), ('b', 2)])
+        self.assertEqual(insert_in_ordereddict(dic, ('bad', 3)), None)
+        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), after_key='a').items()),
+                         [('a', 1), ('c', 3), ('b', 2)])
+        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), after_key='b').items()),
+                         [('a', 1), ('b', 2), ('c', 3)])
+        self.assertEqual(insert_in_ordereddict(dic, ('bad', 3), after_key='unk'), None)
+        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), after_key='unk', at_position=1).items()),
+                         [('a', 1), ('c', 3), ('b', 2)])
+        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), at_position=0).items()),
+                         [('c', 3), ('a', 1), ('b', 2)])
+        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), at_position=1).items()),
+                         [('a', 1), ('c', 3), ('b', 2)])
+        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), at_position=10).items()),
+                         [('a', 1), ('b', 2), ('c', 3)])
+        self.assertEqual(list(insert_in_ordereddict(OrderedDict([]), ('c', 3), at_position=1).items()),
+                         [('c', 3)])
+        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), at_position=-1).items()),
+                         [('a', 1), ('b', 2)])
 
     def test_letters_sequence(self):
         tests = [

@@ -1,5 +1,3 @@
-.. contents::
-
 .. image:: https://github.com/IMIO/imio.pyutils/actions/workflows/main.yml/badge.svg?branch=master
     :target: https://github.com/IMIO/imio.pyutils/actions/workflows/main.yml
 
@@ -10,6 +8,7 @@
    :alt: PyPI badge
    :target: https://pypi.org/project/imio.pyutils
 
+.. contents::
 
 Introduction
 ============
