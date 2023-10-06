@@ -21,17 +21,19 @@ help:
 	@echo "Local pyenv version is `cat .python-version`"
 	@ if [[ `pyenv which virtualenv` != `pyenv prefix`* ]] ; then echo "You need to install virtualenv in `cat .python-version` pyenv python (pip install virtualenv)"; exit 1; fi
 
-bin/python: .python-version  ## Setups environment
+# Avoid this bug https://gitlab.kitware.com/cmake/cmake/-/issues/23425
+# bin/python: .python-version  ## Setups environment
+bin/pip: .python-version  ## Setups environment
 	virtualenv .
 	./bin/pip install --upgrade pip
 	./bin/pip install pdbpp
 	./bin/pip install -e .
 
 .PHONY: setup
-setup: oneof-python cleanall bin/python  ## Setups environment
+setup: oneof-python cleanall bin/pip  ## Setups environment
 
 .PHONY: test
-test: bin/python  ## run tests
+test: bin/pip  ## run tests
 	bin/python -m unittest discover
 
 .PHONY: cleanall
