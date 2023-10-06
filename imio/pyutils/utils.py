@@ -153,7 +153,7 @@ def odict_index(odic, key, delta=0):
 def odict_pos_key(odic, pos):
     """Get key corresponding at position"""
     keys = [k for k in odic]
-    if pos < 0:
+    if pos < 0 or pos >= len(keys):
         return None
     else:
         return keys[pos]

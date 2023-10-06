@@ -8,9 +8,11 @@ from imio.pyutils.utils import all_of_dict_values
 from imio.pyutils.utils import append
 from imio.pyutils.utils import get_clusters
 from imio.pyutils.utils import insert_in_ordereddict
+from imio.pyutils.utils import iterable_as_list_of_list
 from imio.pyutils.utils import letters_sequence
 from imio.pyutils.utils import listify
 from imio.pyutils.utils import merge_dicts
+from imio.pyutils.utils import odict_pos_key
 from imio.pyutils.utils import one_of_dict_values
 from imio.pyutils.utils import radix_like_starting_1
 from imio.pyutils.utils import replace_in_list
@@ -69,6 +71,15 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), at_position=-1).items()),
                          [('a', 1), ('b', 2)])
 
+    def test_iterable_as_list_of_list(self):
+        lst = [1, 2, 3, 4]
+        self.assertListEqual(iterable_as_list_of_list(lst, 4), [lst])
+        self.assertListEqual(iterable_as_list_of_list(lst, 6), [lst])
+        self.assertListEqual(iterable_as_list_of_list(lst, 2), [[1, 2], [3, 4]])
+        self.assertListEqual(iterable_as_list_of_list(lst, 1), [[1], [2], [3], [4]])
+        self.assertListEqual(iterable_as_list_of_list(lst, 3), [[1, 2, 3], [4]])
+        self.assertRaises(ZeroDivisionError, iterable_as_list_of_list, lst, 0)
+
     def test_letters_sequence(self):
         tests = [
             {'lt': 'ab', 'nths': [(0, ''), (1, 'a'), (2, 'b'), (3, 'aa'), (6, 'bb'), (9, 'aba')]},
@@ -94,6 +105,13 @@ class TestUtils(unittest.TestCase):
                 {'a': [2]},
                 {'a': [2], 'b':[1], 'c': [4]}]),
             {'a': [1, 2, 2], 'b': [0, 1], 'c': [4]})
+
+    def test_odict_pos_key(self):
+        dic = OrderedDict([('a', 1), ('b', 2)])
+        self.assertIsNone(odict_pos_key(dic, -1))
+        self.assertIsNone(odict_pos_key(dic, 3))
+        self.assertEqual(odict_pos_key(dic, 0), 'a')
+        self.assertEqual(odict_pos_key(dic, 1), 'b')
 
     def test_one_of_dict_values(self):
         self.assertEqual(one_of_dict_values({1: None, 3: '', 4: 'job'}, [1, 2, 3, 4]), 'job')
