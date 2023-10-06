@@ -3,11 +3,16 @@
 # tests utis methods
 # IMIO <support@imio.be>
 #
+from collections import OrderedDict
 from imio.pyutils.utils import all_of_dict_values
+from imio.pyutils.utils import append
 from imio.pyutils.utils import get_clusters
+from imio.pyutils.utils import insert_in_ordereddict
+from imio.pyutils.utils import iterable_as_list_of_list
 from imio.pyutils.utils import letters_sequence
 from imio.pyutils.utils import listify
 from imio.pyutils.utils import merge_dicts
+from imio.pyutils.utils import odict_pos_key
 from imio.pyutils.utils import one_of_dict_values
 from imio.pyutils.utils import radix_like_starting_1
 from imio.pyutils.utils import replace_in_list
@@ -32,6 +37,11 @@ class TestUtils(unittest.TestCase):
         self.assertRaises(ValueError, all_of_dict_values, {}, [1], labels=[1, 2])
         self.assertListEqual(all_of_dict_values({}, [1, 2]), [])
 
+    def test_append(self):
+        lst = [1]
+        self.assertEqual(append(lst, 2), 2)
+        self.assertListEqual(lst, [1, 2])
+
     def test_get_clusters(self):
         self.assertEqual(get_clusters([1, 2, 3, 5, 6, 8, 10, 15]),
                          '1-3, 5-6, 8, 10, 15')
@@ -39,6 +49,36 @@ class TestUtils(unittest.TestCase):
                          '1-3, 5, 5.1, 5.3, 6, 8, 10, 15')
         self.assertEqual(get_clusters([1, 2, 4, 5, 15], separator="|"),
                          '1-2|4-5|15')
+
+    def test_insert_in_ordered_dict(self):
+        dic = OrderedDict([('a', 1), ('b', 2)])
+        self.assertEqual(insert_in_ordereddict(dic, ('bad', 3)), None)
+        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), after_key='a').items()),
+                         [('a', 1), ('c', 3), ('b', 2)])
+        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), after_key='b').items()),
+                         [('a', 1), ('b', 2), ('c', 3)])
+        self.assertEqual(insert_in_ordereddict(dic, ('bad', 3), after_key='unk'), None)
+        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), after_key='unk', at_position=1).items()),
+                         [('a', 1), ('c', 3), ('b', 2)])
+        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), at_position=0).items()),
+                         [('c', 3), ('a', 1), ('b', 2)])
+        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), at_position=1).items()),
+                         [('a', 1), ('c', 3), ('b', 2)])
+        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), at_position=10).items()),
+                         [('a', 1), ('b', 2), ('c', 3)])
+        self.assertEqual(list(insert_in_ordereddict(OrderedDict([]), ('c', 3), at_position=1).items()),
+                         [('c', 3)])
+        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), at_position=-1).items()),
+                         [('a', 1), ('b', 2)])
+
+    def test_iterable_as_list_of_list(self):
+        lst = [1, 2, 3, 4]
+        self.assertListEqual(iterable_as_list_of_list(lst, 4), [lst])
+        self.assertListEqual(iterable_as_list_of_list(lst, 6), [lst])
+        self.assertListEqual(iterable_as_list_of_list(lst, 2), [[1, 2], [3, 4]])
+        self.assertListEqual(iterable_as_list_of_list(lst, 1), [[1], [2], [3], [4]])
+        self.assertListEqual(iterable_as_list_of_list(lst, 3), [[1, 2, 3], [4]])
+        self.assertRaises(ZeroDivisionError, iterable_as_list_of_list, lst, 0)
 
     def test_letters_sequence(self):
         tests = [
@@ -65,6 +105,13 @@ class TestUtils(unittest.TestCase):
                 {'a': [2]},
                 {'a': [2], 'b':[1], 'c': [4]}]),
             {'a': [1, 2, 2], 'b': [0, 1], 'c': [4]})
+
+    def test_odict_pos_key(self):
+        dic = OrderedDict([('a', 1), ('b', 2)])
+        self.assertIsNone(odict_pos_key(dic, -1))
+        self.assertIsNone(odict_pos_key(dic, 3))
+        self.assertEqual(odict_pos_key(dic, 0), 'a')
+        self.assertEqual(odict_pos_key(dic, 1), 'b')
 
     def test_one_of_dict_values(self):
         self.assertEqual(one_of_dict_values({1: None, 3: '', 4: 'job'}, [1, 2, 3, 4]), 'job')

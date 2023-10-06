@@ -3,9 +3,15 @@
 # python utils methods
 # IMIO <support@imio.be>
 #
+from __future__ import print_function
 from collections import OrderedDict, defaultdict
 from itertools import chain
 from operator import methodcaller
+from six import ensure_str
+from six import string_types
+from six.moves import map
+from six.moves import range
+from six.moves import zip
 
 import copy
 import itertools
@@ -73,7 +79,7 @@ def insert_in_ordereddict(dic, value, after_key='', at_position=None):
         position = at_position
     if position is None:
         return None
-    if position >= len(dic.keys()):
+    if position >= len(list(dic.keys())):
         return OrderedDict(list(dic.items()) + [value])
     tuples = []
     for i, tup in enumerate(dic.items()):
@@ -130,7 +136,7 @@ def merge_dicts(dicts, as_dict=True):
     dd = defaultdict(list)
 
     # iterate dictionary items
-    dict_items = map(methodcaller('items'), dicts)
+    dict_items = list(map(methodcaller('items'), dicts))
     for k, v in chain.from_iterable(dict_items):
         dd[k].extend(v)
     return as_dict and dict(dd) or dd
@@ -147,7 +153,7 @@ def odict_index(odic, key, delta=0):
 def odict_pos_key(odic, pos):
     """Get key corresponding at position"""
     keys = [k for k in odic]
-    if pos < 0:
+    if pos < 0 or pos >= len(keys):
         return None
     else:
         return keys[pos]
@@ -201,9 +207,7 @@ def replace_in_list(lst, value, replacement, generator=False):
 
 def safe_encode(value, encoding='utf-8'):
     """Converts a value to encoding, only when it is not already encoded."""
-    if isinstance(value, unicode):
-        return value.encode(encoding)
-    return value
+    return ensure_str(value, encoding=encoding)
 
 
 def setup_logger(logger, replace=logging.StreamHandler, level=20):
@@ -264,7 +268,7 @@ def time_elapsed(start, cond=True, msg=u'', dec=3, min=0.0):
     elapsed = timeit.default_timer() - start
     if elapsed < min:
         return
-    print(u"* {{}}: {{:.{}f}} seconds".format(dec).format(msg, elapsed))
+    print((u"* {{}}: {{:.{}f}} seconds".format(dec).format(msg, elapsed)))
 
 
 def time_start():
@@ -278,7 +282,7 @@ def listify(value, force=False):
     :param value: the value to turn into a list if not already the case
     :param force: if value is a tuple, returned as a list
     """
-    if not hasattr(value, "__iter__"):
+    if isinstance(value, string_types):
         value = [value]
     if force and not isinstance(value, list):
         value = list(value)

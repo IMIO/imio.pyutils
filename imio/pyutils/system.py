@@ -13,6 +13,7 @@ import re
 import sys
 import tempfile
 import time
+from six.moves import range
 
 
 # can be used in load_var
