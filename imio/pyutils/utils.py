@@ -207,7 +207,10 @@ def replace_in_list(lst, value, replacement, generator=False):
 
 def safe_encode(value, encoding='utf-8'):
     """Converts a value to encoding, only when it is not already encoded."""
-    return ensure_str(value, encoding=encoding)
+    try:
+        return ensure_str(value, encoding=encoding)
+    except TypeError:
+        return value
 
 
 def setup_logger(logger, replace=logging.StreamHandler, level=20):

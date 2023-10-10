@@ -16,6 +16,7 @@ from imio.pyutils.utils import odict_pos_key
 from imio.pyutils.utils import one_of_dict_values
 from imio.pyutils.utils import radix_like_starting_1
 from imio.pyutils.utils import replace_in_list
+from imio.pyutils.utils import safe_encode
 from imio.pyutils.utils import sort_by_indexes
 
 import types
@@ -135,6 +136,11 @@ class TestUtils(unittest.TestCase):
         res = replace_in_list([1, 2, 3], 1, 4, generator=True)
         self.assertTrue(isinstance(res, types.GeneratorType))
         self.assertEqual(list(res), [4, 2, 3])
+
+    def test_safe_encode(self):
+        self.assertEqual(safe_encode(u'xx'), 'xx')
+        self.assertEqual(safe_encode(b'xx'), 'xx')
+        self.assertEqual(safe_encode(5), 5)
 
     def test_sort_by_indexes(self):
         lst = ["a", "b", "c", "d", "e", "f", "g"]

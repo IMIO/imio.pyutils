@@ -4,6 +4,10 @@ Changelog
 0.32 (unreleased)
 -----------------
 
+- Made py2 and py3 compliant
+  [sgeulette]
+- Improved `utils_safe_encode`
+  [sgeulette]
 - Added `bs.remove_some_childrens` function.
   [sgeulette]
 
