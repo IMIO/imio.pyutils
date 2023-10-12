@@ -28,7 +28,6 @@ setup(name='imio.pyutils',
       install_requires=[
           'setuptools',
           'future',
-          'pdbpp',
           'six',
           # -*- Extra requirements: -*-
       ],
