@@ -171,7 +171,9 @@ class TestSystem(unittest.TestCase):
 
     def test_read_recursive_dir(self):
         res = read_recursive_dir(self.dir, '')
-        self.assertEqual(len(res), 12)
+        self.assertEqual(len([path for path in res if path.endswith('.py')]), 7)
+        self.assertIn('__init__.py', res)
+        self.assertIn('pyutils/__init__.py', res)
         # include folder
         self.assertNotIn('pyutils', res)
         res = read_recursive_dir(self.dir, '', with_folder=True)
