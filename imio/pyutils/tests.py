@@ -18,7 +18,9 @@ from imio.pyutils.utils import radix_like_starting_1
 from imio.pyutils.utils import replace_in_list
 from imio.pyutils.utils import safe_encode
 from imio.pyutils.utils import sort_by_indexes
+from imio.pyutils.system import read_recursive_dir
 
+import os
 import types
 import unittest
 
@@ -158,3 +160,29 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(listify(("value")), ["value"])
         self.assertEqual(listify(("value", )), ("value", ))
         self.assertEqual(listify(("value", ), force=True), ["value"])
+
+
+class TestSystem(unittest.TestCase):
+    """ """
+
+    def setUp(self):
+        file_dir = os.path.dirname(__file__)
+        self.dir = file_dir.replace('/pyutils', '')
+
+    def test_read_recursive_dir(self):
+        res = read_recursive_dir(self.dir, '')
+        self.assertEqual(len(res), 12)
+        # include folder
+        self.assertNotIn('pyutils', res)
+        res = read_recursive_dir(self.dir, '', with_folder=True)
+        self.assertIn('pyutils', res)
+        # include full path
+        self.assertEqual(len([path for path in res if path.endswith('/pyutils')]), 0)
+        res = read_recursive_dir(self.dir, '', with_folder=True, with_full_path=True)
+        self.assertEqual(len([path for path in res if path.endswith('/pyutils')]), 1)
+        # exclude patterns
+        self.assertTrue([path for path in res if path.endswith('.pyc')])
+        res = read_recursive_dir(self.dir, '', exclude_patterns=[r'\.pyc$'])
+        self.assertFalse([path for path in res if path.endswith('.pyc')])
+        res = read_recursive_dir(self.dir, '', exclude_patterns=[r'^pyutils/', r'\.pyc$'])
+        self.assertEqual(len(res), 1)

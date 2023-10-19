@@ -10,6 +10,8 @@ Changelog
   [sgeulette]
 - Added `bs.remove_some_childrens` function.
   [sgeulette]
+- Added `exclude_patterns` parameter in `system.read_recursive_dir`
+  [sgeulette]
 
 0.31 (2023-09-26)
 -----------------
