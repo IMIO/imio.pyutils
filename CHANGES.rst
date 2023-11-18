@@ -10,6 +10,8 @@ Changelog
   [sgeulette]
 - Added `bs.remove_some_childrens` function.
   [sgeulette]
+- Added `bs.replace_strings_by_pattern` function
+  [sgeulette]
 - Added `exclude_patterns` parameter in `system.read_recursive_dir`
   [sgeulette]
 

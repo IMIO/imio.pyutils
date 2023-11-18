@@ -71,6 +71,25 @@ def replace_entire_strings(element, replace=u'\n', by=u''):
             string.replace_with(by)
 
 
+def replace_strings_by_pattern(element, find_pat, replace_pat):
+    """Replace element strings
+
+    :param element: element to ocnsider
+    :param find_pat: pattern to find
+    :param replace_pat: replacement pattern
+    :return: replaced strings
+    """
+    replaced = []
+    # reversed needed to avoid internal strings error
+    strings = list(reversed([s for s in element.strings]))
+    for string in strings:
+        if found := re.search(find_pat, string, re.I):
+            new_val = re.sub(find_pat, replace_pat, string, re.I)
+            replaced.append("'{}' => '{}'".format(string, new_val))
+            string.replace_with(new_val)
+    return replaced
+
+
 def unwrap_tags(element, tags=[]):
     """ unwrap tags on content (<a ...>lien</a> => lien) """
     for tagtu in tags:
