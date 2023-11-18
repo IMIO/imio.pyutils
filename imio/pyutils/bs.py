@@ -10,6 +10,15 @@ from bs4.element import Comment
 import re
 
 
+def is_empty(element):
+    """Check if element has no text content nor children.
+
+    :param element: bs item
+    :return: Bool value (True is empty)
+    """
+    return len(element.get_text(strip=True)) == 0 and len(list(element.children)) == 0
+
+
 def remove_attributes(element, attributes=[], recursive=True):
     """ Removes attributes on given element or recursively """
     elements = [element]
@@ -31,22 +40,20 @@ def remove_childrens_by_pattern(parent, child_text_pat, name=None, recursive=Fal
     :param name: optional children's tag
     :param recursive: recursive children
     :param keep: keep children at this position (starting at 1)
-    :return:
+    :return: list of removed items
     """
     childrens = list(parent.find_all(name=name, recursive=recursive))
     if isinstance(parent, BeautifulSoup):
         childrens.pop(0)
     removed = []
-    change = False
     count = 0
     for ch_t in childrens:
         if found := re.search(child_text_pat, ch_t.text, re.I):
             count += 1
             if count not in keep:
-                change = True
                 removed.append(str(ch_t))
                 ch_t.decompose()
-    return change, removed
+    return removed
 
 
 def remove_comments(element):

@@ -8,6 +8,8 @@ Changelog
   [sgeulette]
 - Improved `utils_safe_encode`
   [sgeulette]
+- Added `bs.is_empty` function.
+  [sgeulette]
 - Added `bs.remove_some_childrens` function.
   [sgeulette]
 - Added `bs.replace_strings_by_pattern` function
