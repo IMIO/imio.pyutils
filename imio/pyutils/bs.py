@@ -20,7 +20,12 @@ def is_empty(element):
 
 
 def remove_attributes(element, attributes=[], recursive=True):
-    """ Removes attributes on given element or recursively """
+    """Removes attributes on given element or recursively.
+
+    :param element: bs item
+    :param attributes: attributes to remove
+    :param recursive: consider sub items attributes
+    """
     elements = [element]
     if recursive:
         elements += element.find_all()
@@ -33,12 +38,12 @@ def remove_attributes(element, attributes=[], recursive=True):
 
 
 def remove_childrens_by_pattern(parent, child_text_pat, name=None, recursive=False, keep=()):
-    """Remove children with matched text
+    """Remove children with matched text.
 
-    :param parent: parent to consider
-    :param child_text_pat: pattern to search
+    :param parent: bs parent to consider
+    :param child_text_pat: text pattern to search
     :param name: optional children's tag
-    :param recursive: recursive children
+    :param recursive: search children recursively
     :param keep: keep children at this position (starting at 1)
     :return: list of removed items
     """
@@ -57,20 +62,25 @@ def remove_childrens_by_pattern(parent, child_text_pat, name=None, recursive=Fal
 
 
 def remove_comments(element):
-    """ Removes html comments """
+    """Removes html comments"""
     for comment in element.find_all(text=lambda text: isinstance(text, Comment)):
         comment.extract()
 
 
 def remove_elements(element, to_remove=[]):
-    """ Removes sub tags and all their content """
+    """Removes sub tags and all their content """
     for tagtr in to_remove:
         for tag in element.find_all(tagtr):
             tag.decompose()
 
 
 def replace_entire_strings(element, replace=u'\n', by=u''):
-    """ Replaces an entire string by another value. With default params, removes newlines """
+    """Replaces an entire string by another value. With default params, removes newlines.
+
+    :param element: bs item
+    :param replace: value to replace
+    :param by: replacement value
+    """
     # reversed needed to avoid internal strings error
     strings = reversed([s for s in element.strings])
     for string in strings:
@@ -79,9 +89,9 @@ def replace_entire_strings(element, replace=u'\n', by=u''):
 
 
 def replace_strings_by_pattern(element, find_pat, replace_pat):
-    """Replace element strings
+    """Replace element strings.
 
-    :param element: element to ocnsider
+    :param element: bs item
     :param find_pat: pattern to find
     :param replace_pat: replacement pattern
     :return: replaced strings
@@ -98,7 +108,11 @@ def replace_strings_by_pattern(element, find_pat, replace_pat):
 
 
 def unwrap_tags(element, tags=[]):
-    """ unwrap tags on content (<a ...>lien</a> => lien) """
+    """Unwrap tags on content (<a ...>lien</a> => lien).
+
+    :param element: bs item
+    :param tags: tags to search
+    """
     for tagtu in tags:
         for tag in element.find_all(tagtu):
             tag.unwrap()
