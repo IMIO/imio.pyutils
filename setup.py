@@ -20,6 +20,13 @@ setup(name='imio.pyutils',
       author='IMIO',
       author_email='support@imio.be',
       url="https://github.com/imio/imio.pyutils/",
+      project_urls={
+          "PyPI": "https://pypi.python.org/pypi/imio.pyutils",
+          "Source": "https://github.com/imio/imio.pyutils",
+          # "Tracker": (
+          #     "https://github.com/collective/dexterity.localroles/issues"
+          # ),
+      },
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['imio'],
