@@ -1,8 +1,8 @@
 Changelog
 =========
 
-0.32 (unreleased)
------------------
+1.0.0a (2023-11-28)
+-------------------
 
 - Made py2 and py3 compliant
   [sgeulette]
