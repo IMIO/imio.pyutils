@@ -16,7 +16,7 @@ def is_empty(element):
     :param element: bs item
     :return: Bool value (True is empty)
     """
-    return len(element.get_text(strip=True)) == 0 and len(list(element.children)) == 0
+    return len(element.get_text(strip=True)) == 0 and not len([ch for ch in element.children if ch.strip()])
 
 
 def remove_attributes(element, attributes=[], recursive=True):

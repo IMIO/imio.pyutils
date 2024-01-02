@@ -8,6 +8,8 @@ Changelog
   [sgeulette]
 - Added `load_pickle` and `dump_pickle`
   [sgeulette]
+- Improved `bs.is_empty`
+  [sgeulette]
 
 1.0.0a (2023-11-28)
 -------------------
