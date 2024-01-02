@@ -5,15 +5,15 @@
 # IMIO <support@imio.be>
 #
 from __future__ import print_function
-
 from datetime import datetime
+from six.moves import cPickle
+from six.moves import range
 
 import os
 import re
 import sys
 import tempfile
 import time
-from six.moves import range
 
 
 # can be used in load_var
@@ -297,7 +297,7 @@ def load_var(infile, var):
     """
     if os.path.exists(infile):
         ofile = open(infile, 'r')
-        if isinstance(var, dict):
+        if isinstance(var, (dict, set)):
             var.update(eval(ofile.read()))
         elif isinstance(var, list):
             var.extend(eval(ofile.read()))
@@ -317,6 +317,27 @@ def dump_var(outfile, var):
 
 
 dump_dic = dump_var
+
+
+def load_pickle(infile, var):
+    """
+        load a dictionary, a set or a list from a pickle file
+    """
+    if os.path.exists(infile):
+        with open(infile, 'rb') as fh:
+            if isinstance(var, (dict, set)):
+                var.update(cPickle.load(fh))
+            elif isinstance(var, list):
+                var.extend(cPickle.load(fh))
+
+
+def dump_pickle(outfile, var):
+    """
+        dump a dictionary, a set or a list to a file
+    """
+    with open(outfile, 'wb') as fh:
+        cPickle.dump(var, fh, -1)
+
 
 # --- Various ---
 

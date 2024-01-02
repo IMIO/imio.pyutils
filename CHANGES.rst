@@ -4,8 +4,10 @@ Changelog
 1.0.0a1 (unreleased)
 --------------------
 
-- Nothing changed yet.
-
+- Handled set in `load_var`.
+  [sgeulette]
+- Added `load_pickle` and `dump_pickle`
+  [sgeulette]
 
 1.0.0a (2023-11-28)
 -------------------
