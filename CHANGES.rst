@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.0a1 (unreleased)
+1.0.0a1 (2024-02-08)
 --------------------
 
 - Handled set in `load_var`.
