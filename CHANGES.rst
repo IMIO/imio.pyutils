@@ -4,8 +4,8 @@ Changelog
 1.0.0a2 (unreleased)
 --------------------
 
-- Nothing changed yet.
-
+- Require `six>=1.16.0`.
+  [sgeulette]
 
 1.0.0a1 (2024-02-08)
 --------------------
