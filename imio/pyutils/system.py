@@ -5,10 +5,13 @@
 # IMIO <support@imio.be>
 #
 from __future__ import print_function
+
 from datetime import datetime
+from six import ensure_binary
 from six.moves import cPickle
 from six.moves import range
 
+import hashlib
 import os
 import re
 import sys
@@ -427,3 +430,16 @@ def memory():
     mem = psutil.virtual_memory()
     return (mem.total/1024**2, mem.used/1024**2, mem.percent, mem.available/1024**2, (mem.buffers+mem.cached)/1024**2)
     # mem.active/1024**2, mem.inactive/1024**2)
+
+
+def hashed_filename(filename, string, max_length=255):
+    """Returns a hashed filename.
+
+    :param filename: the original filename
+    :param string: the string to hash
+    :param max_length: the maximum length of the filename
+    :return: the hashed filename
+    """
+    hashed = hashlib.sha1(ensure_binary(string)).hexdigest()
+    name, ext = os.path.splitext(filename)
+    return '{}_{}{}'.format(name, hashed[:(max_length-len(filename))], ext)

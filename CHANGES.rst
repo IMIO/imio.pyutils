@@ -6,6 +6,8 @@ Changelog
 
 - Require `six>=1.16.0`.
   [sgeulette]
+- Added `system.hashed_filename` to get a new filename differentiated by a hashed string.
+  [sgeulette]
 
 1.0.0a1 (2024-02-08)
 --------------------

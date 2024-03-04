@@ -4,6 +4,8 @@
 # IMIO <support@imio.be>
 #
 from collections import OrderedDict
+from imio.pyutils.system import hashed_filename
+from imio.pyutils.system import read_recursive_dir
 from imio.pyutils.utils import all_of_dict_values
 from imio.pyutils.utils import append
 from imio.pyutils.utils import get_clusters
@@ -18,7 +20,6 @@ from imio.pyutils.utils import radix_like_starting_1
 from imio.pyutils.utils import replace_in_list
 from imio.pyutils.utils import safe_encode
 from imio.pyutils.utils import sort_by_indexes
-from imio.pyutils.system import read_recursive_dir
 
 import os
 import types
@@ -188,3 +189,12 @@ class TestSystem(unittest.TestCase):
         self.assertFalse([path for path in res if path.endswith('.pyc')])
         res = read_recursive_dir(self.dir, '', exclude_patterns=[r'^pyutils/', r'\.pyc$'])
         self.assertEqual(len(res), 1)
+
+    def test_hashed_filename(self):
+        self.assertEqual(hashed_filename('', ''), '_da39a3ee5e6b4b0d3255bfef95601890afd80709')
+        self.assertEqual(hashed_filename('test.txt', ''), 'test_da39a3ee5e6b4b0d3255bfef95601890afd80709.txt')
+        self.assertEqual(hashed_filename('test.txt', '', 20), 'test_da39a3ee5e6b.txt')
+        self.assertEqual(hashed_filename('test.txt', 'the string value to differentiate some files'),
+                         'test_f9fde993c5b66b18fce3a03bf2bd1e11e05c598b.txt')
+        self.assertEqual(hashed_filename('test.txt', 'the string value to differentiate some file'),
+                         'test_b99fae91a375c3b6fa36fa23a34c666f79375ffe.txt')
