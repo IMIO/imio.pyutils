@@ -205,7 +205,6 @@ class TestSystem(unittest.TestCase):
         res = read_dir_filter(self.dir, only_folders=True)
         self.assertNotIn('__init__.py', res)
         self.assertIn('pyutils', res)
-        import ipdb; ipdb.set_trace()
         res = read_dir_filter(self.dir, patterns=[r'.*\.py$'])
         self.assertIn('__init__.py', res)
         self.assertNotIn('pyutils', res)
