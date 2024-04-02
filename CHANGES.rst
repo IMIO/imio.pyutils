@@ -4,8 +4,8 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added patterns parameter in `system.read_dir_filter`.
+  [sgeulette]
 
 1.0.0 (2024-03-05)
 ------------------
