@@ -211,9 +211,9 @@ class TestSystem(unittest.TestCase):
 
 
     def test_hashed_filename(self):
-        self.assertEqual(hashed_filename('', ''), '_da39a3ee5e6b4b0d3255bfef95601890afd80709')
-        self.assertEqual(hashed_filename('test.txt', ''), 'test_da39a3ee5e6b4b0d3255bfef95601890afd80709.txt')
-        self.assertEqual(hashed_filename('test.txt', '', 20), 'test_da39a3ee5e6b.txt')
+        self.assertEqual(hashed_filename('', ''), '')
+        self.assertEqual(hashed_filename('test.txt', ''), 'test.txt')
+        self.assertEqual(hashed_filename('test.txt', '', 20), 'test.txt')
         self.assertEqual(hashed_filename('test.txt', 'the string value to differentiate some files'),
                          'test_f9fde993c5b66b18fce3a03bf2bd1e11e05c598b.txt')
         self.assertEqual(hashed_filename('test.txt', 'the string value to differentiate some file'),

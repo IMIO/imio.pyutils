@@ -6,6 +6,8 @@ Changelog
 
 - Added patterns parameter in `system.read_dir_filter`.
   [sgeulette]
+- Returned original filename in `system.hashed_filename` if string to hash is empty.
+  [sgeulette]
 
 1.0.0 (2024-03-05)
 ------------------

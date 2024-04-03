@@ -447,6 +447,8 @@ def hashed_filename(filename, string, max_length=255):
     :param max_length: the maximum length of the filename
     :return: the hashed filename
     """
+    if not string:
+        return filename
     hashed = hashlib.sha1(ensure_binary(string)).hexdigest()
     name, ext = os.path.splitext(filename)
     return '{}_{}{}'.format(name, hashed[:(max_length-len(filename))], ext)
