@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.1 (unreleased)
+1.0.1 (2024-04-08)
 ------------------
 
 - Added patterns parameter in `system.read_dir_filter`.
