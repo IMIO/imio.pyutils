@@ -99,7 +99,7 @@ def get_ordinal_clusters(
         return clusters
 
     res = []
-    display_fn = lambda n: str(int(n)/offset) if n % offset == 0 else '{}.{}'.format(n/offset, n%offset)
+    display_fn = lambda n: str(int(n/offset)) if n % offset == 0 else '{}.{}'.format(n//offset, n%offset)
     for cluster in clusters:
         if len(cluster) > 1:
             res.append(cluster_format.format(display_fn(cluster[0]), display_fn(cluster[-1])))
