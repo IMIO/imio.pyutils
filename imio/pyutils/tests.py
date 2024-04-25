@@ -9,6 +9,7 @@ from imio.pyutils.system import read_recursive_dir
 from imio.pyutils.utils import all_of_dict_values
 from imio.pyutils.utils import append
 from imio.pyutils.utils import get_clusters
+from imio.pyutils.utils import get_ordinal_clusters
 from imio.pyutils.utils import insert_in_ordereddict
 from imio.pyutils.utils import iterable_as_list_of_list
 from imio.pyutils.utils import letters_sequence
@@ -53,6 +54,26 @@ class TestUtils(unittest.TestCase):
                          '1-3, 5, 5.1, 5.3, 6, 8, 10, 15')
         self.assertEqual(get_clusters([1, 2, 4, 5, 15], separator="|"),
                          '1-2|4-5|15')
+
+    def test_get_ordinal_clusters(self):
+        self.assertEqual(get_ordinal_clusters([100, 200, 300, 500, 600, 800, 1000, 1500]),
+                         '1-3, 5-6, 8, 10, 15')
+        self.assertEqual(get_ordinal_clusters([100, 200, 300, 500, 501, 503, 600, 700, 1000, 1500]),
+                         '1-3, 5-5.1, 5.3, 6-7, 10, 15')
+        self.assertEqual(
+            get_ordinal_clusters(
+                [100, 200, 300, 400, 500, 501, 502, 521, 522, 540, 550, 1200, 1300], separator="|"),
+            '1-5.2|5.21-5.22|5.40|5.50|12-13')
+        self.assertEqual(
+            get_ordinal_clusters(
+                [100, 200, 300, 301, 302, 321, 322, 340, 1199, 1200, 1300], cluster_format="from {} to {}"),
+            'from 1 to 3.2, from 3.21 to 3.22, 3.40, 11.99, from 12 to 13')
+        self.assertEqual(get_ordinal_clusters([100, 200, 250, 400, 700], single_cluster_format="({})"),
+                         '1-2, (2.50), (4), (7)')
+        self.assertEqual(get_ordinal_clusters([10, 20, 30, 31, 32, 110, 112, 130], offset=10),
+                         '1-3.2, 11, 11.2, 13')
+        self.assertListEqual(get_ordinal_clusters([100, 200, 250, 400, 700], as_str=False),
+                             [[100, 200], [250], [400], [700]])
 
     def test_insert_in_ordered_dict(self):
         dic = OrderedDict([('a', 1), ('b', 2)])

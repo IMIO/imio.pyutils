@@ -63,6 +63,50 @@ def get_clusters(numbers=[], separator=", "):
     return separator.join(res)
 
 
+def get_ordinal_clusters(
+    numbers=[],
+    cluster_format="{0}-{1}",
+    single_cluster_format="{0}",
+    separator=", ",
+    offset=100,
+    as_str=True):
+    """Return given p_numbers by clusters while taking care of the offset (used for sub numering).
+       p_offset should be a power of 10, it doesn't make any sense otherwise.
+       When p_numbers=[100,200,300,400,500,501,502,521,522,540,550,700,1200,1300] and p_offset=100,
+       the result is '1-5.2, 5.21-5.22, 5.40, 5.50, 7, 12-13'."""
+
+    def _is_in_cluster(number, cluster, offset):
+        """Check if a number is in a cluster.
+        A number is in a cluster if it follows directly the last number according to the offset"""
+        if len(cluster) > 0:
+            if number % offset == 0:
+                return number - cluster[-1] == offset
+            return number - cluster[-1] == 1
+        return True
+
+    # Initialize the first group
+    clusters = []
+    current_cluster = [numbers[0]]
+    for num in numbers[1:]:
+        if _is_in_cluster(num, current_cluster, offset):
+            current_cluster.append(num)
+        else:  # we'll start a new cluster
+            clusters.append(current_cluster)
+            current_cluster = [num]
+    clusters.append(current_cluster)  # Add the last one
+
+    if not as_str:
+        return clusters
+
+    res = []
+    display_fn = lambda n: str(int(n)/offset) if n % offset == 0 else '{}.{}'.format(n/offset, n%offset)
+    for cluster in clusters:
+        if len(cluster) > 1:
+            res.append(cluster_format.format(display_fn(cluster[0]), display_fn(cluster[-1])))
+        else:
+            res.append(single_cluster_format.format(display_fn(cluster[0])))
+    return separator.join(res)
+
 def insert_in_ordereddict(dic, value, after_key='', at_position=None):
     """Insert a tuple in an new Ordereddict.
 
