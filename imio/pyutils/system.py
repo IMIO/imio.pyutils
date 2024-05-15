@@ -212,7 +212,7 @@ def read_recursive_dir(root_dir, rel_dir, with_folder=False, with_full_path=Fals
     return files
 
 
-def read_dir_filter(dirpath, with_path=False, extensions=[], only_folders=False):
+def read_dir_filter(dirpath, with_path=False, only_folders=False, extensions=[], patterns=[]):
     """ Read the dir and return some files """
     files = []
     for filename in read_dir(dirpath, with_path=with_path, only_folders=only_folders):
@@ -221,7 +221,14 @@ def read_dir_filter(dirpath, with_path=False, extensions=[], only_folders=False)
             ext = ext[1:]
         if extensions and ext not in extensions:
             continue
-        files.append(filename)
+        for pat in patterns:
+            if re.search(pat, filename):
+                keep = True
+                break
+        else:  # if no break or no patterns
+            keep = not patterns and True or False
+        if keep:
+            files.append(filename)
     return files
 
 
@@ -440,6 +447,8 @@ def hashed_filename(filename, string, max_length=255):
     :param max_length: the maximum length of the filename
     :return: the hashed filename
     """
+    if not string:
+        return filename
     hashed = hashlib.sha1(ensure_binary(string)).hexdigest()
     name, ext = os.path.splitext(filename)
     return '{}_{}{}'.format(name, hashed[:(max_length-len(filename))], ext)

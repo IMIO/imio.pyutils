@@ -5,6 +5,7 @@
 #
 from collections import OrderedDict
 from imio.pyutils.system import hashed_filename
+from imio.pyutils.system import read_dir_filter
 from imio.pyutils.system import read_recursive_dir
 from imio.pyutils.utils import all_of_dict_values
 from imio.pyutils.utils import append
@@ -211,10 +212,29 @@ class TestSystem(unittest.TestCase):
         res = read_recursive_dir(self.dir, '', exclude_patterns=[r'^pyutils/', r'\.pyc$'])
         self.assertEqual(len(res), 1)
 
+    def test_read_dir_filter(self):
+        res = read_dir_filter(self.dir)
+        self.assertIn('__init__.py', res)
+        self.assertIn('pyutils', res)
+        res = read_dir_filter(self.dir, with_path=True)
+        self.assertNotIn('__init__.py', res)
+        self.assertIn(os.path.join(self.dir, '__init__.py'), res)
+        self.assertIn(os.path.join(self.dir, 'pyutils'), res)
+        res = read_dir_filter(self.dir, extensions=['py'])
+        self.assertIn('__init__.py', res)
+        self.assertNotIn('pyutils', res)
+        res = read_dir_filter(self.dir, only_folders=True)
+        self.assertNotIn('__init__.py', res)
+        self.assertIn('pyutils', res)
+        res = read_dir_filter(self.dir, patterns=[r'.*\.py$'])
+        self.assertIn('__init__.py', res)
+        self.assertNotIn('pyutils', res)
+
+
     def test_hashed_filename(self):
-        self.assertEqual(hashed_filename('', ''), '_da39a3ee5e6b4b0d3255bfef95601890afd80709')
-        self.assertEqual(hashed_filename('test.txt', ''), 'test_da39a3ee5e6b4b0d3255bfef95601890afd80709.txt')
-        self.assertEqual(hashed_filename('test.txt', '', 20), 'test_da39a3ee5e6b.txt')
+        self.assertEqual(hashed_filename('', ''), '')
+        self.assertEqual(hashed_filename('test.txt', ''), 'test.txt')
+        self.assertEqual(hashed_filename('test.txt', '', 20), 'test.txt')
         self.assertEqual(hashed_filename('test.txt', 'the string value to differentiate some files'),
                          'test_f9fde993c5b66b18fce3a03bf2bd1e11e05c598b.txt')
         self.assertEqual(hashed_filename('test.txt', 'the string value to differentiate some file'),

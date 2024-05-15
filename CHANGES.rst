@@ -1,11 +1,19 @@
 Changelog
 =========
 
-1.0.1 (unreleased)
+1.0.2 (unreleased)
 ------------------
 
 - Added a new helper `utils.get_ordinal_clusters` to cluster ordinal numbers based on an offset.
   [aduchene]
+
+1.0.1 (2024-04-08)
+------------------
+
+- Added patterns parameter in `system.read_dir_filter`.
+  [sgeulette]
+- Returned original filename in `system.hashed_filename` if string to hash is empty.
+  [sgeulette]
 
 1.0.0 (2024-03-05)
 ------------------
