@@ -63,6 +63,13 @@ def get_clusters(numbers=[], separator=", "):
     return separator.join(res)
 
 
+def display_offset_number(number, offset):
+    """Display a number with an offset. For example when p_number=123 and offset=100, it returns '1.23'"""
+    if number % offset == 0:
+        return str(int(number / offset))
+    return '{}.{}'.format(number // offset, number % offset)
+
+
 def get_ordinal_clusters(
         numbers=[],
         cluster_format="{0}-{1}",
@@ -99,12 +106,12 @@ def get_ordinal_clusters(
         return clusters
 
     res = []
-    display_fn = lambda n: str(int(n / offset)) if n % offset == 0 else '{}.{}'.format(n // offset, n % offset)
     for cluster in clusters:
         if len(cluster) > 1:
-            res.append(cluster_format.format(display_fn(cluster[0]), display_fn(cluster[-1])))
+            res.append(cluster_format.format(display_offset_number(cluster[0], offset),
+                                             display_offset_number(cluster[-1], offset)))
         else:
-            res.append(single_cluster_format.format(display_fn(cluster[0])))
+            res.append(single_cluster_format.format(display_offset_number(cluster[0], offset)))
     return separator.join(res)
 
 
