@@ -4,8 +4,8 @@ Changelog
 1.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added a new helper `utils.get_ordinal_clusters` to cluster ordinal numbers based on an offset.
+  [aduchene]
 
 1.0.1 (2024-04-08)
 ------------------
