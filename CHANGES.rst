@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.2 (unreleased)
+1.0.2 (2024-05-15)
 ------------------
 
 - Added a new helper `utils.get_ordinal_clusters` to cluster ordinal numbers based on an offset.
