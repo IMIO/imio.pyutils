@@ -64,12 +64,12 @@ def get_clusters(numbers=[], separator=", "):
 
 
 def get_ordinal_clusters(
-    numbers=[],
-    cluster_format="{0}-{1}",
-    single_cluster_format="{0}",
-    separator=", ",
-    offset=100,
-    as_str=True):
+        numbers=[],
+        cluster_format="{0}-{1}",
+        single_cluster_format="{0}",
+        separator=", ",
+        offset=100,
+        as_str=True):
     """Return given p_numbers by clusters while taking care of the offset (used for sub numering).
        p_offset should be a power of 10, it doesn't make any sense otherwise.
        When p_numbers=[100,200,300,400,500,501,502,521,522,540,550,700,1200,1300] and p_offset=100,
@@ -99,13 +99,14 @@ def get_ordinal_clusters(
         return clusters
 
     res = []
-    display_fn = lambda n: str(int(n/offset)) if n % offset == 0 else '{}.{}'.format(n//offset, n%offset)
+    display_fn = lambda n: str(int(n / offset)) if n % offset == 0 else '{}.{}'.format(n // offset, n % offset)
     for cluster in clusters:
         if len(cluster) > 1:
             res.append(cluster_format.format(display_fn(cluster[0]), display_fn(cluster[-1])))
         else:
             res.append(single_cluster_format.format(display_fn(cluster[0])))
     return separator.join(res)
+
 
 def insert_in_ordereddict(dic, value, after_key='', at_position=None):
     """Insert a tuple in an new Ordereddict.
@@ -224,7 +225,7 @@ def radix_like_starting_1(n, base, L=[]):  # noqa
         L.reverse()
         return L
     else:
-        return radix_like_starting_1((n % base) and (n // base) or (n // base) -1 , base, L + [(n % base) or base])
+        return radix_like_starting_1((n % base) and (n // base) or (n // base) - 1, base, L + [(n % base) or base])
 
 
 def replace_in_list(lst, value, replacement, generator=False):
