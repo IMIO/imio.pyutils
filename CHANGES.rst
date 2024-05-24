@@ -1,11 +1,11 @@
 Changelog
 =========
 
-1.0.3 (unreleased)
+1.0.3 (2024-05-24)
 ------------------
 
-- Nothing changed yet.
-
+- Fix bad release for python2.
+  [aduchene]
 
 1.0.2 (2024-05-15)
 ------------------
