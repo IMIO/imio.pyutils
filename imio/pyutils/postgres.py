@@ -6,7 +6,7 @@
 #
 
 import psycopg2
-from system import error, trace
+from .system import error, trace
 
 # ------------------------------------------------------------------------------
 

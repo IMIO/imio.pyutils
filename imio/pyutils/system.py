@@ -74,7 +74,7 @@ def write_to(out_files, key, line):
 
 def close_outfiles(outfiles):
     """ Close the outfiles """
-    for key in outfiles.keys():
+    for key in list(outfiles.keys()):
         if 'fh' in outfiles[key]:
             outfiles[key]['fh'].close()
 #            verbose("Output file '%s' generated" % outfiles[key]['file'])
@@ -145,7 +145,7 @@ def read_dictcsv(filename, fieldnames=[], strip_chars='', replace_dq=True, skip_
                 if '_rest' in row:
                     error(u'! STOPPING: some columns are not defined in fieldnames: {}'.format(row['_rest']))
                     return u'STOPPING: some columns are not defined in fieldnames: {}'.format(row['_rest']), []
-                extra_cols = [key for (key, val) in row.items() if val == '__NO_CO_LU_MN__']
+                extra_cols = [key for (key, val) in list(row.items()) if val == '__NO_CO_LU_MN__']
                 if extra_cols:
                     error(u'! STOPPING: to much columns defined in fieldnames: {}'.format(extra_cols))
                     return u'STOPPING: to much columns defined in fieldnames: {}'.format(extra_cols), []
@@ -155,7 +155,7 @@ def read_dictcsv(filename, fieldnames=[], strip_chars='', replace_dq=True, skip_
             new_row = {}
             if ln_key:
                 new_row[ln_key] = reader.line_num
-            for key, val in row.items():
+            for key, val in list(row.items()):
                 if replace_dq:
                     val = val.replace('""', '"')
                 if strip_chars:
