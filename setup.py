@@ -1,4 +1,6 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages
+from setuptools import setup
+
 
 version = "1.0.4.dev0"
 
@@ -36,6 +38,7 @@ setup(
     install_requires=[
         "setuptools",
         "future",
+        "requests",
         "six>=1.16.0",
         # -*- Extra requirements: -*-
     ],
