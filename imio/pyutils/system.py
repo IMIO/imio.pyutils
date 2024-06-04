@@ -434,22 +434,22 @@ def get_temporary_filename(file_name):
     return temp_filename
 
 
-def post_request(url, data_dic=None, json_dic=None, headers=None):
+def post_request(url, data=None, json=None, headers=None):
     """Post data to url.
 
     :param url: the url to post to
-    :param data_dic: the data dict to consider
-    :param json_dic: the json dict to consider
+    :param data: a dict to consider
+    :param json: a json serializable object
     :param headers: headers to use"""
     kwargs = {
         "headers": headers or {"Content-Type": "application/json"}
-        if json_dic
+        if json
         else {"Content-Type": "application/x-www-form-urlencoded"}
     }
-    if json_dic:
-        kwargs["json"] = json_dic
+    if json:
+        kwargs["json"] = json
     else:
-        kwargs["data"] = data_dic
+        kwargs["data"] = data
     with requests.post(url, **kwargs) as response:
         if response.status_code != 200:
             error("Error while posting data '%s' to '%s': %s" % (kwargs, url, response.text))
