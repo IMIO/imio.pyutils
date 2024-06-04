@@ -32,14 +32,14 @@ class TestUtils(unittest.TestCase):
     """ """
 
     def test_all_of_dict_values(self):
-        self.assertListEqual(all_of_dict_values({1: None, 2: 'Good', 3: '', 4: 'job'}, [1, 2, 3, 4]),
-                             ['Good', 'job'])
-        self.assertListEqual(all_of_dict_values({1: None, 2: 'Good', 3: '', 4: 'job'}, [2, 4],
-                                                labels=[u'Two', u'Four']),
-                             ['Two=Good', 'Four=job'])
-        self.assertListEqual(all_of_dict_values({1: None, 2: 'Good', 3: '', 4: 'job'}, [2, 4],
-                                                labels=[u'Two', u'']),
-                             ['Two=Good', 'job'])
+        self.assertListEqual(all_of_dict_values({1: None, 2: "Good", 3: "", 4: "job"}, [1, 2, 3, 4]), ["Good", "job"])
+        self.assertListEqual(
+            all_of_dict_values({1: None, 2: "Good", 3: "", 4: "job"}, [2, 4], labels=[u"Two", u"Four"]),
+            ["Two=Good", "Four=job"],
+        )
+        self.assertListEqual(
+            all_of_dict_values({1: None, 2: "Good", 3: "", 4: "job"}, [2, 4], labels=[u"Two", u""]), ["Two=Good", "job"]
+        )
         self.assertRaises(ValueError, all_of_dict_values, {}, [1], labels=[1, 2])
         self.assertListEqual(all_of_dict_values({}, [1, 2]), [])
 
@@ -49,53 +49,58 @@ class TestUtils(unittest.TestCase):
         self.assertListEqual(lst, [1, 2])
 
     def test_get_clusters(self):
-        self.assertEqual(get_clusters([1, 2, 3, 5, 6, 8, 10, 15]),
-                         '1-3, 5-6, 8, 10, 15')
-        self.assertEqual(get_clusters([1, 2, 3, 5, 5.1, 5.3, 6, 8, 10, 15]),
-                         '1-3, 5, 5.1, 5.3, 6, 8, 10, 15')
-        self.assertEqual(get_clusters([1, 2, 4, 5, 15], separator="|"),
-                         '1-2|4-5|15')
+        self.assertEqual(get_clusters([1, 2, 3, 5, 6, 8, 10, 15]), "1-3, 5-6, 8, 10, 15")
+        self.assertEqual(get_clusters([1, 2, 3, 5, 5.1, 5.3, 6, 8, 10, 15]), "1-3, 5, 5.1, 5.3, 6, 8, 10, 15")
+        self.assertEqual(get_clusters([1, 2, 4, 5, 15], separator="|"), "1-2|4-5|15")
 
     def test_get_ordinal_clusters(self):
-        self.assertEqual(get_ordinal_clusters([100, 200, 300, 500, 600, 800, 1000, 1500]),
-                         '1-3, 5-6, 8, 10, 15')
-        self.assertEqual(get_ordinal_clusters([100, 200, 300, 500, 501, 503, 600, 700, 1000, 1500]),
-                         '1-3, 5-5.1, 5.3, 6-7, 10, 15')
+        self.assertEqual(get_ordinal_clusters([100, 200, 300, 500, 600, 800, 1000, 1500]), "1-3, 5-6, 8, 10, 15")
+        self.assertEqual(
+            get_ordinal_clusters([100, 200, 300, 500, 501, 503, 600, 700, 1000, 1500]), "1-3, 5-5.1, 5.3, 6-7, 10, 15"
+        )
+        self.assertEqual(
+            get_ordinal_clusters([100, 200, 300, 400, 500, 501, 502, 521, 522, 540, 550, 1200, 1300], separator="|"),
+            "1-5.2|5.21-5.22|5.40|5.50|12-13",
+        )
         self.assertEqual(
             get_ordinal_clusters(
-                [100, 200, 300, 400, 500, 501, 502, 521, 522, 540, 550, 1200, 1300], separator="|"),
-            '1-5.2|5.21-5.22|5.40|5.50|12-13')
+                [100, 200, 300, 301, 302, 321, 322, 340, 1199, 1200, 1300], cluster_format="from {} to {}"
+            ),
+            "from 1 to 3.2, from 3.21 to 3.22, 3.40, 11.99, from 12 to 13",
+        )
         self.assertEqual(
-            get_ordinal_clusters(
-                [100, 200, 300, 301, 302, 321, 322, 340, 1199, 1200, 1300], cluster_format="from {} to {}"),
-            'from 1 to 3.2, from 3.21 to 3.22, 3.40, 11.99, from 12 to 13')
-        self.assertEqual(get_ordinal_clusters([100, 200, 250, 400, 700], single_cluster_format="({})"),
-                         '1-2, (2.50), (4), (7)')
-        self.assertEqual(get_ordinal_clusters([10, 20, 30, 31, 32, 110, 112, 130], offset=10),
-                         '1-3.2, 11, 11.2, 13')
-        self.assertListEqual(get_ordinal_clusters([100, 200, 250, 400, 700], as_str=False),
-                             [[100, 200], [250], [400], [700]])
+            get_ordinal_clusters([100, 200, 250, 400, 700], single_cluster_format="({})"), "1-2, (2.50), (4), (7)"
+        )
+        self.assertEqual(get_ordinal_clusters([10, 20, 30, 31, 32, 110, 112, 130], offset=10), "1-3.2, 11, 11.2, 13")
+        self.assertListEqual(
+            get_ordinal_clusters([100, 200, 250, 400, 700], as_str=False), [[100, 200], [250], [400], [700]]
+        )
 
     def test_insert_in_ordered_dict(self):
-        dic = OrderedDict([('a', 1), ('b', 2)])
-        self.assertEqual(insert_in_ordereddict(dic, ('bad', 3)), None)
-        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), after_key='a').items()),
-                         [('a', 1), ('c', 3), ('b', 2)])
-        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), after_key='b').items()),
-                         [('a', 1), ('b', 2), ('c', 3)])
-        self.assertEqual(insert_in_ordereddict(dic, ('bad', 3), after_key='unk'), None)
-        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), after_key='unk', at_position=1).items()),
-                         [('a', 1), ('c', 3), ('b', 2)])
-        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), at_position=0).items()),
-                         [('c', 3), ('a', 1), ('b', 2)])
-        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), at_position=1).items()),
-                         [('a', 1), ('c', 3), ('b', 2)])
-        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), at_position=10).items()),
-                         [('a', 1), ('b', 2), ('c', 3)])
-        self.assertEqual(list(insert_in_ordereddict(OrderedDict([]), ('c', 3), at_position=1).items()),
-                         [('c', 3)])
-        self.assertEqual(list(insert_in_ordereddict(dic, ('c', 3), at_position=-1).items()),
-                         [('a', 1), ('b', 2)])
+        dic = OrderedDict([("a", 1), ("b", 2)])
+        self.assertEqual(insert_in_ordereddict(dic, ("bad", 3)), None)
+        self.assertEqual(
+            list(insert_in_ordereddict(dic, ("c", 3), after_key="a").items()), [("a", 1), ("c", 3), ("b", 2)]
+        )
+        self.assertEqual(
+            list(insert_in_ordereddict(dic, ("c", 3), after_key="b").items()), [("a", 1), ("b", 2), ("c", 3)]
+        )
+        self.assertEqual(insert_in_ordereddict(dic, ("bad", 3), after_key="unk"), None)
+        self.assertEqual(
+            list(insert_in_ordereddict(dic, ("c", 3), after_key="unk", at_position=1).items()),
+            [("a", 1), ("c", 3), ("b", 2)],
+        )
+        self.assertEqual(
+            list(insert_in_ordereddict(dic, ("c", 3), at_position=0).items()), [("c", 3), ("a", 1), ("b", 2)]
+        )
+        self.assertEqual(
+            list(insert_in_ordereddict(dic, ("c", 3), at_position=1).items()), [("a", 1), ("c", 3), ("b", 2)]
+        )
+        self.assertEqual(
+            list(insert_in_ordereddict(dic, ("c", 3), at_position=10).items()), [("a", 1), ("b", 2), ("c", 3)]
+        )
+        self.assertEqual(list(insert_in_ordereddict(OrderedDict([]), ("c", 3), at_position=1).items()), [("c", 3)])
+        self.assertEqual(list(insert_in_ordereddict(dic, ("c", 3), at_position=-1).items()), [("a", 1), ("b", 2)])
 
     def test_iterable_as_list_of_list(self):
         lst = [1, 2, 3, 4]
@@ -108,39 +113,36 @@ class TestUtils(unittest.TestCase):
 
     def test_letters_sequence(self):
         tests = [
-            {'lt': 'ab', 'nths': [(0, ''), (1, 'a'), (2, 'b'), (3, 'aa'), (6, 'bb'), (9, 'aba')]},
-            {'lt': 'abcdefghijklmnopqrstuvwxyz', 'nths': [(15, 'o'), (26, 'z'), (27, 'aa'), (100, 'cv'), (702, 'zz'),
-                                                          (703, 'aaa')]}
+            {"lt": "ab", "nths": [(0, ""), (1, "a"), (2, "b"), (3, "aa"), (6, "bb"), (9, "aba")]},
+            {
+                "lt": "abcdefghijklmnopqrstuvwxyz",
+                "nths": [(15, "o"), (26, "z"), (27, "aa"), (100, "cv"), (702, "zz"), (703, "aaa")],
+            },
         ]
         for dic in tests:
-            lt = dic['lt']
-            for n, res in dic['nths']:
-                self.assertEqual(letters_sequence(n, lt), res,
-                                 'n:{},res:{} <=> {}'.format(n, res, letters_sequence(n, lt)))
-
+            lt = dic["lt"]
+            for n, res in dic["nths"]:
+                self.assertEqual(
+                    letters_sequence(n, lt), res, "n:{},res:{} <=> {}".format(n, res, letters_sequence(n, lt))
+                )
 
     def test_merge_dicts(self):
-        self.assertEqual(merge_dicts([{'a': [1]}, {'a': [2]}]),
-                         {'a': [1, 2]})
+        self.assertEqual(merge_dicts([{"a": [1]}, {"a": [2]}]), {"a": [1, 2]})
+        self.assertEqual(merge_dicts([{"a": [1], "b": [0]}, {"a": [2]}]), {"a": [1, 2], "b": [0]})
         self.assertEqual(
-            merge_dicts([{'a': [1], 'b': [0]}, {'a': [2]}]),
-            {'a': [1, 2], 'b': [0]})
-        self.assertEqual(
-            merge_dicts([
-                {'a': [1], 'b': [0]},
-                {'a': [2]},
-                {'a': [2], 'b':[1], 'c': [4]}]),
-            {'a': [1, 2, 2], 'b': [0, 1], 'c': [4]})
+            merge_dicts([{"a": [1], "b": [0]}, {"a": [2]}, {"a": [2], "b": [1], "c": [4]}]),
+            {"a": [1, 2, 2], "b": [0, 1], "c": [4]},
+        )
 
     def test_odict_pos_key(self):
-        dic = OrderedDict([('a', 1), ('b', 2)])
+        dic = OrderedDict([("a", 1), ("b", 2)])
         self.assertIsNone(odict_pos_key(dic, -1))
         self.assertIsNone(odict_pos_key(dic, 3))
-        self.assertEqual(odict_pos_key(dic, 0), 'a')
-        self.assertEqual(odict_pos_key(dic, 1), 'b')
+        self.assertEqual(odict_pos_key(dic, 0), "a")
+        self.assertEqual(odict_pos_key(dic, 1), "b")
 
     def test_one_of_dict_values(self):
-        self.assertEqual(one_of_dict_values({1: None, 3: '', 4: 'job'}, [1, 2, 3, 4]), 'job')
+        self.assertEqual(one_of_dict_values({1: None, 3: "", 4: "job"}, [1, 2, 3, 4]), "job")
 
     def test_radix_like_starting_1(self):
         # Considering a sequence of 2 letters a, b => base 2 (similar to bit values 0, 1 base 2)
@@ -163,26 +165,24 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(list(res), [4, 2, 3])
 
     def test_safe_encode(self):
-        self.assertEqual(safe_encode(u'xx'), 'xx')
-        self.assertEqual(safe_encode(b'xx'), 'xx')
+        self.assertEqual(safe_encode(u"xx"), "xx")
+        self.assertEqual(safe_encode(b"xx"), "xx")
         self.assertEqual(safe_encode(5), 5)
 
     def test_sort_by_indexes(self):
         lst = ["a", "b", "c", "d", "e", "f", "g"]
         indexes = [1, 3, 5, 2, 4, 6, 6]
-        self.assertEqual(sort_by_indexes(lst, indexes),
-                         ['a', 'd', 'b', 'e', 'c', 'f', 'g'])
+        self.assertEqual(sort_by_indexes(lst, indexes), ["a", "d", "b", "e", "c", "f", "g"])
         lst = ["a", "b", "c", "d", "e"]
         indexes = [1, 3, 2, 9, 9]
-        self.assertEqual(sort_by_indexes(lst, indexes),
-                         ['a', 'c', 'b', 'd', 'e'])
+        self.assertEqual(sort_by_indexes(lst, indexes), ["a", "c", "b", "d", "e"])
 
     def test_listify(self):
         self.assertEqual(listify("value"), ["value"])
         self.assertEqual(listify(["value"]), ["value"])
         self.assertEqual(listify(("value")), ["value"])
-        self.assertEqual(listify(("value", )), ("value", ))
-        self.assertEqual(listify(("value", ), force=True), ["value"])
+        self.assertEqual(listify(("value",)), ("value",))
+        self.assertEqual(listify(("value",), force=True), ["value"])
 
 
 class TestSystem(unittest.TestCase):
@@ -190,52 +190,55 @@ class TestSystem(unittest.TestCase):
 
     def setUp(self):
         file_dir = os.path.dirname(__file__)
-        self.dir = file_dir.replace('/pyutils', '')
+        self.dir = file_dir.replace("/pyutils", "")
 
     def test_read_recursive_dir(self):
-        res = read_recursive_dir(self.dir, '')
-        self.assertEqual(len([path for path in res if path.endswith('.py')]), 7)
-        self.assertIn('__init__.py', res)
-        self.assertIn('pyutils/__init__.py', res)
+        res = read_recursive_dir(self.dir, "")
+        self.assertEqual(len([path for path in res if path.endswith(".py")]), 7)
+        self.assertIn("__init__.py", res)
+        self.assertIn("pyutils/__init__.py", res)
         # include folder
-        self.assertNotIn('pyutils', res)
-        res = read_recursive_dir(self.dir, '', with_folder=True)
-        self.assertIn('pyutils', res)
+        self.assertNotIn("pyutils", res)
+        res = read_recursive_dir(self.dir, "", with_folder=True)
+        self.assertIn("pyutils", res)
         # include full path
-        self.assertEqual(len([path for path in res if path.endswith('/pyutils')]), 0)
-        res = read_recursive_dir(self.dir, '', with_folder=True, with_full_path=True)
-        self.assertEqual(len([path for path in res if path.endswith('/pyutils')]), 1)
+        self.assertEqual(len([path for path in res if path.endswith("/pyutils")]), 0)
+        res = read_recursive_dir(self.dir, "", with_folder=True, with_full_path=True)
+        self.assertEqual(len([path for path in res if path.endswith("/pyutils")]), 1)
         # exclude patterns
-        self.assertTrue([path for path in res if path.endswith('.pyc')])
-        res = read_recursive_dir(self.dir, '', exclude_patterns=[r'\.pyc$'])
-        self.assertFalse([path for path in res if path.endswith('.pyc')])
-        res = read_recursive_dir(self.dir, '', exclude_patterns=[r'^pyutils/', r'\.pyc$'])
+        self.assertTrue([path for path in res if path.endswith(".pyc")])
+        res = read_recursive_dir(self.dir, "", exclude_patterns=[r"\.pyc$"])
+        self.assertFalse([path for path in res if path.endswith(".pyc")])
+        res = read_recursive_dir(self.dir, "", exclude_patterns=[r"^pyutils/", r"\.pyc$"])
         self.assertEqual(len(res), 1)
 
     def test_read_dir_filter(self):
         res = read_dir_filter(self.dir)
-        self.assertIn('__init__.py', res)
-        self.assertIn('pyutils', res)
+        self.assertIn("__init__.py", res)
+        self.assertIn("pyutils", res)
         res = read_dir_filter(self.dir, with_path=True)
-        self.assertNotIn('__init__.py', res)
-        self.assertIn(os.path.join(self.dir, '__init__.py'), res)
-        self.assertIn(os.path.join(self.dir, 'pyutils'), res)
-        res = read_dir_filter(self.dir, extensions=['py'])
-        self.assertIn('__init__.py', res)
-        self.assertNotIn('pyutils', res)
+        self.assertNotIn("__init__.py", res)
+        self.assertIn(os.path.join(self.dir, "__init__.py"), res)
+        self.assertIn(os.path.join(self.dir, "pyutils"), res)
+        res = read_dir_filter(self.dir, extensions=["py"])
+        self.assertIn("__init__.py", res)
+        self.assertNotIn("pyutils", res)
         res = read_dir_filter(self.dir, only_folders=True)
-        self.assertNotIn('__init__.py', res)
-        self.assertIn('pyutils', res)
-        res = read_dir_filter(self.dir, patterns=[r'.*\.py$'])
-        self.assertIn('__init__.py', res)
-        self.assertNotIn('pyutils', res)
-
+        self.assertNotIn("__init__.py", res)
+        self.assertIn("pyutils", res)
+        res = read_dir_filter(self.dir, patterns=[r".*\.py$"])
+        self.assertIn("__init__.py", res)
+        self.assertNotIn("pyutils", res)
 
     def test_hashed_filename(self):
-        self.assertEqual(hashed_filename('', ''), '')
-        self.assertEqual(hashed_filename('test.txt', ''), 'test.txt')
-        self.assertEqual(hashed_filename('test.txt', '', 20), 'test.txt')
-        self.assertEqual(hashed_filename('test.txt', 'the string value to differentiate some files'),
-                         'test_f9fde993c5b66b18fce3a03bf2bd1e11e05c598b.txt')
-        self.assertEqual(hashed_filename('test.txt', 'the string value to differentiate some file'),
-                         'test_b99fae91a375c3b6fa36fa23a34c666f79375ffe.txt')
+        self.assertEqual(hashed_filename("", ""), "")
+        self.assertEqual(hashed_filename("test.txt", ""), "test.txt")
+        self.assertEqual(hashed_filename("test.txt", "", 20), "test.txt")
+        self.assertEqual(
+            hashed_filename("test.txt", "the string value to differentiate some files"),
+            "test_f9fde993c5b66b18fce3a03bf2bd1e11e05c598b.txt",
+        )
+        self.assertEqual(
+            hashed_filename("test.txt", "the string value to differentiate some file"),
+            "test_b99fae91a375c3b6fa36fa23a34c666f79375ffe.txt",
+        )

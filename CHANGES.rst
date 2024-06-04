@@ -4,8 +4,10 @@ Changelog
 1.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Blacked files.
+  [sgeulette]
+- Added `system.post_request` to send a POST request.
+  [sgeulette]
 
 1.0.3 (2024-05-24)
 ------------------

@@ -28,15 +28,15 @@ except ImportError:
 
 
 def verbose(msg):
-    print('>> %s' % msg)
+    print(">> %s" % msg)
 
 
 def warning(msg):
-    print('?? {}'.format(msg))
+    print("?? {}".format(msg))
 
 
 def error(msg):
-    print('!! {}'.format(msg), file=sys.stderr)
+    print("!! {}".format(msg), file=sys.stderr)
 
 
 def stop(msg, logger=None):
@@ -52,49 +52,52 @@ def trace(TRACE, msg):
         return
     print("TRACE:'{}'".format(msg))
 
+
 # --- Writing files ---
 
 
 def write_to(out_files, key, line):
     """
-        Open output file and write line (adding line feed)
-        outfiles param: dic containing this struct :
-            {'key': {'file': 'filepath', 'header': 'First line'}}
+    Open output file and write line (adding line feed)
+    outfiles param: dic containing this struct :
+        {'key': {'file': 'filepath', 'header': 'First line'}}
     """
-    if 'fh' not in out_files[key]:
-        filename = out_files[key]['file']
+    if "fh" not in out_files[key]:
+        filename = out_files[key]["file"]
         try:
-            out_files[key]['fh'] = open(filename, 'w')
-            if 'header' in out_files[key] and out_files[key]['header']:
-                out_files[key]['fh'].write("%s\n" % out_files[key]['header'])
+            out_files[key]["fh"] = open(filename, "w")
+            if "header" in out_files[key] and out_files[key]["header"]:
+                out_files[key]["fh"].write("%s\n" % out_files[key]["header"])
         except IOError as m:
             error("Cannot create '%s' file: %s" % (filename, m))
             return
-    out_files[key]['fh'].write("%s\n" % line)
+    out_files[key]["fh"].write("%s\n" % line)
 
 
 def close_outfiles(outfiles):
-    """ Close the outfiles """
+    """Close the outfiles"""
     for key in list(outfiles.keys()):
-        if 'fh' in outfiles[key]:
-            outfiles[key]['fh'].close()
+        if "fh" in outfiles[key]:
+            outfiles[key]["fh"].close()
+
+
 #            verbose("Output file '%s' generated" % outfiles[key]['file'])
 
 # --- Reading files ---
 
 
-def read_file(filename, strip_chars='', skip_empty=False, skip_lines=0):
-    """ read a file and return lines """
+def read_file(filename, strip_chars="", skip_empty=False, skip_lines=0):
+    """read a file and return lines"""
     lines = []
     try:
-        thefile = open(filename, 'r')
+        thefile = open(filename, "r")
     except IOError:
         error("! Cannot open %s file" % filename)
         return lines
     for i, line in enumerate(thefile.readlines()):
         if skip_lines and i < skip_lines:
             continue
-        line = line.strip('\n')
+        line = line.strip("\n")
         if strip_chars:
             line = line.strip(strip_chars)
         if skip_empty and not line:
@@ -104,15 +107,16 @@ def read_file(filename, strip_chars='', skip_empty=False, skip_lines=0):
     return lines
 
 
-def read_csv(filename, strip_chars='', replace_dq=True, skip_empty=False, skip_lines=0, **kwargs):
-    """ read a csv file and return lines """
+def read_csv(filename, strip_chars="", replace_dq=True, skip_empty=False, skip_lines=0, **kwargs):
+    """read a csv file and return lines"""
     lines = []
     try:
-        thefile = open(filename, 'r')
+        thefile = open(filename, "r")
     except IOError:
         error("! Cannot open %s file" % filename)
         return lines
     import csv
+
     for i, data in enumerate(csv.reader(thefile, **kwargs)):
         if skip_lines and i < skip_lines:
             continue
@@ -133,23 +137,25 @@ def read_csv(filename, strip_chars='', replace_dq=True, skip_empty=False, skip_l
     return lines
 
 
-def read_dictcsv(filename, fieldnames=[], strip_chars='', replace_dq=True, skip_empty=False, skip_lines=0, ln_key='_ln',
-                 **kwargs):
-    """ read a csv file and return dict row list """
+def read_dictcsv(
+    filename, fieldnames=[], strip_chars="", replace_dq=True, skip_empty=False, skip_lines=0, ln_key="_ln", **kwargs
+):
+    """read a csv file and return dict row list"""
     rows = []
     import csv
+
     with open(filename) as csvfile:
-        reader = csv.DictReader(csvfile, fieldnames=fieldnames, restkey='_rest', restval='__NO_CO_LU_MN__', **kwargs)
+        reader = csv.DictReader(csvfile, fieldnames=fieldnames, restkey="_rest", restval="__NO_CO_LU_MN__", **kwargs)
         for row in reader:
             if reader.line_num == 1:
-                reader.restval = u''
-                if '_rest' in row:
-                    error(u'! STOPPING: some columns are not defined in fieldnames: {}'.format(row['_rest']))
-                    return u'STOPPING: some columns are not defined in fieldnames: {}'.format(row['_rest']), []
-                extra_cols = [key for (key, val) in list(row.items()) if val == '__NO_CO_LU_MN__']
+                reader.restval = u""
+                if "_rest" in row:
+                    error(u"! STOPPING: some columns are not defined in fieldnames: {}".format(row["_rest"]))
+                    return u"STOPPING: some columns are not defined in fieldnames: {}".format(row["_rest"]), []
+                extra_cols = [key for (key, val) in list(row.items()) if val == "__NO_CO_LU_MN__"]
                 if extra_cols:
-                    error(u'! STOPPING: to much columns defined in fieldnames: {}'.format(extra_cols))
-                    return u'STOPPING: to much columns defined in fieldnames: {}'.format(extra_cols), []
+                    error(u"! STOPPING: to much columns defined in fieldnames: {}".format(extra_cols))
+                    return u"STOPPING: to much columns defined in fieldnames: {}".format(extra_cols), []
             if reader.line_num <= skip_lines:
                 continue
             empty = True
@@ -167,11 +173,11 @@ def read_dictcsv(filename, fieldnames=[], strip_chars='', replace_dq=True, skip_
             if skip_empty and empty:
                 continue
             rows.append(new_row)
-    return u'', rows
+    return u"", rows
 
 
 def read_dir(dirpath, with_path=False, only_folders=False, only_files=False, to_skip=[]):
-    """ Read the dir and return files """
+    """Read the dir and return files"""
     files = []
     for filename in os.listdir(dirpath):
         if filename in to_skip:
@@ -188,7 +194,7 @@ def read_dir(dirpath, with_path=False, only_folders=False, only_files=False, to_
 
 
 def read_recursive_dir(root_dir, rel_dir, with_folder=False, with_full_path=False, exclude_patterns=[]):
-    """ Read the dir and return files """
+    """Read the dir and return files"""
     files = []
     full_dir = os.path.join(root_dir, rel_dir)
     for filename in os.listdir(full_dir):
@@ -202,8 +208,15 @@ def read_recursive_dir(root_dir, rel_dir, with_folder=False, with_full_path=Fals
         if cont:
             continue
         if os.path.isdir(fullpath):
-            files.extend(read_recursive_dir(root_dir, relpath, with_folder=with_folder, with_full_path=with_full_path,
-                                            exclude_patterns=exclude_patterns))
+            files.extend(
+                read_recursive_dir(
+                    root_dir,
+                    relpath,
+                    with_folder=with_folder,
+                    with_full_path=with_full_path,
+                    exclude_patterns=exclude_patterns,
+                )
+            )
             if not with_folder:
                 continue
         if with_full_path:
@@ -214,11 +227,11 @@ def read_recursive_dir(root_dir, rel_dir, with_folder=False, with_full_path=Fals
 
 
 def read_dir_filter(dirpath, with_path=False, only_folders=False, extensions=[], patterns=[]):
-    """ Read the dir and return some files """
+    """Read the dir and return some files"""
     files = []
     for filename in read_dir(dirpath, with_path=with_path, only_folders=only_folders):
         basename, ext = os.path.splitext(filename)
-        if ext and ext.startswith('.'):
+        if ext and ext.startswith("."):
             ext = ext[1:]
         if extensions and ext not in extensions:
             continue
@@ -234,35 +247,38 @@ def read_dir_filter(dirpath, with_path=False, only_folders=False, extensions=[],
 
 
 def read_dir_extensions(dirpath, to_skip=[]):
-    """ Read the dir and return extensions """
+    """Read the dir and return extensions"""
     extensions = []
     for filename in read_dir(dirpath):
         if filename in to_skip:
             continue
         basename, ext = os.path.splitext(filename)
-        if ext and ext.startswith('.'):
+        if ext and ext.startswith("."):
             ext = ext[1:]
         if ext not in extensions:
             extensions.append(ext)
     extensions.sort()
     return extensions
 
+
 # ------------------------------------------------------------------------------
 
 
 def runCommand(cmd, outfile=None, append=True):
-    """ run an os command and get back the stdout and stderr outputs """
+    """run an os command and get back the stdout and stderr outputs"""
+
     def get_ret_code(line):
-        match = re.match(r'RET_CODE=(\d+)', line)
+        match = re.match(r"RET_CODE=(\d+)", line)
         if match is None:
             return -1
         else:
             return int(match.group(1))
+
     now = datetime.now()
     if outfile:
-        fh = open(outfile, '%s' % (append and 'a' or 'w'))
-        fh.write("==================== NEW RUN on {} ====================\n".format(now.strftime('%Y%m%d-%H%M')))
-        fh.write("=> Running '%s' at %s\n" % (cmd, now.strftime('%Y%m%d %H:%M')))
+        fh = open(outfile, "%s" % (append and "a" or "w"))
+        fh.write("==================== NEW RUN on {} ====================\n".format(now.strftime("%Y%m%d-%H%M")))
+        fh.write("=> Running '%s' at %s\n" % (cmd, now.strftime("%Y%m%d %H:%M")))
         fh.close()
         os.system(cmd + ' >>{0} 2>&1 ;echo "RET_CODE=$?" >> {0}'.format(outfile))
         lines = read_file(outfile)
@@ -271,25 +287,25 @@ def runCommand(cmd, outfile=None, append=True):
     os.system(cmd + ' >_cmd_pv.out 2>_cmd_pv.err ;echo "RET_CODE=$?" >> _cmd_pv.out')
     stdout = stderr = []
     try:
-        if os.path.exists('_cmd_pv.out'):
-            ofile = open('_cmd_pv.out', 'r')
+        if os.path.exists("_cmd_pv.out"):
+            ofile = open("_cmd_pv.out", "r")
             stdout = ofile.readlines()
             ofile.close()
-            os.remove('_cmd_pv.out')
+            os.remove("_cmd_pv.out")
         else:
-            error("File %s does not exist" % '_cmd_pv.out')
+            error("File %s does not exist" % "_cmd_pv.out")
     except IOError:
-        error("Cannot open %s file" % '_cmd_pv.out')
+        error("Cannot open %s file" % "_cmd_pv.out")
     try:
-        if os.path.exists('_cmd_pv.err'):
-            ifile = open('_cmd_pv.err', 'r')
+        if os.path.exists("_cmd_pv.err"):
+            ifile = open("_cmd_pv.err", "r")
             stderr = ifile.readlines()
             ifile.close()
-            os.remove('_cmd_pv.err')
+            os.remove("_cmd_pv.err")
         else:
-            error("File %s does not exist" % '_cmd_pv.err')
+            error("File %s does not exist" % "_cmd_pv.err")
     except IOError:
-        error("Cannot open %s file" % '_cmd_pv.err')
+        error("Cannot open %s file" % "_cmd_pv.err")
     return stdout, stderr, get_ret_code(stdout.pop())
 
 
@@ -299,15 +315,16 @@ def full_path(path, filename):
         return os.path.join(path, filename)
     return filename
 
+
 # --- Dumping and loading data on disk ---
 
 
 def load_var(infile, var):
     """
-        load a dictionary or a list from a file
+    load a dictionary or a list from a file
     """
     if os.path.exists(infile):
-        ofile = open(infile, 'r')
+        ofile = open(infile, "r")
         if isinstance(var, (dict, set)):
             var.update(eval(ofile.read()))
         elif isinstance(var, list):
@@ -320,9 +337,9 @@ load_dic = load_var
 
 def dump_var(outfile, var):
     """
-        dump a dictionary or a list to a file
+    dump a dictionary or a list to a file
     """
-    ofile = open(outfile, 'w')
+    ofile = open(outfile, "w")
     ofile.write(str(var))
     ofile.close()
 
@@ -332,10 +349,10 @@ dump_dic = dump_var
 
 def load_pickle(infile, var):
     """
-        load a dictionary, a set or a list from a pickle file
+    load a dictionary, a set or a list from a pickle file
     """
     if os.path.exists(infile):
-        with open(infile, 'rb') as fh:
+        with open(infile, "rb") as fh:
             if isinstance(var, (dict, set)):
                 var.update(cPickle.load(fh))
             elif isinstance(var, list):
@@ -344,9 +361,9 @@ def load_pickle(infile, var):
 
 def dump_pickle(outfile, var):
     """
-        dump a dictionary, a set or a list to a file
+    dump a dictionary, a set or a list to a file
     """
-    with open(outfile, 'wb') as fh:
+    with open(outfile, "wb") as fh:
         cPickle.dump(var, fh, -1)
 
 
@@ -354,7 +371,7 @@ def dump_pickle(outfile, var):
 
 
 def human_size(nb):
-    size_letter = {1: 'k', 2: 'M', 3: 'G', 4: 'T'}
+    size_letter = {1: "k", 2: "M", 3: "G", 4: "T"}
     for x in range(1, 4):
         quot = nb // 1024 ** x
         if quot < 1024:
@@ -364,11 +381,11 @@ def human_size(nb):
 
 def disk_size(path, pretty=True):
     """
-        return disk size of path content
+    return disk size of path content
     """
     cmd = "du -s"
     if pretty:
-        cmd += 'h'
+        cmd += "h"
     (cmd_out, cmd_err) = runCommand("%s %s" % (cmd, path))
     for line in cmd_out:
         (size, path) = line.strip().split()
@@ -388,27 +405,28 @@ def create_temporary_file(initial_file, file_name):
         with open(temp_filename, "w") as new_temporary_file:
             new_temporary_file.write(initial_file.data)
             return temp_filename
-    return ''
+    return ""
 
 
 def get_git_tag(path, last=False):
     if last:  # from all branches
-        cmd = 'git --git-dir={0}/.git describe --tags `git --git-dir={0}/.git rev-list --tags ' \
-              '--max-count=1`'.format(path)
+        cmd = "git --git-dir={0}/.git describe --tags `git --git-dir={0}/.git rev-list --tags " "--max-count=1`".format(
+            path
+        )
     else:  # current branch only
-        cmd = 'git --git-dir={}/.git describe --tags'.format(path)
+        cmd = "git --git-dir={}/.git describe --tags".format(path)
     (out, err, code) = runCommand(cmd)
     if code or err:
         error("Problem in command '{}': {}".format(cmd, err))
-        return 'NO TAG'
-    return out[0].strip('\n')
+        return "NO TAG"
+    return out[0].strip("\n")
 
 
 def get_temporary_filename(file_name):
     """
     Returns the name of a temporary file.
     """
-    temp_filename = '%s/%f_%s' % (
+    temp_filename = "%s/%f_%s" % (
         tempfile.gettempdir(),
         time.time(),
         file_name,
@@ -458,8 +476,15 @@ def memory():
     * cache memory
     """
     import psutil
+
     mem = psutil.virtual_memory()
-    return (mem.total/1024**2, mem.used/1024**2, mem.percent, mem.available/1024**2, (mem.buffers+mem.cached)/1024**2)
+    return (
+        mem.total / 1024 ** 2,
+        mem.used / 1024 ** 2,
+        mem.percent,
+        mem.available / 1024 ** 2,
+        (mem.buffers + mem.cached) / 1024 ** 2,
+    )
     # mem.active/1024**2, mem.inactive/1024**2)
 
 
@@ -475,4 +500,4 @@ def hashed_filename(filename, string, max_length=255):
         return filename
     hashed = hashlib.sha1(ensure_binary(string)).hexdigest()
     name, ext = os.path.splitext(filename)
-    return '{}_{}{}'.format(name, hashed[:(max_length-len(filename))], ext)
+    return "{}_{}{}".format(name, hashed[: (max_length - len(filename))], ext)

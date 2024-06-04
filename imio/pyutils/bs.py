@@ -68,13 +68,13 @@ def remove_comments(element):
 
 
 def remove_elements(element, to_remove=[]):
-    """Removes sub tags and all their content """
+    """Removes sub tags and all their content"""
     for tagtr in to_remove:
         for tag in element.find_all(tagtr):
             tag.decompose()
 
 
-def replace_entire_strings(element, replace=u'\n', by=u''):
+def replace_entire_strings(element, replace="\n", by=""):
     """Replaces an entire string by another value. With default params, removes newlines.
 
     :param element: bs item

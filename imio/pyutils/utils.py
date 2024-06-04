@@ -4,7 +4,9 @@
 # IMIO <support@imio.be>
 #
 from __future__ import print_function
-from collections import OrderedDict, defaultdict
+
+from collections import defaultdict
+from collections import OrderedDict
 from itertools import chain
 from operator import methodcaller
 from six import ensure_str
@@ -20,7 +22,7 @@ import time
 import timeit
 
 
-def all_of_dict_values(dic, keys, labels=[], sep=u'='):
+def all_of_dict_values(dic, keys, labels=[], sep=u"="):
     """Returns a not empty values list from a dict following given keys.
 
     :param dic: input dictionary
@@ -30,11 +32,11 @@ def all_of_dict_values(dic, keys, labels=[], sep=u'='):
     :return: list with corresponding values.
     """
     if labels and len(labels) != len(keys):
-        raise ValueError(u'labels length must be the same as keys length')
+        raise ValueError(u"labels length must be the same as keys length")
     ret = []
     for i, key in enumerate(keys):
         if dic.get(key):
-            ret.append(labels and u'{}{}{}'.format(labels[i], labels[i] and sep or u'', dic[key]) or dic[key])
+            ret.append(labels and u"{}{}{}".format(labels[i], labels[i] and sep or u"", dic[key]) or dic[key])
     return ret
 
 
@@ -43,23 +45,23 @@ def append(lst, value):
     return value
 
 
-def ftimed(f, nb=100, fmt='{:.7f}'):
+def ftimed(f, nb=100, fmt="{:.7f}"):
     duration, ret = timed(f, nb=nb)
     return fmt.format(duration), ret
 
 
 def get_clusters(numbers=[], separator=", "):
     """Return given p_numbers by clusters.
-       When p_numbers=[1,2,3,5,6,8,9,10,15,17,20],
-       the result is '1-3, 5-6, 8-10, 15, 17, 20'."""
+    When p_numbers=[1,2,3,5,6,8,9,10,15,17,20],
+    the result is '1-3, 5-6, 8-10, 15, 17, 20'."""
     clusters = itertools.groupby(numbers, lambda n, c=itertools.count(): n - next(c))
     res = []
     for group, cluster in clusters:
         clust = list(cluster)
         if len(clust) > 1:
-            res.append('{0}-{1}'.format(clust[0], clust[-1]))
+            res.append("{0}-{1}".format(clust[0], clust[-1]))
         else:
-            res.append('{0}'.format(clust[0]))
+            res.append("{0}".format(clust[0]))
     return separator.join(res)
 
 
@@ -67,20 +69,16 @@ def display_offset_number(number, offset):
     """Display a number with an offset. For example when p_number=123 and offset=100, it returns '1.23'"""
     if number % offset == 0:
         return str(int(number / offset))
-    return '{}.{}'.format(number // offset, number % offset)
+    return "{}.{}".format(number // offset, number % offset)
 
 
 def get_ordinal_clusters(
-        numbers=[],
-        cluster_format="{0}-{1}",
-        single_cluster_format="{0}",
-        separator=", ",
-        offset=100,
-        as_str=True):
+    numbers=[], cluster_format="{0}-{1}", single_cluster_format="{0}", separator=", ", offset=100, as_str=True
+):
     """Return given p_numbers by clusters while taking care of the offset (used for sub numering).
-       p_offset should be a power of 10, it doesn't make any sense otherwise.
-       When p_numbers=[100,200,300,400,500,501,502,521,522,540,550,700,1200,1300] and p_offset=100,
-       the result is '1-5.2, 5.21-5.22, 5.40, 5.50, 7, 12-13'."""
+    p_offset should be a power of 10, it doesn't make any sense otherwise.
+    When p_numbers=[100,200,300,400,500,501,502,521,522,540,550,700,1200,1300] and p_offset=100,
+    the result is '1-5.2, 5.21-5.22, 5.40, 5.50, 7, 12-13'."""
 
     def _is_in_cluster(number, cluster, offset):
         """Check if a number is in a cluster.
@@ -108,21 +106,24 @@ def get_ordinal_clusters(
     res = []
     for cluster in clusters:
         if len(cluster) > 1:
-            res.append(cluster_format.format(display_offset_number(cluster[0], offset),
-                                             display_offset_number(cluster[-1], offset)))
+            res.append(
+                cluster_format.format(
+                    display_offset_number(cluster[0], offset), display_offset_number(cluster[-1], offset)
+                )
+            )
         else:
             res.append(single_cluster_format.format(display_offset_number(cluster[0], offset)))
     return separator.join(res)
 
 
-def insert_in_ordereddict(dic, value, after_key='', at_position=None):
+def insert_in_ordereddict(dic, value, after_key="", at_position=None):
     """Insert a tuple in an new Ordereddict.
 
-        :param dic: the original OrderedDict
-        :param value: a tuple (key, value) that will be added at correct position
-        :param after_key: key name after which the tup is added
-        :param at_position: position at which the tup is added. Is also a default if after_key is not found
-        :return: a new OrderedDict or None if insertion position is undefined
+    :param dic: the original OrderedDict
+    :param value: a tuple (key, value) that will be added at correct position
+    :param after_key: key name after which the tup is added
+    :param at_position: position at which the tup is added. Is also a default if after_key is not found
+    :return: a new OrderedDict or None if insertion position is undefined
     """
     position = None
     if after_key:
@@ -164,14 +165,14 @@ def iterable_as_list_of_list(lst, cols=1):
     return res
 
 
-def letters_sequence(nth, letters='abcdefghijklmnopqrstuvwxyz'):
+def letters_sequence(nth, letters="abcdefghijklmnopqrstuvwxyz"):
     """Return a letters sequence corresponding to the nth number. Useful to generate a lettered suffix.
 
     :param nth: nth sequence (0 giving nothing and 1 the first letter)
     :param letters: letters to consider
     :return: a sequenced string
     """
-    res = ''
+    res = ""
     for pos in radix_like_starting_1(nth, len(letters)):
         res += letters[pos - 1]
     return res
@@ -188,7 +189,7 @@ def merge_dicts(dicts, as_dict=True):
     dd = defaultdict(list)
 
     # iterate dictionary items
-    dict_items = list(map(methodcaller('items'), dicts))
+    dict_items = list(map(methodcaller("items"), dicts))
     for k, v in chain.from_iterable(dict_items):
         dd[k].extend(v)
     return as_dict and dict(dd) or dd
@@ -244,6 +245,7 @@ def replace_in_list(lst, value, replacement, generator=False):
     :param generator: will return a generator instead a list when set to True
     :return: a new list/generator with replaced values
     """
+
     def _replacer(lst, value, replacement):
         new_lst = list(lst)
         for item in new_lst:
@@ -251,13 +253,14 @@ def replace_in_list(lst, value, replacement, generator=False):
                 yield replacement
             else:
                 yield item
+
     res = _replacer(lst, value, replacement)
     if not generator:
         res = list(res)
     return res
 
 
-def safe_encode(value, encoding='utf-8'):
+def safe_encode(value, encoding="utf-8"):
     """Converts a value to encoding, only when it is not already encoded."""
     try:
         return ensure_str(value, encoding=encoding)
@@ -292,8 +295,7 @@ def setup_logger(logger, replace=logging.StreamHandler, level=20):
 
 def sort_by_indexes(lst, indexes, reverse=False):
     """Sort a list following a second list containing the order"""
-    return [val for (_, val) in sorted(
-        zip(indexes, lst), key=lambda x: x[0], reverse=reverse)]
+    return [val for (_, val) in sorted(zip(indexes, lst), key=lambda x: x[0], reverse=reverse)]
 
 
 def timed(f, nb=100):  # TODO must be removed and replaced by timeit
@@ -303,7 +305,7 @@ def timed(f, nb=100):  # TODO must be removed and replaced by timeit
     return (time.time() - start) / nb, ret  # difference of time is float
 
 
-def time_elapsed(start, cond=True, msg=u'', dec=3, min=0.0):
+def time_elapsed(start, cond=True, msg=u"", dec=3, min=0.0):
     """Print elapsed time from start.
 
     :param start: start time gotten from time_start function

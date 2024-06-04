@@ -13,7 +13,7 @@ from .system import error, trace
 
 # dsn="host=localhost port=5432 dbname= user= password="
 def openConnection(dsn):
-    """ open a postgres connection """
+    """open a postgres connection"""
     conn = None
     try:
         conn = psycopg2.connect(dsn)
@@ -23,11 +23,12 @@ def openConnection(dsn):
         raise Exception(msg)
     return conn
 
+
 # ------------------------------------------------------------------------------
 
 
 def insertInTable(dsn, table, columns, vals, TRACE=False):
-    """ insert values in a table """
+    """insert values in a table"""
     conn = openConnection(dsn)
     cursor = conn.cursor()
     req = "insert into %s(%s) values(%s)" % (table, columns, vals)
@@ -45,16 +46,17 @@ def insertInTable(dsn, table, columns, vals, TRACE=False):
     conn.close()
     return True
 
+
 # ------------------------------------------------------------------------------
 
 
-def updateTable(dsn, table, updates, condition='', TRACE=False):
-    """ update columns in a table """
+def updateTable(dsn, table, updates, condition="", TRACE=False):
+    """update columns in a table"""
     conn = openConnection(dsn)
     cursor = conn.cursor()
     req = "update %s set %s" % (table, updates)
     if condition:
-        req += ' where %s' % condition
+        req += " where %s" % condition
     trace(TRACE, "Update: %s" % req)
     try:
         cursor.execute(req)
@@ -69,11 +71,12 @@ def updateTable(dsn, table, updates, condition='', TRACE=False):
     conn.close()
     return True
 
+
 # ------------------------------------------------------------------------------
 
 
 def selectWithSQLRequest(dsn, sql, TRACE=False):
-    """ select multiple lines in a table with a complete sql """
+    """select multiple lines in a table with a complete sql"""
     conn = openConnection(dsn)
     cursor = conn.cursor()
     req = sql
@@ -90,16 +93,17 @@ def selectWithSQLRequest(dsn, sql, TRACE=False):
     conn.close()
     return data
 
+
 # ------------------------------------------------------------------------------
 
 
-def selectAllInTable(dsn, table, selection, condition='', TRACE=False):
-    """ select multiple lines in a table """
+def selectAllInTable(dsn, table, selection, condition="", TRACE=False):
+    """select multiple lines in a table"""
     conn = openConnection(dsn)
     cursor = conn.cursor()
     req = "select %s from %s" % (selection, table)
     if condition:
-        req += ' where %s' % condition
+        req += " where %s" % condition
     trace(TRACE, "Selection: %s" % req)
     try:
         cursor.execute(req)
@@ -113,16 +117,17 @@ def selectAllInTable(dsn, table, selection, condition='', TRACE=False):
     conn.close()
     return data
 
+
 # ------------------------------------------------------------------------------
 
 
-def selectOneInTable(dsn, table, selection, condition='', TRACE=False):
-    """ select a single line in a table """
+def selectOneInTable(dsn, table, selection, condition="", TRACE=False):
+    """select a single line in a table"""
     conn = openConnection(dsn)
     cursor = conn.cursor()
     req = "select %s from %s" % (selection, table)
     if condition:
-        req += ' where %s' % condition
+        req += " where %s" % condition
     trace(TRACE, "Selection: %s" % req)
     try:
         cursor.execute(req)
@@ -136,16 +141,17 @@ def selectOneInTable(dsn, table, selection, condition='', TRACE=False):
     conn.close()
     return data
 
+
 # ------------------------------------------------------------------------------
 
 
-def deleteTable(dsn, table, condition='', TRACE=False):
-    """ delete a table """
+def deleteTable(dsn, table, condition="", TRACE=False):
+    """delete a table"""
     conn = openConnection(dsn)
     cursor = conn.cursor()
     req = "delete from %s" % table
     if condition:
-        req += ' where %s' % condition
+        req += " where %s" % condition
     trace(TRACE, "Deletion : %s" % req)
     try:
         cursor.execute(req)
@@ -159,5 +165,6 @@ def deleteTable(dsn, table, condition='', TRACE=False):
     conn.commit()
     conn.close()
     return True
+
 
 # ------------------------------------------------------------------------------
