@@ -14,6 +14,7 @@ from six.moves import range
 import hashlib
 import os
 import re
+import requests
 import sys
 import tempfile
 import time
@@ -415,9 +416,32 @@ def get_temporary_filename(file_name):
     return temp_filename
 
 
+def post_request(url, data_dic=None, json_dic=None, headers=None):
+    """Post data to url.
+
+    :param url: the url to post to
+    :param data_dic: the data dict to consider
+    :param json_dic: the json dict to consider
+    :param headers: headers to use"""
+    kwargs = {
+        "headers": headers or {"Content-Type": "application/json"}
+        if json_dic
+        else {"Content-Type": "application/x-www-form-urlencoded"}
+    }
+    if json_dic:
+        kwargs["json"] = json_dic
+    else:
+        kwargs["data"] = data_dic
+    with requests.post(url, **kwargs) as response:
+        if response.status_code != 200:
+            error("Error while posting data '%s' to '%s': %s" % (kwargs, url, response.text))
+        return response
+
+
 def process_memory():
     """Returns current process memory in MB"""
     import psutil
+
     process = psutil.Process(os.getpid())
     infos = process.memory_info()
     # possibly infos[0] in some versions
