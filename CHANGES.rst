@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.4 (unreleased)
+1.0.4 (2024-06-11)
 ------------------
 
 - Blacked files.
