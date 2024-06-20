@@ -4,8 +4,8 @@ Changelog
 1.0.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added `utils.add_key_if_value` to add a key in a dic only if value or is not None.
+  [sgeulette]
 
 1.0.4 (2024-06-11)
 ------------------

@@ -7,6 +7,7 @@ from collections import OrderedDict
 from imio.pyutils.system import hashed_filename
 from imio.pyutils.system import read_dir_filter
 from imio.pyutils.system import read_recursive_dir
+from imio.pyutils.utils import add_key_if_value
 from imio.pyutils.utils import all_of_dict_values
 from imio.pyutils.utils import append
 from imio.pyutils.utils import get_clusters
@@ -30,6 +31,19 @@ import unittest
 
 class TestUtils(unittest.TestCase):
     """ """
+
+    def test_add_key_if_value(self):
+        dic = {}
+        add_key_if_value(dic, "a", None)
+        self.assertDictEqual(dic, {})
+        add_key_if_value(dic, "a", "", strict=True)
+        self.assertDictEqual(dic, {})
+        add_key_if_value(dic, "a", "")
+        self.assertDictEqual(dic, {"a": ""})
+        add_key_if_value(dic, "b", "b")
+        self.assertDictEqual(dic, {"a": "", "b": "b"})
+        add_key_if_value(dic, "c", "c", strict=True)
+        self.assertDictEqual(dic, {"a": "", "b": "b", "c": "c"})
 
     def test_all_of_dict_values(self):
         self.assertListEqual(all_of_dict_values({1: None, 2: "Good", 3: "", 4: "job"}, [1, 2, 3, 4]), ["Good", "job"])

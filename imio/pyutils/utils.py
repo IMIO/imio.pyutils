@@ -22,6 +22,21 @@ import time
 import timeit
 
 
+def add_key_if_value(dic, key, value, strict=False):
+    """Add a key to a dict only if a value or is not None.
+
+    :param dic: input dictionary
+    :param key: key to add
+    :param value: value to add
+    :param strict: if True, add only if value is considered boolean True
+    """
+    if strict:
+        if value:
+            dic[key] = value
+    elif value is not None:
+        dic[key] = value
+
+
 def all_of_dict_values(dic, keys, labels=[], sep=u"="):
     """Returns a not empty values list from a dict following given keys.
 
