@@ -5,8 +5,11 @@
 # IMIO <support@imio.be>
 #
 
+from .system import error
+from .system import trace
+
 import psycopg2
-from .system import error, trace
+
 
 # ------------------------------------------------------------------------------
 

@@ -6,6 +6,8 @@ Changelog
 
 - Added `utils.add_key_if_value` to add a key in a dic only if value or is not None.
   [sgeulette]
+- Moved `batching.batch_delete_files` from imio.helpers to be used commonly.
+  [sgeulette]
 
 1.0.4 (2024-06-11)
 ------------------
