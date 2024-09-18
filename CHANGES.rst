@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.1 (unreleased)
+1.1.1 (2024-09-18)
 ------------------
 
 - Generated universal wheel version.
