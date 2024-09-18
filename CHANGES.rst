@@ -4,8 +4,8 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Generated universal wheel version.
+  [sgeulette]
 
 1.1.0 (2024-09-17)
 ------------------

@@ -45,4 +45,5 @@ setup(
     entry_points="""
       # -*- Entry points: -*-
       """,
+    options={"bdist_wheel": {"universal": True}},
 )
