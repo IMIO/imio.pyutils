@@ -4,8 +4,8 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Improved `batching.batch_delete_files`.
+  [sgeulette]
 
 1.1.1 (2024-09-18)
 ------------------

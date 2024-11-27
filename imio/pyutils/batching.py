@@ -30,12 +30,13 @@ def batch_delete_files(batch_keys, config, rename=True):
     """
     if batch_keys is None:
         return
+    files = [config[key] for key in ("pf", "cf") if config[key] and os.path.exists(config[key])]
+    files.extend([fn for fn in config["af"] if os.path.exists(fn)])
     try:
-        for key in ("pf", "cf"):
-            if config[key] and os.path.exists(config[key]):
-                if rename:
-                    os.rename(config[key], "{}.{}".format(config[key], datetime.now().strftime("%Y%m%d-%H%M%S")))
-                else:
-                    os.remove(config[key])
+        for filename in files:
+            if rename:
+                os.rename(filename, "{}.{}".format(filename, datetime.now().strftime("%Y%m%d-%H%M%S")))
+            else:
+                os.remove(filename)
     except Exception as error:
-        logger.exception("Error while renaming/deleting the file %s: %s", config["pf"], error)
+        logger.exception("Error while renaming/deleting the file %s: %s", filename, error)
