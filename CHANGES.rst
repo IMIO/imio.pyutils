@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.3 (unreleased)
+1.1.3 (2025-02-05)
 ------------------
 
 - Improved datetime import in system to correct load_var evaluation.
