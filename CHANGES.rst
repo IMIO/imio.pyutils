@@ -4,8 +4,8 @@ Changelog
 1.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Improved datetime import in system to correct load_var evaluation.
+  [sgeulette]
 
 1.1.2 (2024-12-19)
 ------------------

@@ -6,11 +6,11 @@
 #
 from __future__ import print_function
 
-from datetime import datetime
 from six import ensure_binary
 from six.moves import cPickle
 from six.moves import range
 
+import datetime  # do not import datetime datetime because load_var must eval datetime.datetime(2024, 12, 19, 11, 34)
 import hashlib
 import os
 import re
@@ -274,7 +274,7 @@ def runCommand(cmd, outfile=None, append=True):
         else:
             return int(match.group(1))
 
-    now = datetime.now()
+    now = datetime.datetime.now()
     if outfile:
         fh = open(outfile, "%s" % (append and "a" or "w"))
         fh.write("==================== NEW RUN on {} ====================\n".format(now.strftime("%Y%m%d-%H%M")))
