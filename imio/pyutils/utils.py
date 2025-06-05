@@ -106,14 +106,15 @@ def get_ordinal_clusters(
 
     # Initialize the first group
     clusters = []
-    current_cluster = [numbers[0]]
-    for num in numbers[1:]:
-        if _is_in_cluster(num, current_cluster, offset):
-            current_cluster.append(num)
-        else:  # we'll start a new cluster
-            clusters.append(current_cluster)
-            current_cluster = [num]
-    clusters.append(current_cluster)  # Add the last one
+    if numbers:
+        current_cluster = [numbers[0]]
+        for num in numbers[1:]:
+            if _is_in_cluster(num, current_cluster, offset):
+                current_cluster.append(num)
+            else:  # we'll start a new cluster
+                clusters.append(current_cluster)
+                current_cluster = [num]
+        clusters.append(current_cluster)  # Add the last one
 
     if not as_str:
         return clusters

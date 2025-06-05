@@ -89,6 +89,10 @@ class TestUtils(unittest.TestCase):
         self.assertListEqual(
             get_ordinal_clusters([100, 200, 250, 400, 700], as_str=False), [[100, 200], [250], [400], [700]]
         )
+        self.assertEqual(get_ordinal_clusters([]), '')
+        self.assertEqual(get_ordinal_clusters([], as_str=False), [])
+        self.assertEqual(get_ordinal_clusters(), '')
+        self.assertEqual(get_ordinal_clusters(as_str=False), [])
 
     def test_insert_in_ordered_dict(self):
         dic = OrderedDict([("a", 1), ("b", 2)])

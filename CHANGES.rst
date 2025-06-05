@@ -4,8 +4,8 @@ Changelog
 1.1.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Fixed `IndexError` in `utils.get_ordinal_clusters` when `numbers=[]`.
+  [gbastien]
 
 1.1.3 (2025-02-05)
 ------------------
