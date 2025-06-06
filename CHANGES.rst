@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.4 (unreleased)
+1.1.4 (2025-06-06)
 ------------------
 
 - Fixed `IndexError` in `utils.get_ordinal_clusters` when `numbers=[]`.
