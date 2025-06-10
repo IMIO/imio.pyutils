@@ -4,8 +4,8 @@ Changelog
 1.1.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Tested with python 3.12.
+  [sgeulette]
 
 1.1.4 (2025-06-06)
 ------------------

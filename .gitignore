@@ -7,6 +7,7 @@
 .pydevproject
 .settings/
 bin/
+CACHEDIR.TAG
 develop-eggs/
 include/
 lib/
