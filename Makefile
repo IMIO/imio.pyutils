@@ -4,7 +4,7 @@
 # The original Makefile can be found on https://github.com/IMIO/scripts-buildout
 
 SHELL=/bin/bash
-pythons=2.7 3.10 3.12
+pythons=2.7 3.10 3.12 3.13
 
 ifeq (, $(shell which pyenv))
   $(error "pyenv command not found! Aborting")
