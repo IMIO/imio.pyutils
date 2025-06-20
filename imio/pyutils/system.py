@@ -410,7 +410,7 @@ def create_temporary_file(initial_file, file_name):
 
 def get_git_tag(path, last=False):
     if last:  # from all branches
-        cmd = "git --git-dir={0}/.git describe --tags `git --git-dir={0}/.git rev-list --tags " "--max-count=1`".format(
+        cmd = "git --git-dir={0}/.git describe --tags `git --git-dir={0}/.git rev-list --tags --max-count=1`".format(
             path
         )
     else:  # current branch only
