@@ -60,6 +60,13 @@ def append(lst, value):
     return value
 
 
+def display_offset_number(number, offset):
+    """Display a number with an offset. For example when p_number=123 and offset=100, it returns '1.23'"""
+    if number % offset == 0:
+        return str(int(number / offset))
+    return "{}.{}".format(number // offset, number % offset)
+
+
 def ftimed(f, nb=100, fmt="{:.7f}"):
     duration, ret = timed(f, nb=nb)
     return fmt.format(duration), ret
@@ -78,13 +85,6 @@ def get_clusters(numbers=[], separator=", "):
         else:
             res.append("{0}".format(clust[0]))
     return separator.join(res)
-
-
-def display_offset_number(number, offset):
-    """Display a number with an offset. For example when p_number=123 and offset=100, it returns '1.23'"""
-    if number % offset == 0:
-        return str(int(number / offset))
-    return "{}.{}".format(number // offset, number % offset)
 
 
 def get_ordinal_clusters(
@@ -192,6 +192,19 @@ def letters_sequence(nth, letters="abcdefghijklmnopqrstuvwxyz"):
     for pos in radix_like_starting_1(nth, len(letters)):
         res += letters[pos - 1]
     return res
+
+
+def listify(value, force=False):
+    """Ensure given value is a list-like iterable.
+
+    :param value: the value to turn into a list if not already the case
+    :param force: if value is a tuple, returned as a list
+    """
+    if isinstance(value, string_types):
+        value = [value]
+    if force and not isinstance(value, list):
+        value = list(value)
+    return value
 
 
 def merge_dicts(dicts, as_dict=True):
@@ -347,16 +360,3 @@ def time_elapsed(start, cond=True, msg=u"", dec=3, min=0.0):
 def time_start():
     """To be used with time_elapsed."""
     return timeit.default_timer()
-
-
-def listify(value, force=False):
-    """Ensure given value is a list-like iterable.
-
-    :param value: the value to turn into a list if not already the case
-    :param force: if value is a tuple, returned as a list
-    """
-    if isinstance(value, string_types):
-        value = [value]
-    if force and not isinstance(value, list):
-        value = list(value)
-    return value
