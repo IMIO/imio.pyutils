@@ -40,6 +40,7 @@ setup(
     install_requires=[
         "setuptools",
         "future",
+        "psutil",
         "requests",
         "six>=1.16.0",
         # -*- Extra requirements: -*-

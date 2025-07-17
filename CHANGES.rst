@@ -4,6 +4,8 @@ Changelog
 1.1.5 (unreleased)
 ------------------
 
+- Add missing `psutil` dependency
+  [laulaz]
 - Tested with python 3.12, 3.13.
   [sgeulette]
 
