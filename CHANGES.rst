@@ -8,6 +8,8 @@ Changelog
   [laulaz]
 - Tested with python 3.12, 3.13.
   [sgeulette]
+- Improved runCommand
+  [sgeulette]
 
 1.1.4 (2025-06-06)
 ------------------

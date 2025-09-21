@@ -286,12 +286,14 @@ def runCommand(cmd, outfile=None, append=True):
 
     os.system(cmd + ' >_cmd_pv.out 2>_cmd_pv.err ;echo "RET_CODE=$?" >> _cmd_pv.out')
     stdout = stderr = []
+    ret_code = 1
     try:
         if os.path.exists("_cmd_pv.out"):
             ofile = open("_cmd_pv.out", "r")
             stdout = ofile.readlines()
             ofile.close()
             os.remove("_cmd_pv.out")
+            ret_code = get_ret_code(stdout.pop())
         else:
             error("File %s does not exist" % "_cmd_pv.out")
     except IOError:
@@ -306,7 +308,7 @@ def runCommand(cmd, outfile=None, append=True):
             error("File %s does not exist" % "_cmd_pv.err")
     except IOError:
         error("Cannot open %s file" % "_cmd_pv.err")
-    return stdout, stderr, get_ret_code(stdout.pop())
+    return stdout, stderr, ret_code
 
 
 def full_path(path, filename):
