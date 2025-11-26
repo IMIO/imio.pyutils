@@ -19,7 +19,7 @@ logger = logging.getLogger("imio.pyutils")
 
 
 # 7) when all the items are treated, we can delete the dictionary file
-def batch_delete_files(batch_keys, config, rename=True):
+def batch_delete_files(batch_keys, config, rename=True, log=False):
     """Deletes the file containing the batched keys.
 
     :param batch_keys: the treated keys set
@@ -27,6 +27,7 @@ def batch_delete_files(batch_keys, config, rename=True):
                                   'lc': loop_count, 'pf': infile, 'cf': config_file, 'kc': keys_count, 'lk': last_key,
                                   'ldk': last_dump_key, 'fr'; first_run_bool}
     :param rename: do not delete but rename
+    :param log: if True, log action
     """
     if batch_keys is None:
         return
@@ -36,7 +37,12 @@ def batch_delete_files(batch_keys, config, rename=True):
         for filename in files:
             if rename:
                 os.rename(filename, "{}.{}".format(filename, datetime.now().strftime("%Y%m%d-%H%M%S")))
+                msg = 'BATCHING ended: renamed file "%s" to "%s.%s"' % (filename, filename,
+                                                                        datetime.now().strftime("%Y%m%d-%H%M%S"))
             else:
                 os.remove(filename)
+                msg = '"BATCHING ended: deleted file "%s""' % filename
+            if log:
+                logger.info(msg)
     except Exception as error:
         logger.exception("Error while renaming/deleting the file %s: %s", filename, error)

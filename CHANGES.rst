@@ -10,6 +10,8 @@ Changelog
   [sgeulette]
 - Improved runCommand
   [sgeulette]
+- Improved `batching.batch_delete_files`
+  [sgeulette]
 
 1.1.4 (2025-06-06)
 ------------------

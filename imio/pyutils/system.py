@@ -194,7 +194,15 @@ def read_dir(dirpath, with_path=False, only_folders=False, only_files=False, to_
 
 
 def read_recursive_dir(root_dir, rel_dir, with_folder=False, with_full_path=False, exclude_patterns=[]):
-    """Read the dir and return files"""
+    """Read the dir and return files.
+
+    :param root_dir: the root directory
+    :param rel_dir: the relative directory to root_dir
+    :param with_folder: if True, include folder names in the result
+    :param with_full_path: if True, return full paths, else relative to root_dir
+    :param exclude_patterns: list of regex patterns to exclude files or folders matching them
+    :return: list of files
+    """
     files = []
     full_dir = os.path.join(root_dir, rel_dir)
     for filename in os.listdir(full_dir):
