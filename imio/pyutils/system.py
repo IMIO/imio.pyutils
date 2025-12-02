@@ -12,6 +12,7 @@ from six.moves import range
 
 import datetime  # do not import datetime datetime because load_var must eval datetime.datetime(2024, 12, 19, 11, 34)
 import hashlib
+import logging
 import os
 import re
 import requests
@@ -444,26 +445,73 @@ def get_temporary_filename(file_name):
     return temp_filename
 
 
-def post_request(url, data=None, json=None, headers=None):
+def post_request(url, data=None, json=None, headers=None, files=None, logger=None, clean_files_for_logging=True):
     """Post data to url.
 
     :param url: the url to post to
-    :param data: a dict to consider
+    :param data: a data struct to consider
     :param json: a json serializable object
-    :param headers: headers to use"""
-    kwargs = {
-        "headers": headers or {"Content-Type": "application/json"}
-        if json
-        else {"Content-Type": "application/x-www-form-urlencoded"}
-    }
+    :param headers: headers to use
+    :param files: files to upload (dict or list of tuples)
+    :param logger: current logger, otherwise a default one is created
+    :param clean_files_for_logging: cleans files content for logging if True
+    :return: the response object
+    """
+    if json is not None and (data is not None or files is not None):
+        raise ValueError("Cannot use both json and data or files parameters")
+    if logger is None:
+        logger = logging.getLogger("imio.pyutils")
+    kwargs = {}
+
+    if files:
+        kwargs["files"] = files
+        if headers:
+            # Exclude Content-Type with multipart/form-data
+            kwargs["headers"] = {k: v for k, v in headers.items() if k.lower() != "content-type"}
+    if "headers" not in kwargs:
+        kwargs["headers"] = headers or (
+            {"Content-Type": "application/json"} if json else {"Content-Type": "application/x-www-form-urlencoded"}
+        )
     if json:
         kwargs["json"] = json
     else:
         kwargs["data"] = data
-    with requests.post(url, **kwargs) as response:
-        if response.status_code != 200:
-            error("Error while posting data '%s' to '%s': %s" % (kwargs, url, response.text))
-        return response
+
+    try:
+        with requests.post(url, **kwargs) as response:
+            if response.status_code != 200:
+                if files and clean_files_for_logging:
+                    cleaned_files = []
+                    # clean only if item is of this format ("files", (filename, file_content))
+                    for item in kwargs["files"]:
+                        if (isinstance(item, tuple) and len(item) == 2
+                                and isinstance(item[1], tuple) and len(item[1]) == 2):
+                            cleaned_files.append((item[0], (item[1][0], len(item[1][1]))))
+                        else:
+                            cleaned_files.append(item)
+                    kwargs["files"] = cleaned_files
+                if response.status_code in (401, 403):
+                    logger.error("Authentication error while posting data to '%s': %s (status %d)"
+                                 % (url, response.text, response.status_code))
+                else:
+                    logger.error("Error while posting data '%s' to '%s': %s" % (kwargs, url, response.text))
+            return response
+    except requests.ConnectionError as e:
+        msg = "Connection error while posting data to '{}': {}".format(url, str(e))
+        logger.error(msg)
+        mock_response = requests.Response()
+        mock_response.status_code = 503  # service unavailable
+        mock_response._content = "{'error': '%s'}" % msg
+        mock_response.url = url
+        return mock_response
+    except Exception as e:
+        msg = "Unexpected error while posting data to '{}': {}".format(url, str(e))
+        logger.error(msg)
+        mock_response = requests.Response()
+        mock_response.status_code = 500  # Internal server error
+        mock_response._content = "{'error': '%s'}" % msg
+        mock_response.url = url
+        return mock_response
 
 
 def process_memory():

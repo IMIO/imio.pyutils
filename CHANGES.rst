@@ -12,6 +12,8 @@ Changelog
   [sgeulette]
 - Improved `batching.batch_delete_files`
   [sgeulette]
+- Improved `system.post_request`
+  [sgeulette]
 
 1.1.4 (2025-06-06)
 ------------------
