@@ -445,7 +445,8 @@ def get_temporary_filename(file_name):
     return temp_filename
 
 
-def post_request(url, data=None, json=None, headers=None, files=None, logger=None, clean_files_for_logging=True):
+def post_request(url, data=None, json=None, headers=None, files=None, return_json=False, logger=None,
+                 clean_files_for_logging=True):
     """Post data to url.
 
     :param url: the url to post to
@@ -453,6 +454,7 @@ def post_request(url, data=None, json=None, headers=None, files=None, logger=Non
     :param json: a json serializable object
     :param headers: headers to use
     :param files: files to upload (dict or list of tuples)
+    :param return_json: response as json
     :param logger: current logger, otherwise a default one is created
     :param clean_files_for_logging: cleans files content for logging if True
     :return: the response object
@@ -479,14 +481,18 @@ def post_request(url, data=None, json=None, headers=None, files=None, logger=Non
 
     try:
         with requests.post(url, **kwargs) as response:
-            if response.status_code != 200:
+            if not response.ok:
                 if files and clean_files_for_logging:
                     cleaned_files = []
                     # clean only if item is of this format ("files", (filename, file_content))
                     for item in kwargs["files"]:
-                        if (isinstance(item, tuple) and len(item) == 2
-                                and isinstance(item[1], tuple) and len(item[1]) == 2):
-                            cleaned_files.append((item[0], (item[1][0], len(item[1][1]))))
+                        if isinstance(item, tuple) and len(item) == 2 and isinstance(item[1], tuple):
+                            if len(item[1]) == 2:
+                                cleaned_files.append((item[0], (item[1][0], len(item[1][1]))))
+                            elif len(item[1]) == 3:
+                                cleaned_files.append((item[0], (item[1][0], len(item[1][1]), item[1][2])))
+                            else:
+                                cleaned_files.append(item)
                         else:
                             cleaned_files.append(item)
                     kwargs["files"] = cleaned_files
@@ -495,6 +501,14 @@ def post_request(url, data=None, json=None, headers=None, files=None, logger=Non
                                  % (url, response.text, response.status_code))
                 else:
                     logger.error("Error while posting data '%s' to '%s': %s" % (kwargs, url, response.text))
+            elif return_json:
+                try:
+                    return response.json()
+                except ValueError as e:
+                    logger.error("Error parsing JSON response from '%s': %s" % (url, str(e)))
+                    return response
+            else:
+                return response
             return response
     except requests.ConnectionError as e:
         msg = "Connection error while posting data to '{}': {}".format(url, str(e))
