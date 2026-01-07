@@ -18,8 +18,14 @@ from six.moves import zip
 import copy
 import itertools
 import logging
+import shortuuid
 import time
 import timeit
+import uuid
+
+
+# Initialize shortuuid (default alphabet)
+s_uuid = shortuuid.ShortUUID()
 
 
 def add_key_if_value(dic, key, value, strict=False):
@@ -320,6 +326,48 @@ def setup_logger(logger, replace=logging.StreamHandler, level=20):
     # put handler in logger handlers
     logger.handlers.append(osh)
     logger.setLevel(level)
+
+
+def shortuid_decode_id(short_id, separator="-"):
+    """Get original UID from segmented ShortUUID.
+
+    :param short_id: string, short ID (with or without separators)
+    :param separator: string, separator character
+    :return: string, original UID
+    """
+    if not short_id:
+        return ""
+
+    clean_id = short_id.strip()
+    if separator:
+        clean_id = clean_id.replace(separator, "")
+
+    try:
+        u = s_uuid.decode(clean_id)
+        return u.hex
+    except Exception:
+        return None
+
+
+def shortuid_encode_id(uid, separator="-", block_size=5):
+    """Transform UID in segmented ShortUUID.
+
+    :param uid: string, original UID
+    :param separator: string, separator character
+    :param block_size: int, block size length
+    :return: string, shortened UID
+    """
+    if not uid:
+        return ""
+
+    u = uuid.UUID(str(uid).strip())
+    short_id = s_uuid.encode(u)
+
+    if separator and block_size > 0:
+        chunks = [short_id[i:i + block_size] for i in range(0, len(short_id), block_size)]
+        return separator.join(chunks)
+
+    return short_id
 
 
 def sort_by_indexes(lst, indexes, reverse=False):

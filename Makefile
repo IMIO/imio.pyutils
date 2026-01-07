@@ -26,7 +26,7 @@ help:
 bin/pip: .python-version  ## Setups environment
 	virtualenv .
 	./bin/pip install --upgrade pip
-	./bin/pip install pdbpp
+	./bin/pip install pdbp
 	./bin/pip install -e .
 
 .PHONY: setup

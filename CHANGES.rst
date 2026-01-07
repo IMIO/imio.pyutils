@@ -14,6 +14,8 @@ Changelog
   [sgeulette]
 - Improved `system.post_request`
   [sgeulette]
+- Added `utils.shortuid_encode_id` and `utils.shortuid_decode_id` to encode/decode uid with shortuid.
+  [sgeulette]
 
 1.1.4 (2025-06-06)
 ------------------

@@ -42,6 +42,7 @@ setup(
         "future",
         "psutil",
         "requests",
+        "shortuuid>=0.5.0",
         "six>=1.16.0",
         # -*- Extra requirements: -*-
     ],

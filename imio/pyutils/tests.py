@@ -22,11 +22,14 @@ from imio.pyutils.utils import one_of_dict_values
 from imio.pyutils.utils import radix_like_starting_1
 from imio.pyutils.utils import replace_in_list
 from imio.pyutils.utils import safe_encode
+from imio.pyutils.utils import shortuid_decode_id
+from imio.pyutils.utils import shortuid_encode_id
 from imio.pyutils.utils import sort_by_indexes
 
 import os
 import types
 import unittest
+import uuid
 
 
 class TestUtils(unittest.TestCase):
@@ -186,6 +189,81 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(safe_encode(u"xx"), "xx")
         self.assertEqual(safe_encode(b"xx"), "xx")
         self.assertEqual(safe_encode(5), 5)
+
+    def test_shortuid_decode_id(self):
+        # Test with empty string
+        self.assertEqual(shortuid_decode_id(""), "")
+
+        # Test with valid encoded ID
+        test_uuid = "f40682caafc045b4b81973bd82ea9ab6"
+        encoded = shortuid_encode_id(test_uuid)
+        decoded = shortuid_decode_id(encoded)
+        self.assertEqual(decoded, test_uuid)
+
+        # Test decode without separator in encoded string
+        encoded_no_sep = shortuid_encode_id(test_uuid, separator="")
+        decoded = shortuid_decode_id(encoded_no_sep, separator="")
+        self.assertEqual(decoded, test_uuid)
+
+        # Test decode with custom separator
+        encoded_custom_sep = shortuid_encode_id(test_uuid, separator="|")
+        decoded = shortuid_decode_id(encoded_custom_sep, separator="|")
+        self.assertEqual(decoded, test_uuid)
+
+        # Test with whitespace (should be stripped)
+        encoded_with_space = " " + shortuid_encode_id(test_uuid) + " "
+        decoded = shortuid_decode_id(encoded_with_space)
+        self.assertEqual(decoded, test_uuid)
+
+        # Test with invalid input
+        invalid_decoded = shortuid_decode_id("invalid-short-id")
+        self.assertIsNone(invalid_decoded)
+
+        # Test roundtrip with multiple UUIDs
+        for _ in range(5):
+            test_uid = uuid.uuid4().hex
+            encoded = shortuid_encode_id(test_uid)
+            decoded = shortuid_decode_id(encoded)
+            self.assertEqual(decoded, test_uid)
+
+    def test_shortuid_encode_id(self):
+        # Test with empty string
+        self.assertEqual(shortuid_encode_id(""), "")
+
+        # Test with valid UUID
+        test_uuid = "f40682caafc045b4b81973bd82ea9ab6"
+        encoded = shortuid_encode_id(test_uuid)
+        # Check that encoded is not empty
+        self.assertTrue(encoded)
+        # Check that it contains separators
+        self.assertIn("-", encoded)
+        # Check the format (default block_size=5)
+        parts = encoded.split("-")
+        self.assertTrue(all(len(part) <= 5 for part in parts))
+
+        # Test without separator
+        encoded_no_sep = shortuid_encode_id(test_uuid, separator="")
+        self.assertNotIn("-", encoded_no_sep)
+
+        # Test with custom separator
+        encoded_custom_sep = shortuid_encode_id(test_uuid, separator="|")
+        self.assertIn("|", encoded_custom_sep)
+        self.assertNotIn("-", encoded_custom_sep)
+
+        # Test with custom block_size
+        encoded_block_3 = shortuid_encode_id(test_uuid, separator="-", block_size=3)
+        parts = encoded_block_3.split("-")
+        self.assertTrue(all(len(part) <= 3 for part in parts))
+
+        # Test with block_size=0 (no chunking)
+        encoded_no_chunk = shortuid_encode_id(test_uuid, separator="-", block_size=0)
+        self.assertNotIn("-", encoded_no_chunk)
+
+        # Test roundtrip consistency
+        generated_uuid = uuid.uuid4().hex
+        encoded = shortuid_encode_id(generated_uuid)
+        decoded = shortuid_decode_id(encoded)
+        self.assertEqual(decoded, generated_uuid)
 
     def test_sort_by_indexes(self):
         lst = ["a", "b", "c", "d", "e", "f", "g"]
