@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.5 (unreleased)
+1.2.0 (2026-01-16)
 ------------------
 
 - Add missing `psutil` dependency
