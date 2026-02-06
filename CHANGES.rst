@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.1 (unreleased)
+1.2.1 (2026-02-06)
 ------------------
 
 - Removed `options={"bdist_wheel": {"universal": True}}` from `setup.py`.
