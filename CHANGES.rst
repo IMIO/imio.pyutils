@@ -4,8 +4,8 @@ Changelog
 1.2.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added kwargs parameter in `system.post_request`, so other parameters are passed to requests.post.
+  [sgeulette]
 
 1.2.1 (2026-02-06)
 ------------------

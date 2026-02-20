@@ -446,7 +446,7 @@ def get_temporary_filename(file_name):
 
 
 def post_request(url, data=None, json=None, headers=None, files=None, return_json=False, logger=None,
-                 clean_files_for_logging=True):
+                 clean_files_for_logging=True, **kwargs):
     """Post data to url.
 
     :param url: the url to post to
@@ -463,7 +463,7 @@ def post_request(url, data=None, json=None, headers=None, files=None, return_jso
         raise ValueError("Cannot use both json and data or files parameters")
     if logger is None:
         logger = logging.getLogger("imio.pyutils")
-    kwargs = {}
+    # kwargs = {}
 
     if files:
         kwargs["files"] = files
