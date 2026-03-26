@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.2 (unreleased)
+1.2.2 (2026-03-26)
 ------------------
 
 - Added kwargs parameter in `system.post_request`, so other parameters are passed to requests.post.
