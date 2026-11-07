@@ -166,6 +166,15 @@ def insert_in_ordereddict(dic, value, after_key="", at_position=None):
     return OrderedDict(tuples)
 
 
+def is_true_value(value):
+    """Check if given value (string, bool, number, None) is considered as true.
+
+    :param value: the value to check, like an environment variable value
+    :return: True if lowercased value is in ("yes", "y", "true", "on", "1")
+    """
+    return str(value).lower() in ("yes", "y", "true", "on", "1")
+
+
 def iterable_as_list_of_list(lst, cols=1):
     """Transform an iterable as list of list.
 

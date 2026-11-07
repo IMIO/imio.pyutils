@@ -13,6 +13,7 @@ from imio.pyutils.utils import append
 from imio.pyutils.utils import get_clusters
 from imio.pyutils.utils import get_ordinal_clusters
 from imio.pyutils.utils import insert_in_ordereddict
+from imio.pyutils.utils import is_true_value
 from imio.pyutils.utils import iterable_as_list_of_list
 from imio.pyutils.utils import letters_sequence
 from imio.pyutils.utils import listify
@@ -279,6 +280,12 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(listify(("value")), ["value"])
         self.assertEqual(listify(("value",)), ("value",))
         self.assertEqual(listify(("value",), force=True), ["value"])
+
+    def test_is_true_value(self):
+        for value in ("yes", "Y", "TRUE", "True", "on", "1", True, 1):
+            self.assertTrue(is_true_value(value), value)
+        for value in (None, "", "no", "false", "False", "0", "off", "2", False, 0):
+            self.assertFalse(is_true_value(value), value)
 
 
 class TestSystem(unittest.TestCase):

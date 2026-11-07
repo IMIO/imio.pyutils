@@ -4,7 +4,8 @@ Changelog
 1.2.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added `utils.is_true_value` to check if a value (like an environment variable) is considered as true.
+  [sgeulette]
 
 
 1.2.2 (2026-03-26)
