@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.3 (unreleased)
+1.2.3 (2026-11-16)
 ------------------
 
 - Added `utils.is_true_value` to check if a value (like an environment variable) is considered as true.

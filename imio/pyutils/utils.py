@@ -320,7 +320,9 @@ def setup_logger(logger, replace=logging.StreamHandler, level=20):
     :param level: level to set
     """
     for i_c, container in enumerate((logger, logger.parent)):
-        found = [i for i, hdl in enumerate(container.handlers) if isinstance(hdl, logging.StreamHandler)]
+        if container is None:
+            continue
+        found = [i for i, hdl in enumerate(container.handlers) if isinstance(hdl, replace)]
         if found:
             if i_c:
                 logger.parent = container = copy.copy(logger.parent)
