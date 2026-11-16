@@ -1,5 +1,23 @@
-from setuptools import find_packages
 from setuptools import setup
+
+import sys
+
+
+if sys.version_info[0] < 3:
+    # Python 2 has no PEP 420 native namespaces: keep the pkg_resources-style
+    # namespace (imio/__init__.py).
+    from setuptools import find_packages
+
+    namespace_kwargs = {
+        "packages": find_packages(exclude=["ez_setup"]),
+        "namespace_packages": ["imio"],
+    }
+else:
+    # PEP 420 native namespace: "imio" isn't listed as a package, so
+    # imio/__init__.py stays out of the build.
+    from setuptools import find_namespace_packages
+
+    namespace_kwargs = {"packages": find_namespace_packages(include=["imio.*"])}
 
 
 version = "1.2.4.dev0"
@@ -33,8 +51,6 @@ setup(
         # ),
     },
     license="GPL",
-    packages=find_packages(exclude=["ez_setup"]),
-    namespace_packages=["imio"],
     include_package_data=True,
     zip_safe=False,
     install_requires=[
@@ -49,4 +65,5 @@ setup(
     entry_points="""
       # -*- Entry points: -*-
       """,
+    **namespace_kwargs
 )
