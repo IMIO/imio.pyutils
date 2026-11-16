@@ -6,6 +6,9 @@ Changelog
 
 - Added `utils.is_true_value` to check if a value (like an environment variable) is considered as true.
   [sgeulette]
+- Use a PEP 420 native namespace on Python 3 (setuptools 81 / Plone 6.2): the Python 3 build
+  no longer ships `imio/__init__.py`. Python 2.7 keeps the `pkg_resources`-style namespace.
+  [bsuttor]
 
 
 1.2.2 (2026-03-26)
